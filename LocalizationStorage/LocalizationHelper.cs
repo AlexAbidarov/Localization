@@ -1,0 +1,278 @@
+﻿using DevExpress.Data;
+using DevExpress.Utils.Extensions;
+using DevExpress.XtraBars;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+namespace LocalizationStorage {
+    public class LocalizationHelper {
+        public static List<LocalizationPath>  GetLocalizationPathSource(string path) {
+            List<LocalizationPath> result = new List<LocalizationPath>();
+            AddResX(new DirectoryInfo(path), result);
+            return result;
+        }
+        static void AddResX(DirectoryInfo di, List<LocalizationPath> result) {
+            di.GetFiles("*.resx").ForEach(file => {
+                LocalizationPath path = new LocalizationPath(file);
+                if(path.IsResource &&
+                    !path.IsSatellite) //show all
+                    result.Add(path);
+            });
+            di.GetDirectories().ForEach(directory => AddResX(directory, result));
+        }
+        internal static void CreateKeysData(List<LocalizationPath> paths) {
+            var localizationKeys = new List<LocalizationTranslation>();
+            paths.ForEach(path => {
+                var dataElements = GetAllElements(XDocument.Load(path.Info.FullName));
+                path.Keys = new List<LocalizationKey>();
+                dataElements.ForEach(e => path.Keys.Add(new LocalizationKey(e)));
+                dataElements.ForEach(element => {
+                    LocalizationTranslation key = new LocalizationTranslation(element, path);
+                    if(key.IsLocalization)
+                        localizationKeys.Add(key);
+                });
+            });
+            Settings.Keys = localizationKeys;
+        }
+        internal static List<XElement> GetAllElements(XDocument document) {
+            return document.Root.Elements("data").ToList<XElement>();
+        }
+        internal static List<LocalizationSatellite> GetSatellites(FileInfo file) {
+            List<LocalizationSatellite> result = new List<LocalizationSatellite>();
+            file.Directory.GetFiles($"{GetShortName(file)}.*.resx")
+                .Where((fi) => {
+                    var _ = Settings.satelliteFileNameRegex.Match(fi.Name);
+                    return _.Success;
+                }).ForEach(fi => 
+                result.Add(new LocalizationSatellite(fi)));
+            return result;
+        }
+        internal static string GetLangBySatellite(string name) {
+            int index = name.LastIndexOf(".");
+            if(index > 0) 
+                return name.Substring(index + 1);
+            return name;
+        }
+        internal static string GetShortName(FileInfo file) {
+            return file.Name.Replace(file.Extension, string.Empty);
+        }
+        internal static string PrepareValue(string value) {
+            if(value == null ||
+                Settings.fileNotFount.Equals(value) ||
+                Settings.keyNotFount.Equals(value)) return value;
+            value = value.Trim();
+            return value;
+        }
+        internal static bool IsExistRoot { 
+            get {
+                return !string.IsNullOrEmpty(Settings.RootPath) && 
+                    Directory.Exists(Settings.RootPath) && 
+                    new DirectoryInfo(Settings.RootPath).GetDirectories().Length > 50 &&
+                    Settings.RootPath.IndexOf("\\localization", StringComparison.OrdinalIgnoreCase) > 0;
+            }
+        }
+        internal static bool ValueExist(string name) {
+            return !string.IsNullOrEmpty(name) &&
+                !Settings.fileNotFount.Equals(name) &&
+                !Settings.keyNotFount.Equals(name);
+        }
+        internal static string PrepareTranslation(string value, string original) {
+            value = value.Replace("&", "");
+            value = value.ToLower();
+            return value;
+        }
+    }
+    public class ExpertDataTableDe : DataTable {
+        public ExpertDataTableDe() {
+            TableName = Settings.deTableName;
+            this.Columns.Add(new DataColumn("Path", typeof(string)));
+            this.Columns.Add(new DataColumn("Key", typeof(string)));
+            this.Columns.Add(new DataColumn("English", typeof(string)));
+            this.Columns.Add(new DataColumn("NewGerman", typeof(string)));
+            this.Columns.Add(new DataColumn("German", typeof(string)));
+            this.Columns.Add(new DataColumn("Russian", typeof(string)));
+            this.Columns.Add(new DataColumn("Status", typeof(int)));
+            this.Columns.Add(new DataColumn("Notes", typeof(string)));
+            this.Columns.Add(new DataColumn("Comment", typeof(string)));
+            this.Columns.Add(new DataColumn("Picture", typeof(string)));
+        }
+        public int AddTranslation(string key, string word, TranslationStatus status = TranslationStatus.Translated, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => SetRowValue(row, word, status), 
+                key, pKey, path);
+        }
+        public int AddNoNeedTranslate(string key, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => row["Status"] = TranslationStatus.NoTranslationNeeded, 
+                key, pKey, path);
+        }
+        public int AddNotSure(string key, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => row["Status"] = TranslationStatus.NotSure, 
+                key, pKey, path);
+        }
+        public int AddClear(string key, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => SetRowValue(row, string.Empty, TranslationStatus.None), 
+                key, pKey, path);
+        }
+        int ChangeRowValue(Action<DataRow> change, string key, string pKey = null, string path = null) {
+            int result = 0;
+            foreach(DataRow row in this.Rows) {
+                bool keysAreEqual = $"{row["English"]}".Trim() == key.Trim();
+                if(keysAreEqual) {
+                    if(pKey != null
+                        && (pKey != $"{row["Key"]}" || path != $"{row["Path"]}")) continue;
+                    change(row);
+                    result++;
+                }
+            }
+            return result;
+        }
+        void SetRowValue(DataRow row, string @value, TranslationStatus status) {
+            row["NewGerman"] = @value;
+            row["Status"] = status;
+        }
+        static DataRow GetDataRowByLink(BarItemLink link, GridView view) {
+            GridHitInfo info = UIHelper.GetGridHitInfoByLink(link);
+            if(info == null) return null;
+            int dataRowHandle = info.RowHandle;
+            if(info.InGroupRow)
+                dataRowHandle = view.GetDataRowHandleByGroupRowHandle(info.RowHandle);
+            return view.GetDataRow(dataRowHandle);
+        }
+        public static string GetEnglishKeyByLink(BarItemLink link, GridView view) {
+            var row = GetDataRowByLink(link, view);
+            if(row == null) return null;
+            return $"{row["English"]}";
+        }
+    }
+    public class Settings {
+        public static void ClearData() {
+            paths = null;
+        }
+        internal static string deDataSetName = "ExpertDataDe.xml";
+        internal static string deTableName = "DeTable";
+        internal static string dX = "DevExpress";
+        internal static string replyFile = "GermanReplays.txt";
+        internal static Regex satelliteFileNameRegex = new Regex(@"^([\w\s-.])+\.([\w\s_-])+\.resx$");
+        static List<LocalizationPath> paths = null;
+        public static List<LocalizationPath> Paths {
+            get {
+                if(paths == null) {
+                    paths = LocalizationHelper.GetLocalizationPathSource(RootPath);
+                    LocalizationHelper.CreateKeysData(paths);
+                }
+                return paths;
+            }
+        }
+        public static string DataPath { get; } = $@"{Application.StartupPath}\Data";
+        public static string GermanDataSetPath { get; } = $@"{DataPath}\{deDataSetName}";
+        public static string RootPath { get; set; }
+        public static bool LoadTranslations { get; set; } = false;
+        public static List<LocalizationTranslation> Keys { get; internal set; }
+        public static List<LocalizationTranslation> ActualKeys => Keys != null ? Keys.Where<LocalizationTranslation>(x => !string.IsNullOrEmpty(x.English)).ToList() : null; 
+        internal static string fileNotFount = "<< Satellite file is not found >>";
+        internal static string keyNotFount = "<< Key is not found >>";
+        readonly static string[] keyExceptionEnd = new string[] { ".AccessibleName", ".AccessibleDescription" };
+        readonly static string[] valueException = new string[] { "layoutcontrol" };
+        internal static bool DenyLocalization(string key, string value) {
+            foreach(string item in valueException)
+                if(value.IndexOf(item, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+            foreach(string item in keyExceptionEnd)
+                if(key.IndexOf(item, StringComparison.OrdinalIgnoreCase) == key.Length - item.Length) return true;
+            return false;
+        }
+        internal static ExpertDataTableDe GeDataTable { get; } = new ExpertDataTableDe();
+        static DataSet mainDataSet = null;
+        public static DataSet MainDataSet {
+            get {
+                if(mainDataSet == null) { 
+                    mainDataSet = new DataSet();
+                    mainDataSet.Tables.Add(GeDataTable);
+                }
+                return mainDataSet; 
+            } 
+        }
+    }
+    public static class ElapsedTime {
+        static readonly Stopwatch stopWatch = new Stopwatch();
+        public static void Start() { stopWatch.Restart(); }
+        public static void Stop() { stopWatch.Stop(); }
+        public static string GetTime() {
+            TimeSpan ts = stopWatch.Elapsed;
+            return $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+        }
+        public static string GetNuGetTime() {
+            TimeSpan ts = stopWatch.Elapsed;
+            return $"{ts.Seconds}.{ts.Milliseconds:000} sec.";
+        }
+    }
+    public class ExpertDataHelper {
+        internal static bool UpdateGermanData() { 
+            if(!Directory.Exists(Settings.DataPath) || !File.Exists(Settings.GermanDataSetPath))
+                return false;
+            Settings.MainDataSet.ReadXml(Settings.GermanDataSetPath);
+            return true;
+        }
+    }
+    public class UIHelper {
+        readonly static Font rowFont = new Font("Calibry", 7.95F);
+        public static void SetColumnAppearance(GridColumnCollection collection) {
+            collection.ForEach(column => {
+                if(column.FieldName == "Path" || column.FieldName == "Key")
+                    column.AppearanceCell.Font = rowFont;
+            });
+        }
+        public static void ShowTranslatioDetailForm(BarItemLink link) {
+            ShowTranslatioDetailForm(((PopupMenu)link.LinkedObject).Tag as GridHitInfo);
+        }
+            public static void ShowTranslatioDetailForm(GridHitInfo info) {
+            if(!info.InDataRow) return;
+            if(info.View.GetRow(info.RowHandle) is LocalizationTranslation) {
+                using(DetailForm form = new DetailForm(info.View.GridControl.FindForm(), (LocalizationTranslation)info.View.GetRow(info.RowHandle))) {
+                    form.ShowDialog();
+                }
+            }
+        }
+        internal static GridHitInfo GetGridHitInfoByLink(BarItemLink link) { 
+            if(!(link.LinkedObject is PopupMenu)) return null;
+            return ((PopupMenu)link.LinkedObject).Tag as GridHitInfo;
+        }
+        static T GetValueByLink<T>(BarItemLink link) where T : class {
+            GridHitInfo info = GetGridHitInfoByLink(link);
+            if(info == null) return null;
+            return info.View.GetRow(info.RowHandle) as T;
+        }
+        public static LocalizationKey GetKeyByLink(BarItemLink link) {
+            return GetValueByLink<LocalizationKey>(link);
+        }
+        public static LocalizationTranslation GetTranslateByLink(BarItemLink link) {
+            return GetValueByLink<LocalizationTranslation>(link);
+        }
+        internal static int ConvertData() {
+            if(Settings.ActualKeys == null || Settings.ActualKeys.Count < 1) return 0;
+            foreach(var item in Settings.ActualKeys) {
+                Settings.GeDataTable.Rows.Add(new object[] { item.Path, item.Key, item.English, string.Empty,
+                item.German, item.Russian, 0});
+            }
+            return Settings.ActualKeys.Count;
+        }
+        internal static void SortBySummary(GridView view, GridColumn column, ColumnSortOrder order) {
+            List<GroupSummarySortInfo> items = new List<GroupSummarySortInfo>();
+            items.Add(new GroupSummarySortInfo(view.GroupSummary[0], column, order));
+            view.GroupSummarySortInfo.ClearAndAddRange(items.ToArray());
+        }
+    }
+}
