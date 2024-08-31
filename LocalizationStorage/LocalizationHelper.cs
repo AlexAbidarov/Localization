@@ -275,4 +275,9 @@ namespace LocalizationStorage {
             view.GroupSummarySortInfo.ClearAndAddRange(items.ToArray());
         }
     }
+    public class IOHelper {
+        internal static string GetShortAssembluName(string name) {
+            return name.Substring(0, name.IndexOf(","));
+        }
+    }
 }
