@@ -1,7 +1,10 @@
-﻿using DevExpress.XtraReports.Tests;
+﻿using DevExpress.XtraBars;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraReports.Tests;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -16,6 +19,93 @@ namespace LocalizationStorage {
         NotSure = 3,
         Problems = 4
     };
+    public class ExpertDataTableDe : DataTable {
+        DataColumn colEnglish = new DataColumn("English", typeof(string));
+        DataColumn colPath = new DataColumn("Path", typeof(string));
+        DataColumn colKey = new DataColumn("Key", typeof(string));
+        DataColumn colTranslate = new DataColumn("NewGerman", typeof(string));
+        DataColumn colGerman = new DataColumn("German", typeof(string));
+        DataColumn colRussian = new DataColumn("Russian", typeof(string));
+        DataColumn colStatus = new DataColumn("Status", typeof(int));
+        DataColumn colNotes = new DataColumn("Notes", typeof(string));
+        DataColumn colComment = new DataColumn("Comment", typeof(string));
+        DataColumn colPicture = new DataColumn("Picture", typeof(string));
+        public ExpertDataTableDe() {
+            TableName = Settings.deTableName;
+            this.Columns.Add(colPath);
+            this.Columns.Add(colKey);
+            this.Columns.Add(colEnglish);
+            this.Columns.Add(colTranslate);
+            this.Columns.Add(colGerman);
+            this.Columns.Add(colRussian);
+            this.Columns.Add(colStatus);
+            this.Columns.Add(colNotes);
+            this.Columns.Add(colComment);
+            this.Columns.Add(colPicture);
+        }
+        public int AddTranslation(string key, string word, TranslationStatus status = TranslationStatus.Translated, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => SetRowValue(row, word, status),
+                key, pKey, path);
+        }
+        public int AddNoNeedTranslate(string key, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => row[colStatus] = TranslationStatus.NoTranslationNeeded,
+                key, pKey, path);
+        }
+        public int AddNotSure(string key, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => row[colStatus] = TranslationStatus.NotSure,
+                key, pKey, path);
+        }
+        public int AddClear(string key, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => SetRowValue(row, string.Empty, TranslationStatus.None),
+                key, pKey, path);
+        }
+        int ChangeRowValue(Action<DataRow> change, string key, string pKey = null, string path = null) {
+            int result = 0;
+            foreach(DataRow row in this.Rows) {
+                bool keysAreEqual = $"{row[colEnglish]}".Trim() == key.Trim();
+                if(keysAreEqual) {
+                    if(pKey != null
+                        && (pKey != $"{row[colKey]}" || path != $"{row[colPath]}")) continue;
+                    change(row);
+                    result++;
+                }
+            }
+            return result;
+        }
+        void SetRowValue(DataRow row, string @value, TranslationStatus status) {
+            row[colTranslate] = @value;
+            row[colStatus] = status;
+        }
+        public string GetEnglishKeyByLink(BarItemLink link, GridView view) {
+            var row = UIHelper.GetDataRowByLink(link, view);
+            if(row == null) return null;
+            return $"{row[colEnglish]}";
+        }
+        TranslationStatus GetStatus(int rowHandle, GridView view) {
+            DataRow row = view.GetDataRow(rowHandle);
+            var result = row[colStatus];
+            if(result == null) 
+                return TranslationStatus.None;
+            return (TranslationStatus)result;
+        }
+        public TranslationStatus GetStatusByGroupRowValue(int rowHandle, GridView view) {
+            TranslationStatus result;
+            if(view.IsGroupRow(rowHandle)) {
+                int iStartRow = view.GetChildRowHandle(rowHandle, 0);
+                int iEndRow = view.GetChildRowHandle(rowHandle, view.GetChildRowCount(rowHandle));
+                result = GetStatus(iStartRow, view);
+                if(result == TranslationStatus.None) return result;
+                for(int i = iStartRow + 1; i < iEndRow; i++)  
+                    if(result != GetStatus(i, view)) return TranslationStatus.None;
+                return result;
+            }
+            return TranslationStatus.None;
+        }
+    }
     public class LocalizationPath {
         public LocalizationPath(FileInfo file) {
             if(string.IsNullOrEmpty(Settings.RootPath))

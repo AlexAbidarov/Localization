@@ -64,12 +64,14 @@
     <Compile Include="Forms\DetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LocalizationData.cs" />
+    <Compile Include="LocalizationData.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LocalizationHelper.cs" />
-    <Compile Include="ClientForm.cs">
+    <Compile Include="Experts\ClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ClientForm.Designer.cs">
+    <Compile Include="Experts\ClientForm.Designer.cs">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -92,7 +94,7 @@
     <EmbeddedResource Include="Forms\DetailForm.resx">
       <DependentUpon>DetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ClientForm.resx">
+    <EmbeddedResource Include="Experts\ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -135,6 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\scatterchartlabeloptions.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\treemap.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

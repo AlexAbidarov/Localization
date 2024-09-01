@@ -130,4 +130,7 @@
   <data name="scatterchartlabeloptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\scatterchartlabeloptions.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4</value>
   </data>
+  <data name="treemap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\treemap.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Version=24.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4</value>
+  </data>
 </root>

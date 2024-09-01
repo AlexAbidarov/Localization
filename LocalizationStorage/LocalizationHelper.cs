@@ -93,71 +93,6 @@ namespace LocalizationStorage {
             return value;
         }
     }
-    public class ExpertDataTableDe : DataTable {
-        public ExpertDataTableDe() {
-            TableName = Settings.deTableName;
-            this.Columns.Add(new DataColumn("Path", typeof(string)));
-            this.Columns.Add(new DataColumn("Key", typeof(string)));
-            this.Columns.Add(new DataColumn("English", typeof(string)));
-            this.Columns.Add(new DataColumn("NewGerman", typeof(string)));
-            this.Columns.Add(new DataColumn("German", typeof(string)));
-            this.Columns.Add(new DataColumn("Russian", typeof(string)));
-            this.Columns.Add(new DataColumn("Status", typeof(int)));
-            this.Columns.Add(new DataColumn("Notes", typeof(string)));
-            this.Columns.Add(new DataColumn("Comment", typeof(string)));
-            this.Columns.Add(new DataColumn("Picture", typeof(string)));
-        }
-        public int AddTranslation(string key, string word, TranslationStatus status = TranslationStatus.Translated, string pKey = null, string path = null) {
-            return ChangeRowValue(
-                (row) => SetRowValue(row, word, status), 
-                key, pKey, path);
-        }
-        public int AddNoNeedTranslate(string key, string pKey = null, string path = null) {
-            return ChangeRowValue(
-                (row) => row["Status"] = TranslationStatus.NoTranslationNeeded, 
-                key, pKey, path);
-        }
-        public int AddNotSure(string key, string pKey = null, string path = null) {
-            return ChangeRowValue(
-                (row) => row["Status"] = TranslationStatus.NotSure, 
-                key, pKey, path);
-        }
-        public int AddClear(string key, string pKey = null, string path = null) {
-            return ChangeRowValue(
-                (row) => SetRowValue(row, string.Empty, TranslationStatus.None), 
-                key, pKey, path);
-        }
-        int ChangeRowValue(Action<DataRow> change, string key, string pKey = null, string path = null) {
-            int result = 0;
-            foreach(DataRow row in this.Rows) {
-                bool keysAreEqual = $"{row["English"]}".Trim() == key.Trim();
-                if(keysAreEqual) {
-                    if(pKey != null
-                        && (pKey != $"{row["Key"]}" || path != $"{row["Path"]}")) continue;
-                    change(row);
-                    result++;
-                }
-            }
-            return result;
-        }
-        void SetRowValue(DataRow row, string @value, TranslationStatus status) {
-            row["NewGerman"] = @value;
-            row["Status"] = status;
-        }
-        static DataRow GetDataRowByLink(BarItemLink link, GridView view) {
-            GridHitInfo info = UIHelper.GetGridHitInfoByLink(link);
-            if(info == null) return null;
-            int dataRowHandle = info.RowHandle;
-            if(info.InGroupRow)
-                dataRowHandle = view.GetDataRowHandleByGroupRowHandle(info.RowHandle);
-            return view.GetDataRow(dataRowHandle);
-        }
-        public static string GetEnglishKeyByLink(BarItemLink link, GridView view) {
-            var row = GetDataRowByLink(link, view);
-            if(row == null) return null;
-            return $"{row["English"]}";
-        }
-    }
     public class Settings {
         public static void ClearData() {
             paths = null;
@@ -245,6 +180,14 @@ namespace LocalizationStorage {
                     form.ShowDialog();
                 }
             }
+        }
+        internal static DataRow GetDataRowByLink(BarItemLink link, GridView view) {
+            GridHitInfo info = GetGridHitInfoByLink(link);
+            if(info == null) return null;
+            int dataRowHandle = info.RowHandle;
+            if(info.InGroupRow)
+                dataRowHandle = view.GetDataRowHandleByGroupRowHandle(info.RowHandle);
+            return view.GetDataRow(dataRowHandle);
         }
         internal static GridHitInfo GetGridHitInfoByLink(BarItemLink link) { 
             if(!(link.LinkedObject is PopupMenu)) return null;
