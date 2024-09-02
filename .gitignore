@@ -6,3 +6,5 @@
 /LocalizationStorage/obj/
 /Bin/Logs/
 /Bin/Data/*.bak
+/Bin/LocalizationStorage.exe.config
+/Bin/LocalizationStorage.pdb

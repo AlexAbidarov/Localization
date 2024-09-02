@@ -1,7 +1,6 @@
 ﻿using DevExpress.XtraBars;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
-using DevExpress.XtraReports.Tests;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +19,20 @@ namespace LocalizationStorage {
         NotSure = 3,
         Problems = 4
     };
+    public class UserTranslation { 
+        public UserTranslation(string name) {
+            Name = name;
+            Count = 1;
+        }
+        public string Name { get; set; }
+        public int Count { get; private set; }
+        public void AddCount() { 
+            Count++;
+        }
+    }
     public class TranslationDe {
+        List<UserTranslation> userTranslation = new List<UserTranslation>();
+        public List<UserTranslation> UserTranslation => userTranslation;
         public TranslationDe() {
             IsGroup = false;
         }
@@ -44,6 +56,14 @@ namespace LocalizationStorage {
         public string Russian { get; set; }
         public string Path { get; set; }
         public string Key { get; set; }
+        public void AddUserTranslation(string item) {
+            if(Settings.IsNameEmpty(item)) return;
+            var values = userTranslation.Where(x => x.Name == item).ToList();
+            if(values.Count > 0)
+                values[0].AddCount();
+            else
+                userTranslation.Add(new UserTranslation(item));
+        }
     }
     public class ExpertDataTableDe : DataTable {
         DataColumn colEnglish = new DataColumn("English", typeof(string));
@@ -106,6 +126,24 @@ namespace LocalizationStorage {
             row[colTranslate] = @value;
             row[colStatus] = status;
         }
+        bool IsGroupRow(BarItemLink link) {
+            var info = UIHelper.GetGridHitInfoByLink(link);
+            return info.InGroupRow;
+        }
+        public string GetKeyByLink(BarItemLink link, GridView view) {
+            if(IsGroupRow(link))
+                return null; 
+            var row = UIHelper.GetDataRowByLink(link, view);
+            if(row == null) return null;
+            return $"{row[colKey]}";
+        }
+        public string GetPathByLink(BarItemLink link, GridView view) {
+            if(IsGroupRow(link))
+                return null;
+            var row = UIHelper.GetDataRowByLink(link, view);
+            if(row == null) return null;
+            return $"{row[colPath]}";
+        }
         public string GetEnglishKeyByLink(BarItemLink link, GridView view) {
             var row = UIHelper.GetDataRowByLink(link, view);
             if(row == null) return null;
@@ -133,14 +171,21 @@ namespace LocalizationStorage {
         }
         public TranslationDe GetTranslationObjectByRow(BarItemLink link, GridView view) {
             GridHitInfo info = UIHelper.GetGridHitInfoByLink(link);
+            var row = UIHelper.GetDataRowByLink(link, view);
+            if(row == null) return new TranslationDe();
             if(!info.InGroupRow) {
-                var row = UIHelper.GetDataRowByLink(link, view);
-                if(row == null) return new TranslationDe();
                 return new TranslationDe($"{row[colTranslate]}", $"{row[colEnglish]}", $"{row[colGerman]}",
                     $"{row[colPath]}", $"{row[colKey]}", $"{row[colRussian]}");
             }
             else {
-                return new TranslationDe("XXX", "YYY");
+                TranslationDe result = new TranslationDe(string.Empty, $"{row[colEnglish]}");
+                int iStartRow = view.GetChildRowHandle(info.RowHandle, 0);
+                int iEndRow = view.GetChildRowHandle(info.RowHandle, view.GetChildRowCount(info.RowHandle) - 1);
+                for(int i = iStartRow; i <= iEndRow; i++) {
+                    row = view.GetDataRow(i);
+                    result.AddUserTranslation($"{row[colGerman]}");
+                }
+                return result;
             }
         }
     }

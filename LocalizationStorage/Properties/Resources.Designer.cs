@@ -59,55 +59,5 @@ namespace LocalizationStorage.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage bo_state {
-            get {
-                object obj = ResourceManager.GetObject("bo_state", resourceCulture);
-                return ((DevExpress.Utils.Svg.SvgImage)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage richeditclearformatting {
-            get {
-                object obj = ResourceManager.GetObject("richeditclearformatting", resourceCulture);
-                return ((DevExpress.Utils.Svg.SvgImage)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage save {
-            get {
-                object obj = ResourceManager.GetObject("save", resourceCulture);
-                return ((DevExpress.Utils.Svg.SvgImage)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage scatterchartlabeloptions {
-            get {
-                object obj = ResourceManager.GetObject("scatterchartlabeloptions", resourceCulture);
-                return ((DevExpress.Utils.Svg.SvgImage)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage treemap {
-            get {
-                object obj = ResourceManager.GetObject("treemap", resourceCulture);
-                return ((DevExpress.Utils.Svg.SvgImage)(obj));
-            }
-        }
     }
 }

@@ -3,6 +3,7 @@ using DevExpress.LookAndFeel;
 using DevExpress.Utils;
 using DevExpress.Utils.Colors;
 using DevExpress.Utils.Text;
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraSplashScreen;
 using System;
@@ -28,6 +29,13 @@ namespace LocalizationStorage {
             SplashScreenManager.CloseForm();
         }
         void SetRowMenu() {
+            bbSave.ImageOptions.ImageUri = "save;Size36x36;Svg";
+            bbNoTranslate.ImageOptions.ImageUri = "bo_state;Size16x16;Svg";
+            bbNotSure.ImageOptions.ImageUri = "scatterchartlabeloptions;Size16x16;Svg";
+            bbAddTranslation.ImageOptions.ImageUri = "bo_transition;Size16x16;Svg";
+            bbClearTranslate.ImageOptions.ImageUri = "richeditclearformatting;Size16x16;Svg";
+            bbTranslate.ImageOptions.ImageUri = "spreadsheet/group;Size16x16;Svg";
+            bbGroupCustomization.ImageOptions.ImageUri = "treemap;Size16x16;Svg";
             gridView1.PopupMenuShowing += (s, e) => {
                 if(e.HitInfo.InGroupRow) {
                     pmGroupRowMenu.Tag = e.HitInfo;
@@ -136,13 +144,12 @@ namespace LocalizationStorage {
         private void bbNoTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
             if(key != null)
-                RowUpdate(() => Source.AddNoNeedTranslate(key));
+                RowUpdate(() => Source.AddNoNeedTranslate(key,
+                    Source.GetKeyByLink(e.Link, gridView1),
+                    Source.GetPathByLink(e.Link, gridView1)));
         }
         private void bbTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-            using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(e.Link, gridView1))) {
-                if(form.ShowDialog() == DialogResult.OK)
-                    RowUpdate(() => Source.AddTranslation(form.English, form.Translation));
-            }
+            AddTranslation(e.Link);
         }
         private void bbNotSure_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
@@ -152,17 +159,22 @@ namespace LocalizationStorage {
         private void bbClearTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
             if(key != null)
-                RowUpdate(() => Source.AddClear(key));
+                RowUpdate(() => Source.AddClear(key, 
+                    Source.GetKeyByLink(e.Link, gridView1),
+                    Source.GetPathByLink(e.Link, gridView1)));
         }
         private void bbGroupCustomization_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             gridView1.LayoutChanged();
         }
 
         private void bbAddTranslation_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-            using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(e.Link, gridView1))) {
-                if(form.ShowDialog() == DialogResult.OK && 
-                    !string.IsNullOrEmpty(form.Translation))
-                    RowUpdate(() => Source.AddTranslation(form.English, form.Translation, TranslationStatus.Translated, form.Key, form.Path)); //TODO
+            AddTranslation(e.Link);
+        }
+        void AddTranslation(BarItemLink link) {
+            using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(link, gridView1))) {
+                if(form.ShowDialog() == DialogResult.OK &&
+                    !string.IsNullOrEmpty(form.Translation.Trim()))
+                    RowUpdate(() => Source.AddTranslation(form.English, form.Translation, TranslationStatus.Translated, form.Key, form.Path));
             }
         }
     }

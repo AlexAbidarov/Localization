@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experts\Objects.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Experts\RowTranslation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Experts\TranslationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,12 +89,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\ReplaysForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Reports\ReplaysForm.Designer.cs">
       <DependentUpon>ReplaysForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Experts\GroupRowTranslation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="Experts\RowTranslation.resx">
+      <DependentUpon>RowTranslation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Experts\TranslationForm.resx">
       <DependentUpon>TranslationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,16 +123,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Reports\ReplaysForm.resx">
       <DependentUpon>ReplaysForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experts\GroupRowTranslation.resx">
+      <DependentUpon>GroupRowTranslation.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -129,21 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\richeditclearformatting.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bo_state.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\scatterchartlabeloptions.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\treemap.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

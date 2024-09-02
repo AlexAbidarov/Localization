@@ -142,6 +142,9 @@ namespace LocalizationStorage {
                 return mainDataSet; 
             } 
         }
+        public static bool IsNameEmpty(string name) {
+            return string.IsNullOrEmpty(name) || fileNotFount.Equals(name) || keyNotFount.Equals(name);
+        }
     }
     public static class ElapsedTime {
         static readonly Stopwatch stopWatch = new Stopwatch();

@@ -59,9 +59,9 @@
             this.bHeader = new DevExpress.XtraBars.BarHeaderItem();
             this.skinDropDownButtonItem1 = new DevExpress.XtraBars.SkinDropDownButtonItem();
             this.bbGroupCustomization = new DevExpress.XtraBars.BarButtonItem();
+            this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
             this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
@@ -300,7 +300,7 @@
             // 
             // bbTranslate
             // 
-            this.bbTranslate.Caption = "Add Translation (Group Row)";
+            this.bbTranslate.Caption = "Add Translation (Group)";
             this.bbTranslate.Id = 2;
             this.bbTranslate.Name = "bbTranslate";
             this.bbTranslate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbTranslate_ItemClick);
@@ -309,7 +309,6 @@
             // 
             this.bbNoTranslate.Caption = "Set \"No Translation Needed\" Status";
             this.bbNoTranslate.Id = 3;
-            this.bbNoTranslate.ImageOptions.SvgImage = global::LocalizationStorage.Properties.Resources.bo_state;
             this.bbNoTranslate.Name = "bbNoTranslate";
             this.bbNoTranslate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbNoTranslate_ItemClick);
             // 
@@ -317,7 +316,6 @@
             // 
             this.bbNotSure.Caption = "Set \"Not Sure\" Status";
             this.bbNotSure.Id = 4;
-            this.bbNotSure.ImageOptions.SvgImage = global::LocalizationStorage.Properties.Resources.scatterchartlabeloptions;
             this.bbNotSure.Name = "bbNotSure";
             this.bbNotSure.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbNotSure_ItemClick);
             // 
@@ -325,7 +323,6 @@
             // 
             this.bbClearTranslate.Caption = "Clear Translation";
             this.bbClearTranslate.Id = 5;
-            this.bbClearTranslate.ImageOptions.SvgImage = global::LocalizationStorage.Properties.Resources.richeditclearformatting;
             this.bbClearTranslate.Name = "bbClearTranslate";
             this.bbClearTranslate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbClearTranslate_ItemClick);
             // 
@@ -385,7 +382,6 @@
             this.bbSave.Caption = "Save Data";
             this.bbSave.Enabled = false;
             this.bbSave.Id = 0;
-            this.bbSave.ImageOptions.SvgImage = global::LocalizationStorage.Properties.Resources.save;
             this.bbSave.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.bbSave.Name = "bbSave";
             this.bbSave.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbSave_ItemClick);
@@ -408,9 +404,15 @@
             this.bbGroupCustomization.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.Check;
             this.bbGroupCustomization.Caption = "Group Custom Style";
             this.bbGroupCustomization.Id = 8;
-            this.bbGroupCustomization.ImageOptions.SvgImage = global::LocalizationStorage.Properties.Resources.treemap;
             this.bbGroupCustomization.Name = "bbGroupCustomization";
             this.bbGroupCustomization.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbGroupCustomization_ItemClick);
+            // 
+            // bbAddTranslation
+            // 
+            this.bbAddTranslation.Caption = "Add Translation (Row)";
+            this.bbAddTranslation.Id = 9;
+            this.bbAddTranslation.Name = "bbAddTranslation";
+            this.bbAddTranslation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbAddTranslation_ItemClick);
             // 
             // toolbarFormControl1
             // 
@@ -429,16 +431,11 @@
             // pmRowMenu
             // 
             this.pmRowMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.bbAddTranslation)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbAddTranslation),
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbNoTranslate),
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
             this.pmRowMenu.Manager = this.toolbarFormManager1;
             this.pmRowMenu.Name = "pmRowMenu";
-            // 
-            // bbAddTranslation
-            // 
-            this.bbAddTranslation.Caption = "Add Translation (Row)";
-            this.bbAddTranslation.Id = 9;
-            this.bbAddTranslation.Name = "bbAddTranslation";
-            this.bbAddTranslation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbAddTranslation_ItemClick);
             // 
             // ClientForm
             // 
