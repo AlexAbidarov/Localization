@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experts\TranslationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LegacyHelper.cs" />
     <Compile Include="Forms\EmptyGrid.cs">
       <SubType>Form</SubType>
@@ -64,9 +67,7 @@
     <Compile Include="Forms\DetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LocalizationData.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="LocalizationData.cs" />
     <Compile Include="LocalizationHelper.cs" />
     <Compile Include="Experts\ClientForm.cs">
       <SubType>Form</SubType>
@@ -88,6 +89,9 @@
     <Compile Include="Reports\ReplaysForm.Designer.cs">
       <DependentUpon>ReplaysForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Experts\TranslationForm.resx">
+      <DependentUpon>TranslationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EmptyGrid.resx">
       <DependentUpon>EmptyGrid.cs</DependentUpon>
     </EmbeddedResource>

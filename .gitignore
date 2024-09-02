@@ -4,3 +4,5 @@
 /LocalizationStorage/.cr/
 /LocalizationStorage/bin/
 /LocalizationStorage/obj/
+/Bin/Logs/
+/Bin/Data/*.bak

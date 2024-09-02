@@ -1,9 +1,10 @@
 ﻿using DevExpress.Data;
 using DevExpress.LookAndFeel;
-using DevExpress.Skins;
 using DevExpress.Utils;
 using DevExpress.Utils.Colors;
+using DevExpress.Utils.Text;
 using DevExpress.XtraBars.ToolbarForm;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,12 +25,18 @@ namespace LocalizationStorage {
             SetRowMenu();
             SetRowVisualInfo();
             bHeader.Caption = "Localization Storage\r\n(German)";
+            SplashScreenManager.CloseForm();
         }
         void SetRowMenu() {
             gridView1.PopupMenuShowing += (s, e) => {
                 if(e.HitInfo.InGroupRow) {
-                    pmWordMenu.Tag = e.HitInfo;
-                    e.ShowCustomMenu(pmWordMenu);
+                    pmGroupRowMenu.Tag = e.HitInfo;
+                    e.ShowCustomMenu(pmGroupRowMenu);
+                    return;
+                }
+                if(e.HitInfo.InRow && e.HitInfo.RowHandle >= 0) { 
+                    pmRowMenu.Tag = e.HitInfo;
+                    e.ShowCustomMenu(pmRowMenu);
                 }
             };
         }
@@ -44,33 +51,33 @@ namespace LocalizationStorage {
                         TranslationStatus status = Source.GetStatusByGroupRowValue(e.RowHandle, gridView1);
                         UpdateAppearance(e.Appearance, (int)status);
                     } else
-                        SetColor(e.Appearance, DXSkinColorHelper.GetDXSkinColor(DXColor.DarkBlue, 150, LookAndFeel) , DXColor.White);
+                        SetColor(e.Appearance, DXSkinColorHelper.GetDXSkinColor(DXSkinColors.FillColors.Warning, 255, LookAndFeel));
                 }
             };
         }
         void UpdateAppearance(AppearanceObject app, int status) {
             switch(status) {
                 case 1://TranslationStatus.Translated
-                    SetColor(app, DXSkinColors.FillColors.Success, DXColor.White);
+                    SetColor(app, DXSkinColors.FillColors.Success);
                     break;
                 case 2://TranslationStatus.NoTranslationNeeded:
-                    SetColor(app, DXSkinColors.FillColors.Primary, DXColor.White);
+                    SetColor(app, DXSkinColors.FillColors.Primary);
                     break;
                 case 3:// TranslationStatus.NotSure:
-                    app.BackColor = Color.Yellow;
+                    SetColor(app, Color.Yellow);
                     break;
                 case 4://TranslationStatus.Problems:
-                    SetColor(app, DXSkinColors.FillColors.Danger, DXColor.White);
+                    SetColor(app, DXSkinColors.FillColors.Danger);
                     break;
             }
         }
-        void SetColor(AppearanceObject app, Color color1, Color color2) { 
-            app.BackColor = color1;
-            //if(SkinImageColorizer.CheckDarkColor(color1))
-                app.ForeColor = color2;
+        void SetColor(AppearanceObject app, Color color) { 
+            app.BackColor = color;
+            app.ForeColor = ContrastColor.GetContrastForeColor(color); 
         }
+        readonly string traslationName = "240414";
         void AddFirstTranslation() {
-            string firstTranslatePath = $"{Settings.DataPath}\\240414.csv";
+            string firstTranslatePath = $"{Settings.DataPath}\\{traslationName}.csv";
             if(File.Exists(firstTranslatePath)) {
                 firstTranslateTable = CSVHelper.ConvertCSVtoDataTable(new FileInfo(firstTranslatePath));
                 var button = gridView1.FindPanelItems.AddButton(string.Empty, null, 
@@ -80,7 +87,7 @@ namespace LocalizationStorage {
                         //RowUpdate(() => DoSync());
                     });
                 button.ImageOptions.ImageUri.Uri = "business_idea;Size16x16;Svg";
-                button.ToolTip = "Show 240414_DX Data";
+                button.ToolTip = $"Show {traslationName}_DX Data";
                 gridView1.ShowFindPanel();
             }
         }
@@ -95,7 +102,7 @@ namespace LocalizationStorage {
             }
         }
         int DoSync() {
-            List<string> notFound = new List<string>();
+            List<string> notFoundKeys = new List<string>();
             string key, word;
             int count, countRows = 0;
             foreach(DataRow row in firstTranslateTable.Rows) {
@@ -103,9 +110,10 @@ namespace LocalizationStorage {
                 word = $"{row["German"]}";
                 count = Source.AddTranslation(key, word);
                 if(count == 0)
-                    notFound.Add(key);
+                    notFoundKeys.Add(key);
                 countRows += count;
             }
+            IOHelper.SaveLog(notFoundKeys, $"{traslationName}_Errors.txt");
             return countRows;
         }
         void RowUpdate(Func<int> update) {
@@ -121,35 +129,41 @@ namespace LocalizationStorage {
             }
         }
         private void bbSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-            //TODO make backup file
-            Settings.MainDataSet.WriteXml($@"Data\{Settings.deDataSetName}", System.Data.XmlWriteMode.WriteSchema);
+            IOHelper.CreateBakFile(Settings.GermanDataSetPath);
+            Settings.MainDataSet.WriteXml(Settings.GermanDataSetPath, System.Data.XmlWriteMode.WriteSchema);
             bbSave.Enabled = false;
         }
-
         private void bbNoTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
             if(key != null)
                 RowUpdate(() => Source.AddNoNeedTranslate(key));
         }
-
         private void bbTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-            //TODO RowUpdate(() => Source.AddTranslation("Name", "der Name)" ));
+            using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(e.Link, gridView1))) {
+                if(form.ShowDialog() == DialogResult.OK)
+                    RowUpdate(() => Source.AddTranslation(form.English, form.Translation));
+            }
         }
-
         private void bbNotSure_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
             if(key != null)
                 RowUpdate(() => Source.AddNotSure(key));
         }
-
         private void bbClearTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
             if(key != null)
                 RowUpdate(() => Source.AddClear(key));
         }
-
         private void bbGroupCustomization_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             gridView1.LayoutChanged();
+        }
+
+        private void bbAddTranslation_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+            using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(e.Link, gridView1))) {
+                if(form.ShowDialog() == DialogResult.OK && 
+                    !string.IsNullOrEmpty(form.Translation))
+                    RowUpdate(() => Source.AddTranslation(form.English, form.Translation, TranslationStatus.Translated, form.Key, form.Path)); //TODO
+            }
         }
     }
 }

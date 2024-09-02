@@ -1,9 +1,7 @@
 ﻿using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Senders;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using LocalizationStorage.Reports;
 using System;
 using System.Windows.Forms;

@@ -1,6 +1,7 @@
 ﻿using DevExpress.Data;
 using DevExpress.Utils.Extensions;
 using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
@@ -113,6 +114,7 @@ namespace LocalizationStorage {
             }
         }
         public static string DataPath { get; } = $@"{Application.StartupPath}\Data";
+        public static string LogsPath => Path.Combine(DataPath, @"..\Logs");
         public static string GermanDataSetPath { get; } = $@"{DataPath}\{deDataSetName}";
         public static string RootPath { get; set; }
         public static bool LoadTranslations { get; set; } = false;
@@ -173,7 +175,7 @@ namespace LocalizationStorage {
         public static void ShowTranslatioDetailForm(BarItemLink link) {
             ShowTranslatioDetailForm(((PopupMenu)link.LinkedObject).Tag as GridHitInfo);
         }
-            public static void ShowTranslatioDetailForm(GridHitInfo info) {
+        public static void ShowTranslatioDetailForm(GridHitInfo info) {
             if(!info.InDataRow) return;
             if(info.View.GetRow(info.RowHandle) is LocalizationTranslation) {
                 using(DetailForm form = new DetailForm(info.View.GridControl.FindForm(), (LocalizationTranslation)info.View.GetRow(info.RowHandle))) {
@@ -221,6 +223,24 @@ namespace LocalizationStorage {
     public class IOHelper {
         internal static string GetShortAssembluName(string name) {
             return name.Substring(0, name.IndexOf(","));
+        }
+        public static void CreateBakFile(string name) {
+            FileInfo fi = new FileInfo(name);
+            string bakFile = $"{fi.FullName}.bak";
+            if(File.Exists(bakFile)) File.Delete(bakFile);
+            fi.MoveTo(bakFile);
+        }
+        public static void SaveLog(List<string> lines, string name) {
+            FileInfo fi = new FileInfo($@"{Settings.LogsPath}\{name}");
+            if(!fi.Directory.Exists) fi.Directory.Create();
+            try {
+                using(StreamWriter sw = new StreamWriter(fi.FullName)) {
+                    int index = 0;
+                    lines.ForEach((line) => sw.WriteLine($"{++index}. {line}"));
+                }
+            } catch(Exception e) {
+                XtraMessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

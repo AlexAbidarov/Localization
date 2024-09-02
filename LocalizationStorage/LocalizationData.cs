@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraBars;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraReports.Tests;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,31 @@ namespace LocalizationStorage {
         NotSure = 3,
         Problems = 4
     };
+    public class TranslationDe {
+        public TranslationDe() {
+            IsGroup = false;
+        }
+        public TranslationDe(string translation, string english, string german, string path, string key, string russian) : this() {
+            Translation = translation;
+            English = english;
+            German = german;
+            Path = path;
+            Key = key;
+            Russian = russian;
+        }
+        public TranslationDe(string translation, string english) {
+            Translation = translation;
+            English = english;
+            IsGroup = true;
+        }
+        public bool IsGroup { get; set; }
+        public string Translation { get; set; }
+        public string English { get; set; }
+        public string German { get; set; }
+        public string Russian { get; set; }
+        public string Path { get; set; }
+        public string Key { get; set; }
+    }
     public class ExpertDataTableDe : DataTable {
         DataColumn colEnglish = new DataColumn("English", typeof(string));
         DataColumn colPath = new DataColumn("Path", typeof(string));
@@ -68,7 +94,7 @@ namespace LocalizationStorage {
             foreach(DataRow row in this.Rows) {
                 bool keysAreEqual = $"{row[colEnglish]}".Trim() == key.Trim();
                 if(keysAreEqual) {
-                    if(pKey != null
+                    if(!string.IsNullOrEmpty(pKey)
                         && (pKey != $"{row[colKey]}" || path != $"{row[colPath]}")) continue;
                     change(row);
                     result++;
@@ -96,14 +122,26 @@ namespace LocalizationStorage {
             TranslationStatus result;
             if(view.IsGroupRow(rowHandle)) {
                 int iStartRow = view.GetChildRowHandle(rowHandle, 0);
-                int iEndRow = view.GetChildRowHandle(rowHandle, view.GetChildRowCount(rowHandle));
+                int iEndRow = view.GetChildRowHandle(rowHandle, view.GetChildRowCount(rowHandle) - 1);
                 result = GetStatus(iStartRow, view);
                 if(result == TranslationStatus.None) return result;
-                for(int i = iStartRow + 1; i < iEndRow; i++)  
+                for(int i = iStartRow + 1; i <= iEndRow; i++)  
                     if(result != GetStatus(i, view)) return TranslationStatus.None;
                 return result;
             }
             return TranslationStatus.None;
+        }
+        public TranslationDe GetTranslationObjectByRow(BarItemLink link, GridView view) {
+            GridHitInfo info = UIHelper.GetGridHitInfoByLink(link);
+            if(!info.InGroupRow) {
+                var row = UIHelper.GetDataRowByLink(link, view);
+                if(row == null) return new TranslationDe();
+                return new TranslationDe($"{row[colTranslate]}", $"{row[colEnglish]}", $"{row[colGerman]}",
+                    $"{row[colPath]}", $"{row[colKey]}", $"{row[colRussian]}");
+            }
+            else {
+                return new TranslationDe("XXX", "YYY");
+            }
         }
     }
     public class LocalizationPath {

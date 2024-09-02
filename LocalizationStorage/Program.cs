@@ -1,4 +1,6 @@
 ﻿using DevExpress.Utils;
+using DevExpress.XtraSplashScreen;
+using DevExpress.XtraWaitForm;
 using System;
 using System.IO;
 using System.Reflection;
@@ -19,6 +21,7 @@ namespace LocalizationStorage {
         }
         [MethodImpl(MethodImplOptions.NoInlining)]
         static void RunApp(string[] args) {
+            SplashScreenManager.ShowForm(typeof(DemoWaitForm));
             if(args.Length > 0)
                 Settings.RootPath = args[0];
             //if(!LocalizationHelper.IsExistRoot)

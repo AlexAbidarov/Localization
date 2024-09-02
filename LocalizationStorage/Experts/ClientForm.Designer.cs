@@ -45,7 +45,7 @@
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.pmWordMenu = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.pmGroupRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
             this.bbTranslate = new DevExpress.XtraBars.BarButtonItem();
             this.bbNoTranslate = new DevExpress.XtraBars.BarButtonItem();
             this.bbNotSure = new DevExpress.XtraBars.BarButtonItem();
@@ -60,6 +60,8 @@
             this.skinDropDownButtonItem1 = new DevExpress.XtraBars.SkinDropDownButtonItem();
             this.bbGroupCustomization = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
+            this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
@@ -67,9 +69,10 @@
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pmWordMenu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pmGroupRowMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toolbarFormManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toolbarFormControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pmRowMenu)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControl1
@@ -149,7 +152,7 @@
             this.colEnglish.Name = "colEnglish";
             this.colEnglish.OptionsColumn.AllowEdit = false;
             this.colEnglish.OptionsColumn.AllowFocus = false;
-            this.colEnglish.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.colEnglish.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.True;
             this.colEnglish.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.colEnglish.OptionsColumn.AllowMove = false;
             this.colEnglish.Visible = true;
@@ -285,19 +288,19 @@
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
-            // pmWordMenu
+            // pmGroupRowMenu
             // 
-            this.pmWordMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            this.pmGroupRowMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.bbTranslate),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNoTranslate),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNotSure),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
-            this.pmWordMenu.Manager = this.toolbarFormManager1;
-            this.pmWordMenu.Name = "pmWordMenu";
+            this.pmGroupRowMenu.Manager = this.toolbarFormManager1;
+            this.pmGroupRowMenu.Name = "pmGroupRowMenu";
             // 
             // bbTranslate
             // 
-            this.bbTranslate.Caption = "Add Translation";
+            this.bbTranslate.Caption = "Add Translation (Group Row)";
             this.bbTranslate.Id = 2;
             this.bbTranslate.Name = "bbTranslate";
             this.bbTranslate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbTranslate_ItemClick);
@@ -341,8 +344,9 @@
             this.bbNotSure,
             this.bbClearTranslate,
             this.skinDropDownButtonItem1,
-            this.bbGroupCustomization});
-            this.toolbarFormManager1.MaxItemId = 9;
+            this.bbGroupCustomization,
+            this.bbAddTranslation});
+            this.toolbarFormManager1.MaxItemId = 10;
             // 
             // barDockControl1
             // 
@@ -422,6 +426,20 @@
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbGroupCustomization);
             this.toolbarFormControl1.ToolbarForm = this;
             // 
+            // pmRowMenu
+            // 
+            this.pmRowMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbAddTranslation)});
+            this.pmRowMenu.Manager = this.toolbarFormManager1;
+            this.pmRowMenu.Name = "pmRowMenu";
+            // 
+            // bbAddTranslation
+            // 
+            this.bbAddTranslation.Caption = "Add Translation (Row)";
+            this.bbAddTranslation.Id = 9;
+            this.bbAddTranslation.Name = "bbAddTranslation";
+            this.bbAddTranslation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbAddTranslation_ItemClick);
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -443,9 +461,10 @@
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pmWordMenu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pmGroupRowMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toolbarFormManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toolbarFormControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pmRowMenu)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -463,7 +482,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colGerman;
         private DevExpress.XtraLayout.LayoutControl layoutControl1;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
-        private DevExpress.XtraBars.PopupMenu pmWordMenu;
+        private DevExpress.XtraBars.PopupMenu pmGroupRowMenu;
         private DevExpress.XtraGrid.Columns.GridColumn colStatus;
         private DevExpress.XtraGrid.Columns.GridColumn colNotes;
         private DevExpress.XtraGrid.Columns.GridColumn colComment;
@@ -484,6 +503,8 @@
         private DevExpress.XtraBars.BarButtonItem bbClearTranslate;
         private DevExpress.XtraBars.SkinDropDownButtonItem skinDropDownButtonItem1;
         private DevExpress.XtraBars.BarButtonItem bbGroupCustomization;
+        private DevExpress.XtraBars.BarButtonItem bbAddTranslation;
+        private DevExpress.XtraBars.PopupMenu pmRowMenu;
     }
 }
 
