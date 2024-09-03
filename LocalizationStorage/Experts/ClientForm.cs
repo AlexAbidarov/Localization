@@ -5,6 +5,7 @@ using DevExpress.Utils.Colors;
 using DevExpress.Utils.Text;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
+using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,12 @@ namespace LocalizationStorage {
             app.BackColor = color;
             app.ForeColor = ContrastColor.GetContrastForeColor(color); 
         }
+        protected override void OnFormClosing(FormClosingEventArgs e) {
+            base.OnFormClosing(e);
+            if(IsUnsavedData &&
+                XtraMessageBox.Show("There is unsaved data. Save?", "Data Set", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                SaveData();
+        }
         readonly string traslationName = "240414";
         void AddFirstTranslation() {
             string firstTranslatePath = $"{Settings.DataPath}\\{traslationName}.csv";
@@ -126,6 +133,7 @@ namespace LocalizationStorage {
             IOHelper.SaveLog(notFoundKeys, $"{traslationName}_Errors.txt");
             return countRows;
         }
+        bool IsUnsavedData => bbSave.Enabled;
         void RowUpdate(Func<int> update) {
             Cursor = Cursors.WaitCursor;
             gridView1.BeginUpdate();
@@ -138,10 +146,13 @@ namespace LocalizationStorage {
                 Cursor = Cursors.Default;
             }
         }
-        private void bbSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+        void SaveData() {
             IOHelper.CreateBakFile(Settings.GermanDataSetPath);
             Settings.MainDataSet.WriteXml(Settings.GermanDataSetPath, System.Data.XmlWriteMode.WriteSchema);
             bbSave.Enabled = false;
+        }
+        private void bbSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+            SaveData();
         }
         private void bbNoTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
@@ -175,8 +186,14 @@ namespace LocalizationStorage {
         void AddTranslation(BarItemLink link) {
             using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(link, gridView1))) {
                 if(form.ShowDialog() == DialogResult.OK &&
-                    !string.IsNullOrEmpty(form.Translation.Trim()))
-                    RowUpdate(() => Source.AddTranslation(form.English, form.Translation, TranslationStatus.Translated, form.Key, form.Path));
+                    !string.IsNullOrEmpty(form.Translation.Trim())) {
+                    if(LocalizationHelper.IsLastNewRow(form.Translation))
+                        XtraMessageBox.Show("We can't save the translation, there is a wrong line break", 
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
+                        RowUpdate(() => Source.AddTranslation(form.English, 
+                            form.Translation, TranslationStatus.Translated, form.Key, form.Path));
+                }
             }
         }
         private void bbComment_ItemClick(object sender, ItemClickEventArgs e) {

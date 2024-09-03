@@ -93,6 +93,10 @@ namespace LocalizationStorage {
             value = value.ToLower();
             return value;
         }
+        internal static bool IsLastNewRow(string line) {
+            return line.LastIndexOf("\r\n") == line.Length - 2;
+        }
+
     }
     public class Settings {
         public static void ClearData() {

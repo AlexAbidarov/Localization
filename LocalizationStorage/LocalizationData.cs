@@ -96,14 +96,25 @@ namespace LocalizationStorage {
                 (row) => SetRowValue(row, word, status),
                 key, pKey, path);
         }
+        bool IsStatusExist(object val, TranslationStatus[] list) {
+            foreach(var status in list)
+                if((int)status == (int)val) return true;
+            return false;
+        }
         public int AddNoNeedTranslate(string key, string pKey = null, string path = null) {
             return ChangeRowValue(
-                (row) => row[colStatus] = TranslationStatus.NoTranslationNeeded,
+                (row) => {
+                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { TranslationStatus.Problems }))
+                        row[colStatus] = TranslationStatus.NoTranslationNeeded;
+                },
                 key, pKey, path);
         }
         public int AddNotSure(string key, string pKey = null, string path = null) {
             return ChangeRowValue(
-                (row) => row[colStatus] = TranslationStatus.NotSure,
+                (row) => {
+                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { TranslationStatus.Problems }))
+                        row[colStatus] = TranslationStatus.NotSure;
+                },
                 key, pKey, path);
         }
         public int AddClear(string key, string pKey = null, string path = null) {
