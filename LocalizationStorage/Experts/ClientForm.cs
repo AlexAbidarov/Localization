@@ -18,7 +18,7 @@ namespace LocalizationStorage {
         DataTable firstTranslateTable = null;
         public ClientForm() {
             InitializeComponent();
-            this.IconOptions.ImageUri.Uri = "language;Size32x32;Svg";
+            this.IconOptions.ImageUri = "language;Size32x32;Svg";
             repositoryItemImageComboBox1.AddEnum(typeof(TranslationStatus), true);
             UIHelper.SortBySummary(gridView1, colEnglish, ColumnSortOrder.Descending);
             AddFirstTranslation();

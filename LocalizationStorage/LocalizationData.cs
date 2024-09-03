@@ -75,7 +75,7 @@ namespace LocalizationStorage {
         DataColumn colStatus = new DataColumn("Status", typeof(int));
         DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colComment = new DataColumn("Comment", typeof(string));
-        DataColumn colPicture = new DataColumn("Picture", typeof(string));
+        DataColumn colPicture = new DataColumn("Picture", typeof(byte[]));
         public ExpertDataTableDe() {
             TableName = Settings.deTableName;
             this.Columns.Add(colPath);
@@ -181,10 +181,14 @@ namespace LocalizationStorage {
                 TranslationDe result = new TranslationDe(string.Empty, $"{row[colEnglish]}");
                 int iStartRow = view.GetChildRowHandle(info.RowHandle, 0);
                 int iEndRow = view.GetChildRowHandle(info.RowHandle, view.GetChildRowCount(info.RowHandle) - 1);
+                string word = $"{view.GetDataRow(iStartRow)[colTranslate]}";
                 for(int i = iStartRow; i <= iEndRow; i++) {
                     row = view.GetDataRow(i);
+                    if(!string.IsNullOrEmpty(word) && !word.Equals($"{row[colTranslate]}"))
+                        word = string.Empty;
                     result.AddUserTranslation($"{row[colGerman]}");
                 }
+                result.Translation = word;
                 return result;
             }
         }

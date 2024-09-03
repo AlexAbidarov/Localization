@@ -82,7 +82,7 @@
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemImageComboBox1});
-            this.gridControl1.Size = new System.Drawing.Size(1074, 555);
+            this.gridControl1.Size = new System.Drawing.Size(1074, 570);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -106,6 +106,7 @@
             this.gridView1.FixedLineWidth = 1;
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.GroupCount = 1;
+            this.gridView1.GroupFormat = "[#image]{1} {2}";
             this.gridView1.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Count, "Key", null, "")});
             this.gridView1.Name = "gridView1";
@@ -261,11 +262,11 @@
             // 
             this.layoutControl1.Controls.Add(this.gridControl1);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layoutControl1.Location = new System.Drawing.Point(0, 46);
+            this.layoutControl1.Location = new System.Drawing.Point(0, 31);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1214, 348, 650, 400);
             this.layoutControl1.Root = this.Root;
-            this.layoutControl1.Size = new System.Drawing.Size(1098, 579);
+            this.layoutControl1.Size = new System.Drawing.Size(1098, 594);
             this.layoutControl1.TabIndex = 6;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -276,7 +277,7 @@
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1});
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(1098, 579);
+            this.Root.Size = new System.Drawing.Size(1098, 594);
             this.Root.TextVisible = false;
             // 
             // layoutControlItem1
@@ -284,7 +285,7 @@
             this.layoutControlItem1.Control = this.gridControl1;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(1078, 559);
+            this.layoutControlItem1.Size = new System.Drawing.Size(1078, 574);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
@@ -349,7 +350,7 @@
             // 
             this.barDockControl1.CausesValidation = false;
             this.barDockControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.barDockControl1.Location = new System.Drawing.Point(0, 46);
+            this.barDockControl1.Location = new System.Drawing.Point(0, 31);
             this.barDockControl1.Manager = this.toolbarFormManager1;
             this.barDockControl1.Size = new System.Drawing.Size(1098, 0);
             // 
@@ -365,17 +366,17 @@
             // 
             this.barDockControl3.CausesValidation = false;
             this.barDockControl3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControl3.Location = new System.Drawing.Point(0, 46);
+            this.barDockControl3.Location = new System.Drawing.Point(0, 31);
             this.barDockControl3.Manager = this.toolbarFormManager1;
-            this.barDockControl3.Size = new System.Drawing.Size(0, 579);
+            this.barDockControl3.Size = new System.Drawing.Size(0, 594);
             // 
             // barDockControl4
             // 
             this.barDockControl4.CausesValidation = false;
             this.barDockControl4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControl4.Location = new System.Drawing.Point(1098, 46);
+            this.barDockControl4.Location = new System.Drawing.Point(1098, 31);
             this.barDockControl4.Manager = this.toolbarFormManager1;
-            this.barDockControl4.Size = new System.Drawing.Size(0, 579);
+            this.barDockControl4.Size = new System.Drawing.Size(0, 594);
             // 
             // bbSave
             // 
@@ -419,7 +420,7 @@
             this.toolbarFormControl1.Location = new System.Drawing.Point(0, 0);
             this.toolbarFormControl1.Manager = this.toolbarFormManager1;
             this.toolbarFormControl1.Name = "toolbarFormControl1";
-            this.toolbarFormControl1.Size = new System.Drawing.Size(1098, 46);
+            this.toolbarFormControl1.Size = new System.Drawing.Size(1098, 31);
             this.toolbarFormControl1.TabIndex = 11;
             this.toolbarFormControl1.TabStop = false;
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbSave);
