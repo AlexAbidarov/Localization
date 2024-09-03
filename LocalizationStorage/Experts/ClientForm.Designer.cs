@@ -62,6 +62,7 @@
             this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
             this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.bbComment = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
@@ -343,8 +344,9 @@
             this.bbClearTranslate,
             this.skinDropDownButtonItem1,
             this.bbGroupCustomization,
-            this.bbAddTranslation});
-            this.toolbarFormManager1.MaxItemId = 10;
+            this.bbAddTranslation,
+            this.bbComment});
+            this.toolbarFormManager1.MaxItemId = 11;
             // 
             // barDockControl1
             // 
@@ -434,9 +436,17 @@
             this.pmRowMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.bbAddTranslation),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNoTranslate),
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbComment),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
             this.pmRowMenu.Manager = this.toolbarFormManager1;
             this.pmRowMenu.Name = "pmRowMenu";
+            // 
+            // bbComment
+            // 
+            this.bbComment.Caption = "Add Comment";
+            this.bbComment.Id = 10;
+            this.bbComment.Name = "bbComment";
+            this.bbComment.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbComment_ItemClick);
             // 
             // ClientForm
             // 
@@ -503,6 +513,7 @@
         private DevExpress.XtraBars.BarButtonItem bbGroupCustomization;
         private DevExpress.XtraBars.BarButtonItem bbAddTranslation;
         private DevExpress.XtraBars.PopupMenu pmRowMenu;
+        private DevExpress.XtraBars.BarButtonItem bbComment;
     }
 }
 

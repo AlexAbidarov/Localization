@@ -36,13 +36,14 @@ namespace LocalizationStorage {
         public TranslationDe() {
             IsGroup = false;
         }
-        public TranslationDe(string translation, string english, string german, string path, string key, string russian) : this() {
+        public TranslationDe(string translation, string english, string german, string path, string key, string russian, string comment) : this() {
             Translation = translation;
             English = english;
             German = german;
             Path = path;
             Key = key;
             Russian = russian;
+            Comment = comment;
         }
         public TranslationDe(string translation, string english) {
             Translation = translation;
@@ -56,6 +57,7 @@ namespace LocalizationStorage {
         public string Russian { get; set; }
         public string Path { get; set; }
         public string Key { get; set; }
+        public string Comment { get; set; }
         public void AddUserTranslation(string item) {
             if(Settings.IsNameEmpty(item)) return;
             var values = userTranslation.Where(x => x.Name == item).ToList();
@@ -73,8 +75,8 @@ namespace LocalizationStorage {
         DataColumn colGerman = new DataColumn("German", typeof(string));
         DataColumn colRussian = new DataColumn("Russian", typeof(string));
         DataColumn colStatus = new DataColumn("Status", typeof(int));
-        DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colComment = new DataColumn("Comment", typeof(string));
+        DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colPicture = new DataColumn("Picture", typeof(byte[]));
         public ExpertDataTableDe() {
             TableName = Settings.deTableName;
@@ -109,6 +111,11 @@ namespace LocalizationStorage {
                 (row) => SetRowValue(row, string.Empty, TranslationStatus.None),
                 key, pKey, path);
         }
+        public int AddComment(string key, string comment, string pKey, string path) {
+            return ChangeRowValue(
+                (row) => SetRowComment(row, comment, TranslationStatus.Problems),
+                key, pKey, path);
+        }
         int ChangeRowValue(Action<DataRow> change, string key, string pKey = null, string path = null) {
             int result = 0;
             foreach(DataRow row in this.Rows) {
@@ -124,6 +131,10 @@ namespace LocalizationStorage {
         }
         void SetRowValue(DataRow row, string @value, TranslationStatus status) {
             row[colTranslate] = @value;
+            row[colStatus] = status;
+        }
+        void SetRowComment(DataRow row, string @value, TranslationStatus status) {
+            row[colComment] = @value;
             row[colStatus] = status;
         }
         bool IsGroupRow(BarItemLink link) {
@@ -175,7 +186,7 @@ namespace LocalizationStorage {
             if(row == null) return new TranslationDe();
             if(!info.InGroupRow) {
                 return new TranslationDe($"{row[colTranslate]}", $"{row[colEnglish]}", $"{row[colGerman]}",
-                    $"{row[colPath]}", $"{row[colKey]}", $"{row[colRussian]}");
+                    $"{row[colPath]}", $"{row[colKey]}", $"{row[colRussian]}", $"{row[colComment]}");
             }
             else {
                 TranslationDe result = new TranslationDe(string.Empty, $"{row[colEnglish]}");

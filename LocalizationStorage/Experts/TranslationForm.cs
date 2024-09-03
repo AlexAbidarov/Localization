@@ -22,16 +22,20 @@ namespace LocalizationStorage {
                 mainControl = new GroupRowTranslation(info);
             } 
             else
-                mainControl = new RowTranslation(info);
+                mainControl = CreateRowControl(info);
             mainControl.Parent = pnlContainer;
             this.Size = mainControl.Size;
             this.Location = new Point(owner.Location.X + (owner.Width - Width) / 2, owner.Location.Y + (owner.Height - Height) / 2);
             mainControl.Dock = DockStyle.Fill;
         }
+        protected virtual TranslatinUserControl CreateRowControl(TranslationDe info) {
+            return new RowTranslation(info);
+        }
         public string Translation => mainControl.Translation;
         public string English => mainControl.English;
         public string Key => mainControl.Key;
         public string Path => mainControl.Path;
+        public string Comment => mainControl.Comment;
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TranslationForm));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();

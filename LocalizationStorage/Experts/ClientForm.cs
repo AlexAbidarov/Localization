@@ -36,6 +36,7 @@ namespace LocalizationStorage {
             bbClearTranslate.ImageOptions.ImageUri = "richeditclearformatting;Size16x16;Svg";
             bbTranslate.ImageOptions.ImageUri = "spreadsheet/group;Size16x16;Svg";
             bbGroupCustomization.ImageOptions.ImageUri = "treemap;Size16x16;Svg";
+            bbComment.ImageOptions.ImageUri = "actions_comment;Size16x16;Svg";
             gridView1.PopupMenuShowing += (s, e) => {
                 if(e.HitInfo.InGroupRow) {
                     pmGroupRowMenu.Tag = e.HitInfo;
@@ -96,6 +97,7 @@ namespace LocalizationStorage {
                     });
                 button.ImageOptions.ImageUri.Uri = "business_idea;Size16x16;Svg";
                 button.ToolTip = $"Show {traslationName}_DX Data";
+                //gridView1.FindPanelItems.AddButton(string.Empty, "Test", (s, args) => {});
                 gridView1.ShowFindPanel();
             }
         }
@@ -175,6 +177,14 @@ namespace LocalizationStorage {
                 if(form.ShowDialog() == DialogResult.OK &&
                     !string.IsNullOrEmpty(form.Translation.Trim()))
                     RowUpdate(() => Source.AddTranslation(form.English, form.Translation, TranslationStatus.Translated, form.Key, form.Path));
+            }
+        }
+        private void bbComment_ItemClick(object sender, ItemClickEventArgs e) {
+            using(CommentForm form = new CommentForm(this, Source.GetTranslationObjectByRow(e.Link, gridView1))) {
+                if(form.ShowDialog() == DialogResult.OK &&
+                    !string.IsNullOrEmpty(form.Comment))
+                    RowUpdate(() => Source.AddComment(
+                        form.English, form.Comment, form.Key, form.Path));
             }
         }
     }

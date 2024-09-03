@@ -60,6 +60,9 @@
     <Compile Include="Experts\Objects.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Experts\Comment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Experts\RowTranslation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -103,6 +106,9 @@
     <Compile Include="Experts\GroupRowTranslation.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="Experts\Comment.resx">
+      <DependentUpon>Comment.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Experts\RowTranslation.resx">
       <DependentUpon>RowTranslation.cs</DependentUpon>
     </EmbeddedResource>
