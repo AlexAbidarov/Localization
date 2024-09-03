@@ -1,0 +1,182 @@
+1. is the value you want to test. Value can refer to a cell
+2. is the security's settlement date expressed as a serial date number
+3. The specified expression contains invalid symbols (line {0} character {1}).
+4. is a parameter to the distribution a positive number
+5. is the denominator degrees of freedom a number between 1 and 10^10 excluding 10^10
+6. is a logical value: for the cumulative distribution function use TRUE; for the probability density function use FALSE
+7. is the security's issue date expressed as a serial date number
+8. is the interest rate per period. For example use 6%/4 for quarterly payments at 6% APR
+9. is an optional upper bound to the interval of x. If omitted  B = 1
+10. Between (Specifies a range to test. Returns true if a value is greater than or equal to the first operand and less than or equal to the second operand.
+11. is the security's maturity date expressed as a serial date number
+12. Print Option
+13. is the numerator degrees of freedom  a number between 1 and 10^10  excluding 10^10
+14. are 1 to 255 numbers or names arrays or references that contain numbers for which you want the mode
+15. is a logical value: for the cumulative distribution function  use TRUE; for the probability mass function use FALSE
+16. is the standard deviation of the distribution a positive number
+17. is an optional lower bound to the interval of x. If omitted A = 0
+18. is a probability corresponding to the normal distributiona number between 0 and 1 inclusive
+19. For example 5-12
+20. Create multiple groups each with a single field value or define several fields in the same group.
+21. Select a printer number of copies and other printing options before printing.
+22. Export the current document in one of the available formats
+23. Represents a null reference one that does not refer to any object.
+24. Returns true if both operands have the same value; otherwise it returns false.
+25. Returns true if the operands do not have the same value; otherwise it returns false.
+26. In ()Tests for the existence of a property in an object.
+27. Compares a string against a pattern. If the value of the string matches the pattern result is true. If the string does not match the pattern result is false. If both string and pattern are empty strings the result is true.
+28. Path does not exist. Check the path and try again.
+29. Select a printer number of copies and other printing options before printing.
+30. is an array of or a reference to a list of numbers. Nonnumeric values are ignored
+31. is the significance level used to compute the confidence level a number greater than 0 and less than 1
+32. is a probability associated with the F cumulative distribution a number between 0 and 1 inclusive
+33. is an optional value that identifies the number of significant digits for the returned percentage three digits if omitted (0.xxx%)
+34. is the probability associated with the two-tailed Student's t-distributiona number between 0 and 1 inclusive
+35. is the Treasury bill's maturity date expressed as a serial date number
+36. Avg of {1} is {0:0.##}
+37. Unable to load the PDF document because the following file is not available or it is not a valid PDF document. Please ensure that the application can access this file and that it is validor specify a different file.
+38. Open the Thumbnails which allows you to navigate through the document.
+39. To change your password please enter your old and new passwords in the text fields below.
+40. Enter a new password for the user or accept the auto-generated one then make the password available to the user.
+41. Create a link to a Web page a picture an e-mail address or a program.
+42. Insert symbols that are not on your keyboard such as copyright symbols trademark symbols paragraph marks and Unicode characters.
+43. First Across then Down
+44. First Down then Across
+45. is the number of digits to which you want to round. Negative rounds to the left of the decimal point; zero or omitted to the nearest integer
+46. is the probability associated with the gamma distributiona number between 0 and 1 inclusive
+47. is the condition or criteria in the form of a number expression or text that defines which cells will be added
+48. is the condition in the form of a number expression or text that defines which cells will be counted
+49. is an optional array of one or more serial date numbers to exclude from the working calendar such as state and federal holidays and floating holidays
+50. is an optional set of one or more serial date numbers to exclude from the working calendar such as state and federal holidays and floating holidays
+51. is the condition or criteria in the form of a number expression or text that defines which cells will be used to find the average
+52. Returns the confidence interval for a population mean using a normal distribution.
+53. Rounds a number downto the nearest integer or to the nearest multiple of significance.
+54. Use this chart type to: Show proportions of a whole and emphasize individual values. Consider using a pie chart and explode individual values instead.
+55. Indicates the current vertical position and can be dragged to change it directly
+56. Indicates the current horizontal position and can be dragged to change it directly
+57. Down then over
+58. To insert a page number date  time file path filename or tab name: position the insertion point in the edit box then choose the appropriate button.
+59. The specified {0} parameter type doesn't match the appropriate scale type which is {1} for this axis.
+60. Apply a color gradient to a range of cells in this column. The color indicates where each cell falls within that range.
+61. Add a colored data bar to represent the value in a cell. The higher the value the longer the bar.
+62. Abs(Value) Returns the absolute positive value of the given numeric expression.
+63. Acos(Value) Returns the arccosine of a number (the angle in radians whose cosine is the given float expression).
+64. AddDays(DateTime DaysCount) Returns a date-time value that is the specified number of days away from the specified DateTime.
+65. AddMilliSeconds(DateTime MilliSecondsCount) Returns a date-time value that is the specified number of milliseconds away from the specified DateTime.
+66. AddMinutes(DateTime MinutesCount) Returns a date-time value that is the specified number of minutes away from the specified DateTime.
+67. AddMonths(DateTime  MonthsCount) Returns a date-time value that is the specified number of months away from the specified DateTime.
+68. AddSeconds(DateTime SecondsCount) Returns a date-time value that is the specified number of seconds away from the specified DateTime.
+69. AddTicks(DateTime TicksCount) Returns a date-time value that is the specified number of ticks away from the specified DateTime.
+70. AddTimeSpan(DateTime TimeSpan) Returns a date-time value that is away from the specified DateTime for the given TimeSpan.
+71. AddYears(DateTime YearsCount) Returns a date-time value that is the specified number of years away from the specieid DateTime.
+72. Ascii(String) Returns the ASCII code value of the leftmost character in a character expression.
+73. Asin(Value) Returns the arcsine of a number (the angle  in radians whose sine is the given float expression).
+74. Atn(Value) Returns the arctangent of a number (the angle in radians whose tangent is the given float expression).
+75. Atn2(Value1  Value2) Returns the angle whose tangent is the quotient of two specified numbers  in radians.
+76. BigMul(Value1 Value2) Returns an Int64 containing the full product of two specified 32-bit numbers.
+77. Ceiling(Value) Returns the smallest integer that is greater than or equal to the given numeric expression.
+78. Char(Number) Converts an integerASCIICode to a character.
+79. CharIndex(String1 String2) Returns the starting position of String1 within String2 beginning from the zero character position to the end of a string.
+80. CharIndex(String1 String2 Returns the starting position of String1 within String2 StartLocation) beginning from the StartLocation character position to the end of a string.
+81. Concat(String1 StringN) Returns a string value containing the concatenation of the current string with any additional strings.
+82. Cos(Value) Returns the cosine of the angle defined in radians.
+83. Cosh(Value) Returns the hyperbolic cosine of the angle defined in radians.
+84. DateDiffDay(startDate endDate) Returns the number of day boundaries between two non-nullable dates.
+85. DateDiffHour(startDate end Date) Returns the number of hour boundaries between two non-nullable dates.
+86. DateDiffMilliSecond(startDate endDate) Returns the number of millisecond boundaries between two non-nullable dates.
+87. DateDiffMinute(startDate endDate) Returns the number of minute boundaries between two non-nullable dates.
+88. DateDiffMonth(startDate endDate) Returns the number of month boundaries between two non-nullable dates.
+89. DateDiffSecond(startDate endDate) Returns the number of second boundaries between two non-nullable dates.
+90. DateDiffTick(startDate endDate) Returns the number of tick boundaries between two non-nullable dates.
+91. DateDiffYear(startDate endDate) Returns the number of year boundaries between two non-nullable dates.
+92. Exp(Value) Returns the exponential value of the given float expression.
+93. Floor(Value) Returns the largest integer less than or equal to the given numeric expression.
+94. GetDate(DateTime) Extracts a date from the defined DateTime.
+95. GetDay(DateTime) Extracts a day from the defined DateTime.
+96. GetDayOfWeek(DateTime) Extracts a day of the week from the defined DateTime.
+97. GetDayOfYear(DateTime) Extracts a day of the year from the defined DateTime.
+98. GetHour(DateTime) Extracts an hour from the defined DateTime.
+99. GetMilliSecond(DateTime) Extracts milliseconds from the defined DateTime.
+100. GetMinute(DateTime) Extracts minutes from the defined DateTime.
+101. GetMonth(DateTime) Extracts a month from the defined DateTime.
+102. GetSecond(DateTime) Extracts seconds from the defined DateTime.
+103. GetTimeOfDay(DateTime) Extracts the time of the day from the defined DateTime in ticks.
+104. GetYear(DateTime) Extracts a year from the defined DateTime.
+105. Iif(Expression TruePart FalsePart) Returns either TruePart or FalsePart depending on the evaluation of the Boolean Expression.
+106. Insert(String1 StartPosition String2) Inserts String2 into String1 at the position specified by StartPositon
+107. IsNull(Value) Returns True if the specified Value is NULL.
+108. IsNullOrEmpty(String) Returns True if the specified String object is NULL or an empty string; otherwise False is returned.
+109. Len(Value) Returns an integer containing either the number of characters in a string or the nominal number of bytes required to store a variable.
+110. Log(Value) Returns the natural logarithm of a specified number.
+111. Log(Value  Base) Returns the logarithm of a specified number in a specified Base.
+112. Log10(Value) Returns the base 10 logarithm of a specified number.
+113. Lower(String) Returns the String in lowercase.
+114. Now() Returns the current system date and time.
+115. PadLeft(String Length) Left-aligns characters in the defined string  padding its left side with white space characters up to a specified total length.
+116. PadLeft(String Length Char) Left-aligns characters in the defined string padding its left side with the specified Char up to a specified total length.
+117. PadRight(String Length) Right-aligns characters in the defined string  padding its left side with white space characters up to a specified total length.
+118. PadRight(String Length Char) Right-aligns characters in the defined string padding its left side with the specified Char up to a specified total length.
+119. Power(Value Power) Returns a specified number raised to a specified power.
+120. Replace(String SubString2 String3) Returns a copy of String1 in which SubString2 has been replaced with String3.
+121. Reverse(String) Reverses the order of elements within a string.
+122. Rnd() Returns a random number that is less than 1 but greater than or equal to zero.
+123. Round(Value) Rounds the given value to the nearest integer.
+124. Round(Value Precision) Rounds the given value to the nearest integer or to a specified number of decimal places.
+125. Sign(Value) Returns the positive (+1) zero (0) or negative (-1) sign of the given expression.
+126. Sin(Value) Returns the sine of the angle defined in radians.
+127. Sinh(Value) Returns the hyperbolic sine of the angle defined in radians.
+128. Sqr(Value) Returns the square root of a given number.
+129. Substring(String StartPosition Length) Retrieves a substring from String. The substring starts at StartPosition and has the specified Length.
+130. Substring(String StartPosition) Retrieves a substring from String. The substring starts at StartPosition.
+131. Tan(Value) Returns the tangent of the angle defined in radians.
+132. Tanh(Value) Returns the hyperbolic tangent of the angle defined in radians.
+133. Today() Returns the current date. Regardless of the actual time this function returns midnight of the current date.
+134. ToInt(Value) Converts Value to an equivalent 32-bit signed integer.
+135. ToLong(Value) Converts Value to an equivalent 64-bit signed integer.
+136. ToFloat(Value) Converts Value to an equivalent 32-bit single-precision floating-point number.
+137. ToDouble(Value) Converts Value to an equivalent 64-bit double-precision floating-point number.
+138. ToDecimal(Value) Converts Value to an equivalent decimal number.
+139. ToStr(Value) Returns a string representation of an object.
+140. Trim(String) Removes all leading and trailing SPACE characters from String.
+141. Upper(String) Returns String in uppercase.
+142. UtcNow() Returns the current system date and time expressed as Coordinated Universal Time (UTC).
+143. LocalDateTimeDayAfterTomorrow() Returns a date-time value corresponding to the day after Tomorrow.
+144. LocalDateTimeLastWeek() Returns a date-time value corresponding to the first day of the previous week.
+145. LocalDateTimeNextMonth() Returns a date-time value corresponding to the first day of next month.
+146. LocalDateTimeNextWeek() Returns a date-time value corresponding to the first day of the following week.
+147. LocalDateTimeNextYear() Returns a date-time value corresponding to the first day of the following year.
+148. LocalDateTimeNow() Returns a date-time value corresponding to the current moment in time.
+149. LocalDateTimeThisMonth() Returns a date-time value corresponding to the first day of the current month.
+150. LocalDateTimeThisWeek() Returns a date-time value corresponding to the first day of the current week.
+151. LocalDateTimeThisYear() Returns a date-time value corresponding to the first day of the current year.
+152. LocalDateTimeToday() Returns a date-time value corresponding to Today.
+153. LocalDateTimeTomorrow() Returns a date-time value corresponding to Tomorrow.
+154. LocalDateTimeTwoWeeksAway() Returns a date-time value corresponding to the first day of the week that is after next week.
+155. LocalDateTimeYesterday() Returns a date-time value corresponding to Yesterday.
+156. StartsWith(String StartString) Returns True if the beginning of String matches StartString; otherwise False is returned.
+157. EndsWith(String EndString) Returns True if the end of String matches EndString; otherwise False is returned.
+158. Contains(String  SubString) Returns True if SubString occurs within String; otherwise False is returned.
+159. Adds the value of one numeric expression to another or concatenates two strings.
+160. Compares each bit of its first operand to the corresponding bit of its second operand. If either bit is 1 the corresponding result bit is set to 1. Otherwise the corresponding result bit is set to 0.
+161. Performs a logical exclusion on two Boolean expressions or a bitwise exclusion on two numeric expressions.
+162. Field Information Caption: {1} The type of this field is: {2}
+163. Max(Value1 Value2) Returns the maximum value from the specified values.
+164. Min(Value1 Value2) Returns the minimum value from the specified values.
+165. IsThisWeek(DateTime) Returns True if the specified date falls within the current week.
+166. IsThisMonth(DateTime) Returns True if the specified date falls within the current month.
+167. IsThisYear(DateTime) Returns True if the specified date falls within the current year.
+168. Max(Value) Returns the maximum expression value in a collection.
+169. Min(Value) Returns the minimum expression value in a collection.
+170. Single() Returns a single object from the collection.
+171. Avg={0:0.##}
+172. Unable to import the specified data into the document form. {0} Please ensure that the provided data meets the {1} specification.
+173. The document is trying to access an external resource by using the following URL:'{0}' Do you want to open it nevertheless?
+174. For example: 1 3 5 -12
+175. Do you want to edit all occurrences of the recurring appointment "{0}" or just this one?
+176. Add change or remove words from your custom dictionary.
+177. The selected border style can be applied by clicking the presets preview diagram or the buttons above.
+178. Insert a bar chart. Bar charts are the best chart type for comparing multiple values.
+179. Top margin
+180. Vertical pitch
+181. Number Down
+182. Caution: If you lose or forget the password it cannot be recovered. It is advisable to keep a list of passwords and their corresponding document names in a safe place. (Remember that passwords are case-sensitive.)(2/2)
