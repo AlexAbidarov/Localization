@@ -1,4 +1,6 @@
 ﻿using DevExpress.XtraEditors;
+using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -180,6 +182,14 @@ namespace LocalizationStorage {
         protected override bool ProcessDialogKey(Keys keyData) {
             if(keyData == Keys.Escape) Close();
             return false;
+        }
+        protected override void OnClosing(CancelEventArgs e) {
+            base.OnClosing(e);
+            if(DialogResult == DialogResult.OK && LocalizationHelper.IsLastNewRow(Translation)) {
+                XtraMessageBox.Show("We can't save the translation, there is a wrong line break.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Cancel = true;
+            }
         }
     }
 }

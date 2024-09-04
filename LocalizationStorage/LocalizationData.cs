@@ -124,7 +124,7 @@ namespace LocalizationStorage {
         }
         public int AddComment(string key, string comment, string pKey, string path) {
             return ChangeRowValue(
-                (row) => SetRowComment(row, comment, TranslationStatus.Problems),
+                (row) => SetRowComment(row, comment, string.IsNullOrEmpty(comment) ? TranslationStatus.None : TranslationStatus.Problems),
                 key, pKey, path);
         }
         int ChangeRowValue(Action<DataRow> change, string key, string pKey = null, string path = null) {
@@ -146,7 +146,9 @@ namespace LocalizationStorage {
         }
         void SetRowComment(DataRow row, string @value, TranslationStatus status) {
             row[colComment] = @value;
-            row[colStatus] = status;
+            if((status == TranslationStatus.None && IsStatusExist(row[colStatus], 
+                new TranslationStatus[] { TranslationStatus.Problems })) || status == TranslationStatus.Problems)
+                row[colStatus] = status;
         }
         bool IsGroupRow(BarItemLink link) {
             var info = UIHelper.GetGridHitInfoByLink(link);

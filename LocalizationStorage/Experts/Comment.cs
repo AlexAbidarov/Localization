@@ -15,7 +15,6 @@ namespace LocalizationStorage {
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem3;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
-        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private MemoEdit meComment;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
@@ -38,6 +37,7 @@ namespace LocalizationStorage {
         public override string Path => tePath.Text;
         private void InitializeComponent() {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.meComment = new DevExpress.XtraEditors.MemoEdit();
             this.teRussian = new DevExpress.XtraEditors.TextEdit();
             this.teGerman = new DevExpress.XtraEditors.TextEdit();
             this.teEnglish = new DevExpress.XtraEditors.TextEdit();
@@ -51,11 +51,10 @@ namespace LocalizationStorage {
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem3 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.meComment = new DevExpress.XtraEditors.MemoEdit();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.meComment.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teRussian.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teGerman.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teEnglish.Properties)).BeginInit();
@@ -69,8 +68,6 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.meComment.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,13 +83,21 @@ namespace LocalizationStorage {
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.Root = this.Root;
-            this.layoutControl1.Size = new System.Drawing.Size(863, 391);
+            this.layoutControl1.Size = new System.Drawing.Size(863, 349);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // meComment
+            // 
+            this.meComment.Location = new System.Drawing.Point(4, 20);
+            this.meComment.Name = "meComment";
+            this.meComment.Size = new System.Drawing.Size(855, 144);
+            this.meComment.StyleController = this.layoutControl1;
+            this.meComment.TabIndex = 12;
+            // 
             // teRussian
             // 
-            this.teRussian.Location = new System.Drawing.Point(77, 232);
+            this.teRussian.Location = new System.Drawing.Point(77, 265);
             this.teRussian.Name = "teRussian";
             this.teRussian.Properties.ReadOnly = true;
             this.teRussian.Size = new System.Drawing.Size(770, 20);
@@ -101,7 +106,7 @@ namespace LocalizationStorage {
             // 
             // teGerman
             // 
-            this.teGerman.Location = new System.Drawing.Point(77, 208);
+            this.teGerman.Location = new System.Drawing.Point(77, 241);
             this.teGerman.Name = "teGerman";
             this.teGerman.Properties.ReadOnly = true;
             this.teGerman.Size = new System.Drawing.Size(770, 20);
@@ -110,7 +115,7 @@ namespace LocalizationStorage {
             // 
             // teEnglish
             // 
-            this.teEnglish.Location = new System.Drawing.Point(65, 135);
+            this.teEnglish.Location = new System.Drawing.Point(65, 168);
             this.teEnglish.Name = "teEnglish";
             this.teEnglish.Properties.Appearance.BackColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Question;
             this.teEnglish.Properties.Appearance.FontSizeDelta = 4;
@@ -125,7 +130,7 @@ namespace LocalizationStorage {
             // 
             // teKey
             // 
-            this.teKey.Location = new System.Drawing.Point(77, 280);
+            this.teKey.Location = new System.Drawing.Point(77, 313);
             this.teKey.Name = "teKey";
             this.teKey.Properties.ReadOnly = true;
             this.teKey.Size = new System.Drawing.Size(770, 20);
@@ -134,7 +139,7 @@ namespace LocalizationStorage {
             // 
             // tePath
             // 
-            this.tePath.Location = new System.Drawing.Point(77, 256);
+            this.tePath.Location = new System.Drawing.Point(77, 289);
             this.tePath.Name = "tePath";
             this.tePath.Properties.ReadOnly = true;
             this.tePath.Size = new System.Drawing.Size(770, 20);
@@ -149,17 +154,16 @@ namespace LocalizationStorage {
             this.layoutControlItem3,
             this.layoutControlGroup1,
             this.emptySpaceItem3,
-            this.emptySpaceItem1,
             this.layoutControlItem6});
             this.Root.Name = "Root";
             this.Root.Padding = new DevExpress.XtraLayout.Utils.Padding(2, 2, 2, 2);
-            this.Root.Size = new System.Drawing.Size(863, 391);
+            this.Root.Size = new System.Drawing.Size(863, 349);
             this.Root.TextVisible = false;
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.teEnglish;
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 131);
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 164);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(859, 30);
             this.layoutControlItem3.Text = "English:";
@@ -172,7 +176,7 @@ namespace LocalizationStorage {
             this.layoutControlItem5,
             this.layoutControlItem1,
             this.layoutControlItem2});
-            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 171);
+            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 204);
             this.layoutControlGroup1.Name = "layoutControlGroup1";
             this.layoutControlGroup1.Size = new System.Drawing.Size(859, 141);
             this.layoutControlGroup1.Text = "Current Translation";
@@ -216,7 +220,7 @@ namespace LocalizationStorage {
             // emptySpaceItem3
             // 
             this.emptySpaceItem3.AllowHotTrack = false;
-            this.emptySpaceItem3.Location = new System.Drawing.Point(0, 161);
+            this.emptySpaceItem3.Location = new System.Drawing.Point(0, 194);
             this.emptySpaceItem3.MaxSize = new System.Drawing.Size(0, 10);
             this.emptySpaceItem3.MinSize = new System.Drawing.Size(10, 10);
             this.emptySpaceItem3.Name = "emptySpaceItem3";
@@ -224,41 +228,24 @@ namespace LocalizationStorage {
             this.emptySpaceItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.emptySpaceItem3.TextSize = new System.Drawing.Size(0, 0);
             // 
-            // emptySpaceItem1
-            // 
-            this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 312);
-            this.emptySpaceItem1.MinSize = new System.Drawing.Size(104, 4);
-            this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(859, 75);
-            this.emptySpaceItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
-            // 
-            // meComment
-            // 
-            this.meComment.Location = new System.Drawing.Point(4, 29);
-            this.meComment.Name = "meComment";
-            this.meComment.Size = new System.Drawing.Size(855, 102);
-            this.meComment.StyleController = this.layoutControl1;
-            this.meComment.TabIndex = 12;
-            // 
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.meComment;
             this.layoutControlItem6.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(859, 131);
+            this.layoutControlItem6.Size = new System.Drawing.Size(859, 164);
             this.layoutControlItem6.Text = "Comment:";
             this.layoutControlItem6.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem6.TextSize = new System.Drawing.Size(49, 13);
             // 
-            // Comment
+            // CommentControl
             // 
             this.Controls.Add(this.layoutControl1);
-            this.Name = "Comment";
-            this.Size = new System.Drawing.Size(863, 391);
+            this.Name = "CommentControl";
+            this.Size = new System.Drawing.Size(863, 349);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.meComment.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teRussian.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teGerman.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teEnglish.Properties)).EndInit();
@@ -272,8 +259,6 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.meComment.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             this.ResumeLayout(false);
 

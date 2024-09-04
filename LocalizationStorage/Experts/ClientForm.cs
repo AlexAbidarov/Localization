@@ -179,7 +179,6 @@ namespace LocalizationStorage {
         private void bbGroupCustomization_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             gridView1.LayoutChanged();
         }
-
         private void bbAddTranslation_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             AddTranslation(e.Link);
         }
@@ -187,19 +186,14 @@ namespace LocalizationStorage {
             using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(link, gridView1))) {
                 if(form.ShowDialog() == DialogResult.OK &&
                     !string.IsNullOrEmpty(form.Translation.Trim())) {
-                    if(LocalizationHelper.IsLastNewRow(form.Translation))
-                        XtraMessageBox.Show("We can't save the translation, there is a wrong line break", 
-                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    else
-                        RowUpdate(() => Source.AddTranslation(form.English, 
-                            form.Translation, TranslationStatus.Translated, form.Key, form.Path));
+                    RowUpdate(() => Source.AddTranslation(form.English,
+                        form.Translation, TranslationStatus.Translated, form.Key, form.Path));
                 }
             }
         }
         private void bbComment_ItemClick(object sender, ItemClickEventArgs e) {
             using(CommentForm form = new CommentForm(this, Source.GetTranslationObjectByRow(e.Link, gridView1))) {
-                if(form.ShowDialog() == DialogResult.OK &&
-                    !string.IsNullOrEmpty(form.Comment))
+                if(form.ShowDialog() == DialogResult.OK)
                     RowUpdate(() => Source.AddComment(
                         form.English, form.Comment, form.Key, form.Path));
             }
