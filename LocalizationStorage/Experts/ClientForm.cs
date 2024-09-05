@@ -26,7 +26,8 @@ namespace LocalizationStorage {
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
             SetRowVisualInfo();
-            bHeader.Caption = "Localization Storage\r\n(German)";
+            bHeader.Caption = $"Localization Storage (German)\r\nUser: {Environment.UserName}";
+            //bsUser.Caption = $"{Info}";
             SplashScreenManager.CloseForm();
         }
         void SetRowMenu() {
@@ -64,6 +65,11 @@ namespace LocalizationStorage {
                         SetColor(e.Appearance, DXSkinColorHelper.GetDXSkinColor(DXSkinColors.FillColors.Warning, 255, LookAndFeel));
                 }
             };
+            gridView1.KeyDown += (s, e) => {
+                if((e.KeyData == Keys.Space || e.KeyData == Keys.Enter) &&
+                    gridView1.IsValidRowHandle(gridView1.FocusedRowHandle))
+                    AddTranslation(gridView1.FocusedRowHandle);
+            };
         }
         void UpdateAppearance(AppearanceObject app, int status) {
             switch(status) {
@@ -79,11 +85,14 @@ namespace LocalizationStorage {
                 case 4://TranslationStatus.Problems:
                     SetColor(app, DXSkinColors.FillColors.Danger);
                     break;
+                case 5://Automatic:
+                    SetColor(app, Color.LightBlue);
+                    break;
             }
         }
-        void SetColor(AppearanceObject app, Color color) { 
+        void SetColor(AppearanceObject app, Color color, object foreColor = null) { 
             app.BackColor = color;
-            app.ForeColor = ContrastColor.GetContrastForeColor(color); 
+            app.ForeColor = foreColor == null ? ContrastColor.GetContrastForeColor(color) : (Color)foreColor;
         }
         protected override void OnFormClosing(FormClosingEventArgs e) {
             base.OnFormClosing(e);
@@ -104,7 +113,9 @@ namespace LocalizationStorage {
                     });
                 button.ImageOptions.ImageUri.Uri = "business_idea;Size16x16;Svg";
                 button.ToolTip = $"Show {traslationName}_DX Data";
-                //gridView1.FindPanelItems.AddButton(string.Empty, "Test", (s, args) => {});
+                gridView1.FindPanelItems.AddButton(string.Empty, "Automatic translation", (s, args) => {
+                    RowUpdate(() => DoAutomaticTranslate());
+                });
                 gridView1.ShowFindPanel();
             }
         }
@@ -117,6 +128,18 @@ namespace LocalizationStorage {
                 MessageBox.Show($"DataFile {Settings.GermanDataSetPath} is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
+        }
+        int DoAutomaticTranslate() {
+            gridView1.CollapseAllGroups();
+            int groupRowCount = gridView1.RowCount;
+            for(int i = -1; i >= -groupRowCount; i--) {
+                if(gridView1.IsGroupRow(i)) {
+                    string key = Source.GetEnglishKey(i, gridView1);
+                   //TODO 
+                }
+            }
+            
+            return 1;
         }
         int DoSync() {
             List<string> notFoundKeys = new List<string>();
@@ -183,7 +206,13 @@ namespace LocalizationStorage {
             AddTranslation(e.Link);
         }
         void AddTranslation(BarItemLink link) {
-            using(TranslationForm form = new TranslationForm(this, Source.GetTranslationObjectByRow(link, gridView1))) {
+            AddTranslation(Source.GetTranslationObjectByRow(link, gridView1));
+        }
+        void AddTranslation(int rowHandle) {
+            AddTranslation(Source.GetTranslationObjectByRow(rowHandle, gridView1));
+        }
+        void AddTranslation(TranslationDe userTranslation) {
+            using(TranslationForm form = new TranslationForm(this, userTranslation)) {
                 if(form.ShowDialog() == DialogResult.OK &&
                     !string.IsNullOrEmpty(form.Translation.Trim())) {
                     RowUpdate(() => Source.AddTranslation(form.English,

@@ -17,7 +17,9 @@ namespace LocalizationStorage {
         NoTranslationNeeded = 2,
         [Display(Name = "Not Sure")]
         NotSure = 3,
-        Problems = 4
+        Problems = 4,
+        [Display(Name = "Is Accepted Automatically")]
+        IsAcceptedAutomatically = 5
     };
     public class UserTranslation { 
         public UserTranslation(string name) {
@@ -78,6 +80,7 @@ namespace LocalizationStorage {
         DataColumn colComment = new DataColumn("Comment", typeof(string));
         DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colPicture = new DataColumn("Picture", typeof(byte[]));
+        DataColumn colUser = new DataColumn("User", typeof(string));
         public ExpertDataTableDe() {
             TableName = Settings.deTableName;
             this.Columns.Add(colPath);
@@ -90,6 +93,7 @@ namespace LocalizationStorage {
             this.Columns.Add(colNotes);
             this.Columns.Add(colComment);
             this.Columns.Add(colPicture);
+            this.Columns.Add(colUser);
         }
         public int AddTranslation(string key, string word, TranslationStatus status = TranslationStatus.Translated, string pKey = null, string path = null) {
             return ChangeRowValue(
@@ -106,6 +110,15 @@ namespace LocalizationStorage {
                 (row) => {
                     if(!IsStatusExist(row[colStatus], new TranslationStatus[] { TranslationStatus.Problems }))
                         row[colStatus] = TranslationStatus.NoTranslationNeeded;
+                },
+                key, pKey, path);
+        }
+        internal int AddAutomaticTranslate(string key, string pKey = null, string path = null) {
+            return ChangeRowValue(
+                (row) => {
+                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { 
+                        TranslationStatus.Problems, TranslationStatus.Translated, TranslationStatus.NotSure }))
+                        row[colStatus] = TranslationStatus.IsAcceptedAutomatically;
                 },
                 key, pKey, path);
         }
@@ -135,6 +148,7 @@ namespace LocalizationStorage {
                     if(!string.IsNullOrEmpty(pKey)
                         && (pKey != $"{row[colKey]}" || path != $"{row[colPath]}")) continue;
                     change(row);
+                    //row[colUser] = Environment.UserName; //TODO
                     result++;
                 }
             }
@@ -173,6 +187,11 @@ namespace LocalizationStorage {
             if(row == null) return null;
             return $"{row[colEnglish]}";
         }
+        public string GetEnglishKey(int rowHandle, GridView view) {
+            var row = UIHelper.GetDataRow(rowHandle, view);
+            if(row == null) return null;
+            return $"{row[colEnglish]}";
+        }
         TranslationStatus GetStatus(int rowHandle, GridView view) {
             DataRow row = view.GetDataRow(rowHandle);
             var result = row[colStatus];
@@ -193,18 +212,17 @@ namespace LocalizationStorage {
             }
             return TranslationStatus.None;
         }
-        public TranslationDe GetTranslationObjectByRow(BarItemLink link, GridView view) {
-            GridHitInfo info = UIHelper.GetGridHitInfoByLink(link);
-            var row = UIHelper.GetDataRowByLink(link, view);
+        public TranslationDe GetTranslationObjectByRow(int rowHandle, GridView view) {
+            var row = UIHelper.GetDataRow(rowHandle, view);
             if(row == null) return new TranslationDe();
-            if(!info.InGroupRow) {
+            if(!view.IsGroupRow(rowHandle)) {
                 return new TranslationDe($"{row[colTranslate]}", $"{row[colEnglish]}", $"{row[colGerman]}",
                     $"{row[colPath]}", $"{row[colKey]}", $"{row[colRussian]}", $"{row[colComment]}");
             }
             else {
                 TranslationDe result = new TranslationDe(string.Empty, $"{row[colEnglish]}");
-                int iStartRow = view.GetChildRowHandle(info.RowHandle, 0);
-                int iEndRow = view.GetChildRowHandle(info.RowHandle, view.GetChildRowCount(info.RowHandle) - 1);
+                int iStartRow = view.GetChildRowHandle(rowHandle, 0);
+                int iEndRow = view.GetChildRowHandle(rowHandle, view.GetChildRowCount(rowHandle) - 1);
                 string word = $"{view.GetDataRow(iStartRow)[colTranslate]}";
                 for(int i = iStartRow; i <= iEndRow; i++) {
                     row = view.GetDataRow(i);
@@ -215,6 +233,10 @@ namespace LocalizationStorage {
                 result.Translation = word;
                 return result;
             }
+        }
+        public TranslationDe GetTranslationObjectByRow(BarItemLink link, GridView view) {
+            GridHitInfo info = UIHelper.GetGridHitInfoByLink(link);
+            return GetTranslationObjectByRow(info.RowHandle, view);
         }
     }
     public class LocalizationPath {

@@ -94,7 +94,8 @@ namespace LocalizationStorage {
             return value;
         }
         internal static bool IsLastNewRow(string line) {
-            return line.LastIndexOf("\r\n") == line.Length - 2;
+            return line.Length > 2 && 
+                line.LastIndexOf("\r\n") == line.Length - 2;
         }
 
     }
@@ -190,13 +191,15 @@ namespace LocalizationStorage {
                 }
             }
         }
+        internal static DataRow GetDataRow(int rowHandle, GridView view) {
+            if(view.IsGroupRow(rowHandle))
+                rowHandle = view.GetDataRowHandleByGroupRowHandle(rowHandle);
+            return view.GetDataRow(rowHandle);
+        }
         internal static DataRow GetDataRowByLink(BarItemLink link, GridView view) {
             GridHitInfo info = GetGridHitInfoByLink(link);
             if(info == null) return null;
-            int dataRowHandle = info.RowHandle;
-            if(info.InGroupRow)
-                dataRowHandle = view.GetDataRowHandleByGroupRowHandle(info.RowHandle);
-            return view.GetDataRow(dataRowHandle);
+            return GetDataRow(info.RowHandle, view);
         }
         internal static GridHitInfo GetGridHitInfoByLink(BarItemLink link) { 
             if(!(link.LinkedObject is PopupMenu)) return null;

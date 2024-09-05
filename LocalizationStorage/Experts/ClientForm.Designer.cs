@@ -60,9 +60,10 @@
             this.skinDropDownButtonItem1 = new DevExpress.XtraBars.SkinDropDownButtonItem();
             this.bbGroupCustomization = new DevExpress.XtraBars.BarButtonItem();
             this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
+            this.bbComment = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
             this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.bbComment = new DevExpress.XtraBars.BarButtonItem();
+            this.bsUser = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
@@ -345,8 +346,9 @@
             this.skinDropDownButtonItem1,
             this.bbGroupCustomization,
             this.bbAddTranslation,
-            this.bbComment});
-            this.toolbarFormManager1.MaxItemId = 11;
+            this.bbComment,
+            this.bsUser});
+            this.toolbarFormManager1.MaxItemId = 12;
             // 
             // barDockControl1
             // 
@@ -417,6 +419,13 @@
             this.bbAddTranslation.Name = "bbAddTranslation";
             this.bbAddTranslation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbAddTranslation_ItemClick);
             // 
+            // bbComment
+            // 
+            this.bbComment.Caption = "Add Comment";
+            this.bbComment.Id = 10;
+            this.bbComment.Name = "bbComment";
+            this.bbComment.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbComment_ItemClick);
+            // 
             // toolbarFormControl1
             // 
             this.toolbarFormControl1.Location = new System.Drawing.Point(0, 0);
@@ -429,6 +438,7 @@
             this.toolbarFormControl1.TitleItemLinks.Add(this.bHeader);
             this.toolbarFormControl1.TitleItemLinks.Add(this.skinDropDownButtonItem1);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbGroupCustomization);
+            this.toolbarFormControl1.TitleItemLinks.Add(this.bsUser);
             this.toolbarFormControl1.ToolbarForm = this;
             // 
             // pmRowMenu
@@ -441,12 +451,11 @@
             this.pmRowMenu.Manager = this.toolbarFormManager1;
             this.pmRowMenu.Name = "pmRowMenu";
             // 
-            // bbComment
+            // bsUser
             // 
-            this.bbComment.Caption = "Add Comment";
-            this.bbComment.Id = 10;
-            this.bbComment.Name = "bbComment";
-            this.bbComment.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbComment_ItemClick);
+            this.bsUser.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.bsUser.Id = 11;
+            this.bsUser.Name = "bsUser";
             // 
             // ClientForm
             // 
@@ -514,6 +523,7 @@
         private DevExpress.XtraBars.BarButtonItem bbAddTranslation;
         private DevExpress.XtraBars.PopupMenu pmRowMenu;
         private DevExpress.XtraBars.BarButtonItem bbComment;
+        private DevExpress.XtraBars.BarStaticItem bsUser;
     }
 }
 
