@@ -113,10 +113,23 @@ namespace LocalizationStorage {
                 },
                 key, pKey, path);
         }
+        internal int TryToAddAutomaticTranslate(string key, int rowHandle, GridView view) {
+            if(view.IsGroupRow(rowHandle)) {
+                int iStartRow = view.GetChildRowHandle(rowHandle, 0);
+                int iEndRow = view.GetChildRowHandle(rowHandle, view.GetChildRowCount(rowHandle) - 1);
+                string word = $"{view.GetDataRow(iStartRow)[colGerman]}";
+                if(!LocalizationHelper.ValueExist(word)) return 0;
+                for(int i = iStartRow + 1; i <= iEndRow; i++) 
+                    if(word != $"{view.GetDataRow(i)[colGerman]}") 
+                        return 0;
+                return AddAutomaticTranslate(key);
+            }
+            return 0;
+        }
         internal int AddAutomaticTranslate(string key, string pKey = null, string path = null) {
             return ChangeRowValue(
                 (row) => {
-                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { 
+                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] {
                         TranslationStatus.Problems, TranslationStatus.Translated, TranslationStatus.NotSure }))
                         row[colStatus] = TranslationStatus.IsAcceptedAutomatically;
                 },

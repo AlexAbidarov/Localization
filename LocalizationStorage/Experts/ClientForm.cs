@@ -23,6 +23,7 @@ namespace LocalizationStorage {
             repositoryItemImageComboBox1.AddEnum(typeof(TranslationStatus), true);
             UIHelper.SortBySummary(gridView1, colEnglish, ColumnSortOrder.Descending);
             AddFirstTranslation();
+            //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
             SetRowVisualInfo();
@@ -113,11 +114,14 @@ namespace LocalizationStorage {
                     });
                 button.ImageOptions.ImageUri.Uri = "business_idea;Size16x16;Svg";
                 button.ToolTip = $"Show {traslationName}_DX Data";
-                gridView1.FindPanelItems.AddButton(string.Empty, "Automatic translation", (s, args) => {
-                    RowUpdate(() => DoAutomaticTranslate());
-                });
                 gridView1.ShowFindPanel();
             }
+        }
+        void AddOperationButtons() {
+            gridView1.FindPanelItems.AddButton(string.Empty, "Automatic translation", (s, args) => {
+                RowUpdate(() => DoAutomaticTranslate());
+            });
+            gridView1.ShowFindPanel();
         }
         ExpertDataTableDe Source => Settings.MainDataSet.Tables[Settings.deTableName] as ExpertDataTableDe;
         protected override void OnLoad(EventArgs e) {
@@ -131,15 +135,15 @@ namespace LocalizationStorage {
         }
         int DoAutomaticTranslate() {
             gridView1.CollapseAllGroups();
+            int count = 0;
             int groupRowCount = gridView1.RowCount;
             for(int i = -1; i >= -groupRowCount; i--) {
                 if(gridView1.IsGroupRow(i)) {
                     string key = Source.GetEnglishKey(i, gridView1);
-                   //TODO 
+                    count += Source.TryToAddAutomaticTranslate(key, i, gridView1);
                 }
             }
-            
-            return 1;
+            return count;
         }
         int DoSync() {
             List<string> notFoundKeys = new List<string>();
