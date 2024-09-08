@@ -24,6 +24,7 @@ namespace LocalizationStorage {
             SplashScreenManager.ShowForm(typeof(DemoWaitForm));
             if(args.Length > 0)
                 Settings.RootPath = args[0];
+            Settings.SetUser(args);
             //if(!LocalizationHelper.IsExistRoot)
             //    Settings.RootPath = @"D:\Work\v24.2\Localization";
             AppearanceObject.DefaultFont = new System.Drawing.Font("Calibry", 9);

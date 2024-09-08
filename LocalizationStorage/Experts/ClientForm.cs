@@ -27,8 +27,9 @@ namespace LocalizationStorage {
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
             SetRowVisualInfo();
-            bHeader.Caption = $"Localization Storage (German)\r\nUser: {Environment.UserName}";
+            bHeader.Caption = $"Localization Storage (German)\r\nUser: {Settings.User}";
             //bsUser.Caption = $"{Info}";
+            bbGroupCustomization.Down = true;
             SplashScreenManager.CloseForm();
         }
         void SetRowMenu() {

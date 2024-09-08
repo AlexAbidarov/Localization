@@ -2,6 +2,7 @@
 using DevExpress.Utils.Extensions;
 using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
+using DevExpress.XtraExport.Xls;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
@@ -116,6 +117,20 @@ namespace LocalizationStorage {
                     LocalizationHelper.CreateKeysData(paths);
                 }
                 return paths;
+            }
+        }
+        internal static void SetUser(string[] args) {
+            args.ForEach(x => {
+                if(x.IndexOf(userAttribute) == 0)
+                    user = x.Replace(userAttribute, string.Empty);
+            });
+        }
+        static string userAttribute = "user:";
+        static string user = Environment.UserName;
+        public static string User { 
+            get { return user; }
+            set { 
+                user = value;
             }
         }
         public static string DataPath { get; } = $@"{Application.StartupPath}\Data";

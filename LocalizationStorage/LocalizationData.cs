@@ -161,7 +161,7 @@ namespace LocalizationStorage {
                     if(!string.IsNullOrEmpty(pKey)
                         && (pKey != $"{row[colKey]}" || path != $"{row[colPath]}")) continue;
                     change(row);
-                    //row[colUser] = Environment.UserName; //TODO
+                    //row[colUser] = Settings.User; //TODO
                     result++;
                 }
             }
