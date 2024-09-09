@@ -61,9 +61,9 @@
             this.bbGroupCustomization = new DevExpress.XtraBars.BarButtonItem();
             this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
             this.bbComment = new DevExpress.XtraBars.BarButtonItem();
+            this.bsUser = new DevExpress.XtraBars.BarStaticItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
             this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.bsUser = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
@@ -132,7 +132,7 @@
             this.colPath.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colPath.Visible = true;
             this.colPath.VisibleIndex = 5;
-            this.colPath.Width = 211;
+            this.colPath.Width = 215;
             // 
             // colKey
             // 
@@ -177,7 +177,7 @@
             this.colGermanNew.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colGermanNew.Visible = true;
             this.colGermanNew.VisibleIndex = 2;
-            this.colGermanNew.Width = 173;
+            this.colGermanNew.Width = 172;
             // 
             // colRussian
             // 
@@ -200,7 +200,7 @@
             this.colGerman.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colGerman.Visible = true;
             this.colGerman.VisibleIndex = 3;
-            this.colGerman.Width = 163;
+            this.colGerman.Width = 162;
             // 
             // colStatus
             // 
@@ -221,7 +221,7 @@
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "Status", "{0}")});
             this.colStatus.Visible = true;
             this.colStatus.VisibleIndex = 0;
-            this.colStatus.Width = 118;
+            this.colStatus.Width = 124;
             // 
             // repositoryItemImageComboBox1
             // 
@@ -249,7 +249,7 @@
             this.colComment.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colComment.Visible = true;
             this.colComment.VisibleIndex = 4;
-            this.colComment.Width = 203;
+            this.colComment.Width = 202;
             // 
             // colPicture
             // 
@@ -426,6 +426,12 @@
             this.bbComment.Name = "bbComment";
             this.bbComment.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbComment_ItemClick);
             // 
+            // bsUser
+            // 
+            this.bsUser.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.bsUser.Id = 11;
+            this.bsUser.Name = "bsUser";
+            // 
             // toolbarFormControl1
             // 
             this.toolbarFormControl1.Location = new System.Drawing.Point(0, 0);
@@ -450,12 +456,6 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
             this.pmRowMenu.Manager = this.toolbarFormManager1;
             this.pmRowMenu.Name = "pmRowMenu";
-            // 
-            // bsUser
-            // 
-            this.bsUser.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
-            this.bsUser.Id = 11;
-            this.bsUser.Name = "bsUser";
             // 
             // ClientForm
             // 

@@ -18,7 +18,7 @@ namespace LocalizationStorage {
         [Display(Name = "Not Sure")]
         NotSure = 3,
         Problems = 4,
-        [Display(Name = "Is Accepted Automatically")]
+        [Display(Name = "Accepted Automatically")]
         IsAcceptedAutomatically = 5
     };
     public class UserTranslation { 
