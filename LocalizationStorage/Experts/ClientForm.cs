@@ -71,6 +71,8 @@ namespace LocalizationStorage {
                 if((e.KeyData == Keys.Space || e.KeyData == Keys.Enter) &&
                     gridView1.IsValidRowHandle(gridView1.FocusedRowHandle))
                     AddTranslation(gridView1.FocusedRowHandle);
+                if(e.KeyData == (Keys.M | Keys.Alt)) 
+                    GridHelper.ShowRowPopuMenu(gridView1, pmGroupRowMenu, pmRowMenu);
             };
         }
         void UpdateAppearance(AppearanceObject app, int status) {
@@ -198,11 +200,14 @@ namespace LocalizationStorage {
                 RowUpdate(() => Source.AddNotSure(key));
         }
         private void bbClearTranslate_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-            string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
-            if(key != null)
-                RowUpdate(() => Source.AddClear(key, 
-                    Source.GetKeyByLink(e.Link, gridView1),
-                    Source.GetPathByLink(e.Link, gridView1)));
+            if(XtraMessageBox.Show("Are you sure that you want to remove the German translation?",
+                "Remove Translation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
+                if(key != null)
+                    RowUpdate(() => Source.AddClear(key,
+                        Source.GetKeyByLink(e.Link, gridView1),
+                        Source.GetPathByLink(e.Link, gridView1)));
+            }
         }
         private void bbGroupCustomization_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             gridView1.LayoutChanged();

@@ -185,10 +185,17 @@ namespace LocalizationStorage {
         }
         protected override void OnClosing(CancelEventArgs e) {
             base.OnClosing(e);
-            if(DialogResult == DialogResult.OK && LocalizationHelper.IsLastNewRow(Translation)) {
-                XtraMessageBox.Show("We can't save the translation, there is a wrong line break.",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                e.Cancel = true;
+            if(DialogResult == DialogResult.OK) {
+                if(LocalizationHelper.AreDifferentLineCount(English, Translation)) {
+                    XtraMessageBox.Show("We can't save the translation.\r\nThe translation and the original have different number of lines.",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                }
+                if(!e.Cancel && LocalizationHelper.IsLastNewRow(Translation)) {
+                    XtraMessageBox.Show("We can't save the translation, there is a wrong line break.",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                }
             }
         }
     }

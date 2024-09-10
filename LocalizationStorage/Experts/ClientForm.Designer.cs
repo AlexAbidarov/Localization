@@ -324,7 +324,7 @@
             // 
             // bbClearTranslate
             // 
-            this.bbClearTranslate.Caption = "Clear Translation";
+            this.bbClearTranslate.Caption = "Remove Translation";
             this.bbClearTranslate.Id = 5;
             this.bbClearTranslate.Name = "bbClearTranslate";
             this.bbClearTranslate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbClearTranslate_ItemClick);

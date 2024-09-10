@@ -2,7 +2,6 @@
 using DevExpress.Utils.Extensions;
 using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
-using DevExpress.XtraExport.Xls;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
@@ -13,6 +12,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -98,7 +98,12 @@ namespace LocalizationStorage {
             return line.Length > 2 && 
                 line.LastIndexOf("\r\n") == line.Length - 2;
         }
-
+        internal static bool AreDifferentLineCount(string line1, string line2) {
+            return LineCount(line1) != LineCount(line2);
+        }
+        static int LineCount(string text) {
+            return text.Length - text.Replace("\n", string.Empty).Length;
+        }
     }
     public class Settings {
         public static void ClearData() {
@@ -266,6 +271,34 @@ namespace LocalizationStorage {
             } catch(Exception e) {
                 XtraMessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+    }
+    public class GridHelper {
+        public static void ShowRowPopuMenu(GridView view, PopupMenu groupRowMenu, PopupMenu rowMenu) {
+            int rowHandle = view.FocusedRowHandle;
+            if(view.IsGroupRow(rowHandle))
+                ShowPopupMenu(view, groupRowMenu, rowHandle);
+            else if(rowHandle >= 0)
+                ShowPopupMenu(view, rowMenu, rowHandle);
+        }
+        internal static void ShowPopupMenu(GridView view, PopupMenu menu, int rowHandle) {
+            var rows = GetGridViewInfo(view).RowsInfo;
+            GridRowInfo ri = GetRowInfo(rows, rowHandle);
+            if(ri != null) {
+                Point pi = new Point(ri.Bounds.X + ri.RowLineHeight / 2, ri.Bounds.Y + ri.RowLineHeight / 2);
+                menu.Tag = view.CalcHitInfo(pi);
+                menu.ShowPopup(view.GridControl.PointToScreen(pi));
+            }
+        }
+        static GridViewInfo GetGridViewInfo(GridView view) {
+            PropertyInfo pi = view.GetType().GetProperty("ViewInfo",
+                BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic, null, typeof(GridViewInfo), new Type[0], null);
+            return pi.GetValue(view) as GridViewInfo;
+        }
+        static GridRowInfo GetRowInfo(GridRowInfoCollection list, int rowHandle) {
+            foreach(var row in list)
+                if(row.RowHandle == rowHandle) return row;
+            return null;
         }
     }
 }
