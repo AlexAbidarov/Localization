@@ -165,7 +165,7 @@ namespace LocalizationStorage {
                         && (pKey != $"{row[colKey]}" || path != $"{row[colPath]}")) continue;
                     change(row);
                     row[colSessionChanged] = true;
-                    //row[colUser] = Settings.User; //TODO
+                    row[colUser] = Settings.User; //TODO
                     result++;
                 }
             }

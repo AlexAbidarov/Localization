@@ -31,6 +31,7 @@ namespace LocalizationStorage {
             bHeader.Caption = $"Localization Storage (German)\r\nUser: {Settings.User}";
             //bsUser.Caption = $"{Info}";
             bbGroupCustomization.Down = true;
+            CreateFilterPanel();
             SplashScreenManager.CloseForm();
         }
         void SetRowMenu() {
@@ -98,6 +99,15 @@ namespace LocalizationStorage {
         void SetColor(AppearanceObject app, Color color, object foreColor = null) { 
             app.BackColor = color;
             app.ForeColor = foreColor == null ? ContrastColor.GetContrastForeColor(color) : (Color)foreColor;
+        }
+        void CreateFilterPanel() {
+            FilterPanel panel = new FilterPanel(gridView1, bFilter);
+            panel.AddFilterItem("<b>Not</b> Translated", "[Status] = 0");
+            panel.AddFilterItem("<b>Translated</b>", "[Status] = 1");
+            panel.AddFilterItem("<b>Auto</b> Accepted", "[Status] = 5");
+            panel.AddFilterItem("Translations with <b>problems</b>", "[Status] = 3 Or [Status] = 4");
+            panel.AddFilterItem($"Created by {Settings.User}", $"[User] = '{Settings.User}'", $"All records modified by {Settings.User}", "bo_lead;Size16x16;Svg");
+            panel.AddFilterItem($"Changed Records", $"[SessionChanged] = True", "Records modified during this session", "bo_audit_changehistory;Size16x16;Svg");
         }
         protected override void OnFormClosing(FormClosingEventArgs e) {
             base.OnFormClosing(e);

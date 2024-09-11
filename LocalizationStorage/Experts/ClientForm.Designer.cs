@@ -51,6 +51,7 @@
             this.bbNotSure = new DevExpress.XtraBars.BarButtonItem();
             this.bbClearTranslate = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormManager1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormManager(this.components);
+            this.bFilter = new DevExpress.XtraBars.Bar();
             this.barDockControl1 = new DevExpress.XtraBars.BarDockControl();
             this.barDockControl2 = new DevExpress.XtraBars.BarDockControl();
             this.barDockControl3 = new DevExpress.XtraBars.BarDockControl();
@@ -84,7 +85,7 @@
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemImageComboBox1});
-            this.gridControl1.Size = new System.Drawing.Size(1074, 570);
+            this.gridControl1.Size = new System.Drawing.Size(1074, 624);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -112,7 +113,10 @@
             this.gridView1.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Count, "Key", null, "")});
             this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsBehavior.AllowFixedGroups = DevExpress.Utils.DefaultBoolean.True;
+            this.gridView1.OptionsBehavior.AllowPixelScrolling = DevExpress.Utils.DefaultBoolean.True;
             this.gridView1.OptionsBehavior.Editable = false;
+            this.gridView1.OptionsDetail.EnableMasterViewMode = false;
             this.gridView1.OptionsEditForm.PopupEditFormWidth = 933;
             this.gridView1.OptionsLayout.Columns.StoreAllOptions = true;
             this.gridView1.OptionsLayout.StoreAllOptions = true;
@@ -265,11 +269,11 @@
             // 
             this.layoutControl1.Controls.Add(this.gridControl1);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layoutControl1.Location = new System.Drawing.Point(0, 31);
+            this.layoutControl1.Location = new System.Drawing.Point(0, 51);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1214, 348, 650, 400);
             this.layoutControl1.Root = this.Root;
-            this.layoutControl1.Size = new System.Drawing.Size(1098, 594);
+            this.layoutControl1.Size = new System.Drawing.Size(1098, 648);
             this.layoutControl1.TabIndex = 6;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -280,7 +284,7 @@
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1});
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(1098, 594);
+            this.Root.Size = new System.Drawing.Size(1098, 648);
             this.Root.TextVisible = false;
             // 
             // layoutControlItem1
@@ -288,7 +292,7 @@
             this.layoutControlItem1.Control = this.gridControl1;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(1078, 574);
+            this.layoutControlItem1.Size = new System.Drawing.Size(1078, 628);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
@@ -332,6 +336,8 @@
             // 
             // toolbarFormManager1
             // 
+            this.toolbarFormManager1.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
+            this.bFilter});
             this.toolbarFormManager1.DockControls.Add(this.barDockControl1);
             this.toolbarFormManager1.DockControls.Add(this.barDockControl2);
             this.toolbarFormManager1.DockControls.Add(this.barDockControl3);
@@ -351,19 +357,33 @@
             this.bsUser});
             this.toolbarFormManager1.MaxItemId = 12;
             // 
+            // bFilter
+            // 
+            this.bFilter.BarItemHorzIndent = 6;
+            this.bFilter.BarName = "Filter";
+            this.bFilter.CanDockStyle = ((DevExpress.XtraBars.BarCanDockStyle)((((DevExpress.XtraBars.BarCanDockStyle.Floating | DevExpress.XtraBars.BarCanDockStyle.Top) 
+            | DevExpress.XtraBars.BarCanDockStyle.Bottom) 
+            | DevExpress.XtraBars.BarCanDockStyle.Standalone)));
+            this.bFilter.DockCol = 0;
+            this.bFilter.DockRow = 0;
+            this.bFilter.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
+            this.bFilter.OptionsBar.AllowQuickCustomization = false;
+            this.bFilter.OptionsBar.UseWholeRow = true;
+            this.bFilter.Text = "Filter Panel";
+            // 
             // barDockControl1
             // 
             this.barDockControl1.CausesValidation = false;
             this.barDockControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControl1.Location = new System.Drawing.Point(0, 31);
             this.barDockControl1.Manager = this.toolbarFormManager1;
-            this.barDockControl1.Size = new System.Drawing.Size(1098, 0);
+            this.barDockControl1.Size = new System.Drawing.Size(1098, 20);
             // 
             // barDockControl2
             // 
             this.barDockControl2.CausesValidation = false;
             this.barDockControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControl2.Location = new System.Drawing.Point(0, 625);
+            this.barDockControl2.Location = new System.Drawing.Point(0, 699);
             this.barDockControl2.Manager = this.toolbarFormManager1;
             this.barDockControl2.Size = new System.Drawing.Size(1098, 0);
             // 
@@ -371,17 +391,17 @@
             // 
             this.barDockControl3.CausesValidation = false;
             this.barDockControl3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControl3.Location = new System.Drawing.Point(0, 31);
+            this.barDockControl3.Location = new System.Drawing.Point(0, 51);
             this.barDockControl3.Manager = this.toolbarFormManager1;
-            this.barDockControl3.Size = new System.Drawing.Size(0, 594);
+            this.barDockControl3.Size = new System.Drawing.Size(0, 648);
             // 
             // barDockControl4
             // 
             this.barDockControl4.CausesValidation = false;
             this.barDockControl4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControl4.Location = new System.Drawing.Point(1098, 31);
+            this.barDockControl4.Location = new System.Drawing.Point(1098, 51);
             this.barDockControl4.Manager = this.toolbarFormManager1;
-            this.barDockControl4.Size = new System.Drawing.Size(0, 594);
+            this.barDockControl4.Size = new System.Drawing.Size(0, 648);
             // 
             // bbSave
             // 
@@ -462,7 +482,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1098, 625);
+            this.ClientSize = new System.Drawing.Size(1098, 699);
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.barDockControl3);
             this.Controls.Add(this.barDockControl4);
@@ -525,6 +545,7 @@
         private DevExpress.XtraBars.PopupMenu pmRowMenu;
         private DevExpress.XtraBars.BarButtonItem bbComment;
         private DevExpress.XtraBars.BarStaticItem bsUser;
+        private DevExpress.XtraBars.Bar bFilter;
     }
 }
 
