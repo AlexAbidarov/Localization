@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data;
+using DevExpress.Data.Filtering;
 using DevExpress.LookAndFeel;
 using DevExpress.Utils;
 using DevExpress.Utils.Colors;
@@ -166,20 +167,25 @@ namespace LocalizationStorage {
         bool IsUnsavedData => bbSave.Enabled;
         void RowUpdate(Func<int> update) {
             Cursor = Cursors.WaitCursor;
-            gridView1.BeginUpdate();
+            gridView1.BeginDataUpdate();
             try {
                 int changedRows = update();
                 if(changedRows > 0)
                     bbSave.Enabled = true;
             } finally {
-                gridView1.EndUpdate();
+                gridView1.EndDataUpdate();
                 Cursor = Cursors.Default;
             }
         }
         void SaveData() {
-            IOHelper.CreateBakFile(Settings.GermanDataSetPath);
-            Settings.MainDataSet.WriteXml(Settings.GermanDataSetPath, System.Data.XmlWriteMode.WriteSchema);
-            bbSave.Enabled = false;
+            Source.BeginDataSave(gridView1);
+            try {
+                IOHelper.CreateBakFile(Settings.GermanDataSetPath);
+                Settings.MainDataSet.WriteXml(Settings.GermanDataSetPath, System.Data.XmlWriteMode.WriteSchema);
+                bbSave.Enabled = false;
+            } finally {
+                Source.EndDataSave(gridView1);
+            }
         }
         private void bbSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             SaveData();
@@ -236,6 +242,9 @@ namespace LocalizationStorage {
                     RowUpdate(() => Source.AddComment(
                         form.English, form.Comment, form.Key, form.Path));
             }
+        }
+        private void gridView1_SubstituteFilter(object sender, SubstituteFilterEventArgs e) {
+            e.Filter |= CriteriaOperator.Parse("[SessionChanged] = true");
         }
     }
 }

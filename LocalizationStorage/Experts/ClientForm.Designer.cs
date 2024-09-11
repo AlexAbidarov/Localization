@@ -121,6 +121,7 @@
             this.gridView1.OptionsView.ShowGroupedColumns = true;
             this.gridView1.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
             new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.colEnglish, DevExpress.Data.ColumnSortOrder.Ascending)});
+            this.gridView1.SubstituteFilter += new System.EventHandler<DevExpress.Data.SubstituteFilterEventArgs>(this.gridView1_SubstituteFilter);
             // 
             // colPath
             // 

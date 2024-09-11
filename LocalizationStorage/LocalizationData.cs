@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace LocalizationStorage {
@@ -81,6 +82,7 @@ namespace LocalizationStorage {
         DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colPicture = new DataColumn("Picture", typeof(byte[]));
         DataColumn colUser = new DataColumn("User", typeof(string));
+        DataColumn colSessionChanged = new DataColumn("SessionChanged", typeof(bool));
         public ExpertDataTableDe() {
             TableName = Settings.deTableName;
             this.Columns.Add(colPath);
@@ -94,6 +96,7 @@ namespace LocalizationStorage {
             this.Columns.Add(colComment);
             this.Columns.Add(colPicture);
             this.Columns.Add(colUser);
+            this.Columns.Add(colSessionChanged);
         }
         public int AddTranslation(string key, string word, TranslationStatus status = TranslationStatus.Translated, string pKey = null, string path = null) {
             return ChangeRowValue(
@@ -161,6 +164,7 @@ namespace LocalizationStorage {
                     if(!string.IsNullOrEmpty(pKey)
                         && (pKey != $"{row[colKey]}" || path != $"{row[colPath]}")) continue;
                     change(row);
+                    row[colSessionChanged] = true;
                     //row[colUser] = Settings.User; //TODO
                     result++;
                 }
@@ -250,6 +254,16 @@ namespace LocalizationStorage {
         public TranslationDe GetTranslationObjectByRow(BarItemLink link, GridView view) {
             GridHitInfo info = UIHelper.GetGridHitInfoByLink(link);
             return GetTranslationObjectByRow(info.RowHandle, view);
+        }
+        internal void BeginDataSave(GridView view) {
+            view.GridControl.FindForm().Cursor = Cursors.WaitCursor;
+            view.BeginDataUpdate();
+            this.Columns.Remove(colSessionChanged);
+        }
+        internal void EndDataSave(GridView view) {
+            this.Columns.Add(colSessionChanged);
+            view.EndDataUpdate();
+            view.GridControl.FindForm().Cursor = Cursors.Default;
         }
     }
     public class LocalizationPath {
