@@ -92,10 +92,10 @@ namespace LocalizationStorage {
                     SetColor(app, DXSkinColors.FillColors.Danger);
                     break;
                 case 5://Automatic
-                    SetColor(app, Color.LightBlue);
+                    SetColor(app, Color.LightSkyBlue);
                     break;
                 case 6://Needs Verification
-                    SetColor(app, Color.LightSkyBlue);
+                    SetColor(app, Color.LightBlue);
                     break;
             }
         }

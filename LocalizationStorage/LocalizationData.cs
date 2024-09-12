@@ -113,8 +113,12 @@ namespace LocalizationStorage {
         public int AddNoNeedTranslate(string key, string pKey = null, string path = null) {
             return ChangeRowValue(
                 (row) => {
-                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { TranslationStatus.Problems }))
+                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { TranslationStatus.Problems })) {
                         row[colStatus] = TranslationStatus.NoTranslationNeeded;
+                        row[colTranslate] = string.Empty;
+                        return true;
+                    }
+                    return false;
                 },
                 key, pKey, path);
         }
@@ -122,29 +126,45 @@ namespace LocalizationStorage {
             if(view.IsGroupRow(rowHandle)) {
                 int iStartRow = view.GetChildRowHandle(rowHandle, 0);
                 int iEndRow = view.GetChildRowHandle(rowHandle, view.GetChildRowCount(rowHandle) - 1);
-                string word = $"{view.GetDataRow(iStartRow)[colGerman]}";
-                if(!LocalizationHelper.ValueExist(word)) return 0;
-                for(int i = iStartRow + 1; i <= iEndRow; i++) 
-                    if(word != $"{view.GetDataRow(i)[colGerman]}") 
-                        return 0;
-                return AddAutomaticTranslate(key);
+                HashSet<string> strings = new HashSet<string>();
+                int count = 0;
+                for(int i = iStartRow; i <= iEndRow; i++) {
+                    string word = $"{view.GetDataRow(i)[colGerman]}";
+                    if(LocalizationHelper.ValueExist(word)) {
+                        if(!strings.Contains(word))
+                            strings.Add(word);
+                        count++;
+                    }
+                }
+                if(strings.Count == 1) {
+                    if(count == 1) return AddAutomaticTranslate(key, TranslationStatus.IsAcceptedAutomatically2, strings.ElementAt(0));
+                    if(count > 1) return AddAutomaticTranslate(key, TranslationStatus.IsAcceptedAutomatically, strings.ElementAt(0));
+                }
             }
             return 0;
         }
-        internal int AddAutomaticTranslate(string key, string pKey = null, string path = null) {
+        internal int AddAutomaticTranslate(string key, TranslationStatus status, string word) {
             return ChangeRowValue(
                 (row) => {
                     if(!IsStatusExist(row[colStatus], new TranslationStatus[] {
-                        TranslationStatus.Problems, TranslationStatus.Translated, TranslationStatus.NotSure }))
-                        row[colStatus] = TranslationStatus.IsAcceptedAutomatically;
+                        //TranslationStatus.IsAcceptedAutomatically, TranslationStatus.IsAcceptedAutomatically2,
+                        TranslationStatus.Problems, TranslationStatus.Translated, TranslationStatus.NotSure, TranslationStatus.NoTranslationNeeded })) {
+                        row[colTranslate] = word;
+                        row[colStatus] = status;
+                        return true;
+                    }
+                    return false; 
                 },
-                key, pKey, path);
+                key, null, null);
         }
         public int AddNotSure(string key, string pKey = null, string path = null) {
             return ChangeRowValue(
                 (row) => {
-                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { TranslationStatus.Problems }))
+                    if(!IsStatusExist(row[colStatus], new TranslationStatus[] { TranslationStatus.Problems })) {
                         row[colStatus] = TranslationStatus.NotSure;
+                        return true;
+                    }
+                    return false;
                 },
                 key, pKey, path);
         }
@@ -158,30 +178,33 @@ namespace LocalizationStorage {
                 (row) => SetRowComment(row, comment, string.IsNullOrEmpty(comment) ? TranslationStatus.None : TranslationStatus.Problems),
                 key, pKey, path);
         }
-        int ChangeRowValue(Action<DataRow> change, string key, string pKey = null, string path = null) {
+        int ChangeRowValue(Func<DataRow, bool> change, string key, string pKey = null, string path = null) {
             int result = 0;
             foreach(DataRow row in this.Rows) {
                 bool keysAreEqual = $"{row[colEnglish]}".Trim() == key.Trim();
                 if(keysAreEqual) {
                     if(!string.IsNullOrEmpty(pKey)
                         && (pKey != $"{row[colKey]}" || path != $"{row[colPath]}")) continue;
-                    change(row);
-                    row[colSessionChanged] = true;
-                    row[colUser] = Settings.User; //TODO
-                    result++;
+                    if(change(row)) {
+                        row[colSessionChanged] = true;
+                        row[colUser] = Settings.User; //TODO
+                        result++;
+                    }
                 }
             }
             return result;
         }
-        void SetRowValue(DataRow row, string @value, TranslationStatus status) {
+        bool SetRowValue(DataRow row, string @value, TranslationStatus status) {
             row[colTranslate] = @value;
             row[colStatus] = status;
+            return true;
         }
-        void SetRowComment(DataRow row, string @value, TranslationStatus status) {
+        bool SetRowComment(DataRow row, string @value, TranslationStatus status) {
             row[colComment] = @value;
             if((status == TranslationStatus.None && IsStatusExist(row[colStatus], 
                 new TranslationStatus[] { TranslationStatus.Problems })) || status == TranslationStatus.Problems)
                 row[colStatus] = status;
+            return true;
         }
         bool IsGroupRow(BarItemLink link) {
             var info = UIHelper.GetGridHitInfoByLink(link);
