@@ -20,7 +20,9 @@ namespace LocalizationStorage {
         NotSure = 3,
         Problems = 4,
         [Display(Name = "Accepted Automatically")]
-        IsAcceptedAutomatically = 5
+        IsAcceptedAutomatically = 5,
+        [Display(Name = "Accepted (Needs Verification)")]
+        IsAcceptedAutomatically2 = 6
     };
     public class UserTranslation { 
         public UserTranslation(string name) {

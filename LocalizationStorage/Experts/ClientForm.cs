@@ -79,20 +79,23 @@ namespace LocalizationStorage {
         }
         void UpdateAppearance(AppearanceObject app, int status) {
             switch(status) {
-                case 1://TranslationStatus.Translated
+                case 1://Translated
                     SetColor(app, DXSkinColors.FillColors.Success);
                     break;
-                case 2://TranslationStatus.NoTranslationNeeded:
+                case 2://No Translation Needed
                     SetColor(app, DXSkinColors.FillColors.Primary);
                     break;
-                case 3:// TranslationStatus.NotSure:
+                case 3://Not Sure
                     SetColor(app, Color.Yellow);
                     break;
-                case 4://TranslationStatus.Problems:
+                case 4://Problems
                     SetColor(app, DXSkinColors.FillColors.Danger);
                     break;
-                case 5://Automatic:
+                case 5://Automatic
                     SetColor(app, Color.LightBlue);
+                    break;
+                case 6://Needs Verification
+                    SetColor(app, Color.LightSkyBlue);
                     break;
             }
         }
@@ -104,7 +107,8 @@ namespace LocalizationStorage {
             FilterPanel panel = new FilterPanel(gridView1, bFilter);
             panel.AddFilterItem("<b>Not</b> Translated", "[Status] = 0");
             panel.AddFilterItem("<b>Translated</b>", "[Status] = 1");
-            panel.AddFilterItem("<b>Auto</b> Accepted", "[Status] = 5");
+            panel.AddFilterItem("Accepted (<b>Needs Verification</b>)", "[Status] = 6");
+            panel.AddFilterItem("Accepted (<b>Auto</b>)", "[Status] = 5");
             panel.AddFilterItem("Translations with <b>problems</b>", "[Status] = 3 Or [Status] = 4");
             panel.AddFilterItem($"Created by {Settings.User}", $"[User] = '{Settings.User}'", $"All records modified by {Settings.User}", "bo_lead;Size16x16;Svg");
             panel.AddFilterItem($"Changed Records", $"[SessionChanged] = True", "Records modified during this session", "bo_audit_changehistory;Size16x16;Svg");

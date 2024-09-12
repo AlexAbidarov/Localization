@@ -8,3 +8,4 @@
 /Bin/LocalizationStorage.exe.config
 /Bin/LocalizationStorage.pdb
 /LocalizationStorage/LocalizationStorage.csproj.user
+/Bin/*.bat
