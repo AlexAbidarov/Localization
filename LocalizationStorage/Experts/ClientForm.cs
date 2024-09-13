@@ -65,8 +65,9 @@ namespace LocalizationStorage {
                     if(e.RowHandle != gridView1.FocusedRowHandle) {
                         TranslationStatus status = Source.GetStatusByGroupRowValue(e.RowHandle, gridView1);
                         UpdateAppearance(e.Appearance, (int)status);
-                    } else
-                        SetColor(e.Appearance, DXSkinColorHelper.GetDXSkinColor(DXSkinColors.FillColors.Warning, 255, LookAndFeel));
+                    }
+                    else { }
+                    //SetColor(e.Appearance, DXSkinColorHelper.GetDXSkinColor(DXSkinColors.FillColors.Warning, 255, LookAndFeel));
                 }
             };
             gridView1.KeyDown += (s, e) => {
@@ -106,7 +107,7 @@ namespace LocalizationStorage {
         void CreateFilterPanel() {
             FilterPanel panel = new FilterPanel(gridView1, bFilter);
             panel.AddFilterItem("<b>Not</b> Translated", "[Status] = 0");
-            panel.AddFilterItem("<b>Translated</b>", "[Status] = 1");
+            panel.AddFilterItem("Translated", "[Status] = 1");
             panel.AddFilterItem("Accepted (<b>Needs Verification</b>)", "[Status] = 6");
             panel.AddFilterItem("Accepted (<b>Auto</b>)", "[Status] = 5");
             panel.AddFilterItem("Translations with <b>problems</b>", "[Status] = 3 Or [Status] = 4");
@@ -259,6 +260,10 @@ namespace LocalizationStorage {
         }
         private void gridView1_SubstituteFilter(object sender, SubstituteFilterEventArgs e) {
             e.Filter |= CriteriaOperator.Parse("[SessionChanged] = true");
+        }
+
+        private void bHelp_ItemClick(object sender, ItemClickEventArgs e) {
+            Settings.ShowHelp();
         }
     }
 }

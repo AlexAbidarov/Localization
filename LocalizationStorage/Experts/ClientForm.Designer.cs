@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colPath = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -65,6 +66,7 @@
             this.bsUser = new DevExpress.XtraBars.BarStaticItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
             this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.bHelp = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
@@ -354,8 +356,9 @@
             this.bbGroupCustomization,
             this.bbAddTranslation,
             this.bbComment,
-            this.bsUser});
-            this.toolbarFormManager1.MaxItemId = 12;
+            this.bsUser,
+            this.bHelp});
+            this.toolbarFormManager1.MaxItemId = 13;
             // 
             // bFilter
             // 
@@ -463,6 +466,7 @@
             this.toolbarFormControl1.TabStop = false;
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbSave);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bHeader);
+            this.toolbarFormControl1.TitleItemLinks.Add(this.bHelp);
             this.toolbarFormControl1.TitleItemLinks.Add(this.skinDropDownButtonItem1);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbGroupCustomization);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bsUser);
@@ -477,6 +481,14 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
             this.pmRowMenu.Manager = this.toolbarFormManager1;
             this.pmRowMenu.Name = "pmRowMenu";
+            // 
+            // bHelp
+            // 
+            this.bHelp.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.bHelp.Id = 12;
+            this.bHelp.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("bHelp.ImageOptions.SvgImage")));
+            this.bHelp.Name = "bHelp";
+            this.bHelp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bHelp_ItemClick);
             // 
             // ClientForm
             // 
@@ -546,6 +558,7 @@
         private DevExpress.XtraBars.BarButtonItem bbComment;
         private DevExpress.XtraBars.BarStaticItem bsUser;
         private DevExpress.XtraBars.Bar bFilter;
+        private DevExpress.XtraBars.BarButtonItem bHelp;
     }
 }
 
