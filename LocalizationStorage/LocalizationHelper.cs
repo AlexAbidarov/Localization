@@ -170,7 +170,13 @@ namespace LocalizationStorage {
         public static bool IsNameEmpty(string name) {
             return string.IsNullOrEmpty(name) || fileNotFount.Equals(name) || keyNotFount.Equals(name);
         }
-        public static void ShowHelp() { 
+        public static void ShowHelp() {
+            string docName = $@"{Application.StartupPath}\Docs\Localization Tool for John and Oliver.docx";
+            if(!File.Exists(docName))
+                XtraMessageBox.Show($"Document {docName} wasn't found.", "Documentation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            else { 
+                Process.Start(docName); 
+            }
         }
     }
     public static class ElapsedTime {
