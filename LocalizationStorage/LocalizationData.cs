@@ -63,6 +63,19 @@ namespace LocalizationStorage {
         public string Path { get; set; }
         public string Key { get; set; }
         public string Comment { get; set; }
+        internal string PureGerman {
+            get {
+                if(LocalizationHelper.ValueExist(Translation)) return Translation;
+                if(LocalizationHelper.ValueExist(German)) return German;
+                return string.Empty;
+            }
+        }
+        internal string PureRussian {
+            get {
+                if(LocalizationHelper.ValueExist(Russian)) return Russian;
+                return string.Empty;
+            }
+        }
         public void AddUserTranslation(string item) {
             if(Settings.IsNameEmpty(item)) return;
             var values = userTranslation.Where(x => x.Name == item).ToList();

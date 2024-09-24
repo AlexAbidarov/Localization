@@ -8,6 +8,7 @@ using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
+using LocalizationStorage.AI;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -264,6 +265,11 @@ namespace LocalizationStorage {
 
         private void bHelp_ItemClick(object sender, ItemClickEventArgs e) {
             Settings.ShowHelp();
+        }
+
+        private void bAI_ItemClick(object sender, ItemClickEventArgs e) {
+            using(var form = new AISettingsForm())
+                form.ShowDialog(this);
         }
     }
 }

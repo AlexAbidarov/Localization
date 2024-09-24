@@ -64,9 +64,10 @@
             this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
             this.bbComment = new DevExpress.XtraBars.BarButtonItem();
             this.bsUser = new DevExpress.XtraBars.BarStaticItem();
+            this.bHelp = new DevExpress.XtraBars.BarButtonItem();
+            this.bAI = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
             this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.bHelp = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemImageComboBox1)).BeginInit();
@@ -357,8 +358,9 @@
             this.bbAddTranslation,
             this.bbComment,
             this.bsUser,
-            this.bHelp});
-            this.toolbarFormManager1.MaxItemId = 13;
+            this.bHelp,
+            this.bAI});
+            this.toolbarFormManager1.MaxItemId = 14;
             // 
             // bFilter
             // 
@@ -456,6 +458,22 @@
             this.bsUser.Id = 11;
             this.bsUser.Name = "bsUser";
             // 
+            // bHelp
+            // 
+            this.bHelp.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.bHelp.Id = 12;
+            this.bHelp.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("bHelp.ImageOptions.SvgImage")));
+            this.bHelp.Name = "bHelp";
+            this.bHelp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bHelp_ItemClick);
+            // 
+            // bAI
+            // 
+            this.bAI.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.bAI.Caption = "AI";
+            this.bAI.Id = 13;
+            this.bAI.Name = "bAI";
+            this.bAI.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bAI_ItemClick);
+            // 
             // toolbarFormControl1
             // 
             this.toolbarFormControl1.Location = new System.Drawing.Point(0, 0);
@@ -467,6 +485,7 @@
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbSave);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bHeader);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bHelp);
+            this.toolbarFormControl1.TitleItemLinks.Add(this.bAI);
             this.toolbarFormControl1.TitleItemLinks.Add(this.skinDropDownButtonItem1);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbGroupCustomization);
             this.toolbarFormControl1.TitleItemLinks.Add(this.bsUser);
@@ -481,14 +500,6 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
             this.pmRowMenu.Manager = this.toolbarFormManager1;
             this.pmRowMenu.Name = "pmRowMenu";
-            // 
-            // bHelp
-            // 
-            this.bHelp.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
-            this.bHelp.Id = 12;
-            this.bHelp.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("bHelp.ImageOptions.SvgImage")));
-            this.bHelp.Name = "bHelp";
-            this.bHelp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bHelp_ItemClick);
             // 
             // ClientForm
             // 
@@ -559,6 +570,7 @@
         private DevExpress.XtraBars.BarStaticItem bsUser;
         private DevExpress.XtraBars.Bar bFilter;
         private DevExpress.XtraBars.BarButtonItem bHelp;
+        private DevExpress.XtraBars.BarButtonItem bAI;
     }
 }
 

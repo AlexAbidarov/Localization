@@ -10,3 +10,5 @@
 /LocalizationStorage/LocalizationStorage.csproj.user
 /Bin/*.bat
 /Localization.zip
+/Bin/*.dll
+/Bin/AI/azure.key
