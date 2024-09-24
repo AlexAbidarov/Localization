@@ -12,3 +12,4 @@
 /Localization.zip
 /Bin/*.dll
 /Bin/AI/azure.key
+/Bin/Logs/*.txt

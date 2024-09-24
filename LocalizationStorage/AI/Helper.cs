@@ -48,7 +48,9 @@ namespace LocalizationStorage.AI {
             base(condition) {
         }
         public static string GetRequestCondition(string English, string Russian, string German) {
-            return string.Format(FormatString, English, Russian, German);
+            return string.Format(FormatString, English, 
+                AISettings.Default.UseExistingRussian ? Russian : null,
+                AISettings.Default.UseExistingGerman ? German : null);
         }
     }
     public class GermanTranslateExtension : ChangeTextExtension<GermanTranslateRequest> {

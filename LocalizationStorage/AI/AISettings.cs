@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace LocalizationStorage.AI {
@@ -8,10 +9,18 @@ namespace LocalizationStorage.AI {
             textEdit1.Text = AISettings.Default.AzureOpenAIEndpoint;
             textEdit2.Text = AISettings.Default.AzureOpenAIKey;
             memoEdit1.Text = AISettings.Default.AIRequest;
+            ceGerman.DataBindings.Add("Checked", AISettings.Default, "UseExistingGerman");
+            ceRussian.DataBindings.Add("Checked", AISettings.Default, "UseExistingRussian");
         }
         protected override bool ProcessDialogKey(Keys keyData) {
-            Close();
+            if(keyData == Keys.Escape) 
+                Close();
             return false;
+        }
+        protected override void OnClosing(CancelEventArgs e) {
+            ceGerman.DoValidate();
+            ceRussian.DoValidate();
+            base.OnClosing(e);
         }
     }
 }

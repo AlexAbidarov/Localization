@@ -2,21 +2,26 @@
 using DevExpress.XtraSplashScreen;
 using DevExpress.XtraWaitForm;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 namespace LocalizationStorage {
     internal static class Program {
+        static List<string> assemblyResolving = new List<string>();
         [STAThread]
         static void Main(string[] args) {
             AppDomain.CurrentDomain.AssemblyResolve += (context, assembly) => {
                 string path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
                     $@"Packages\{IOHelper.GetShortAssembluName(assembly.Name)}.dll");
-                if(File.Exists(path))
+                bool fileExist = File.Exists(path);
+                assemblyResolving.Add($"{path} - {fileExist}");
+                if(fileExist)
                     return Assembly.LoadFrom(path);
                 return null;
             };
+            Application.ApplicationExit += (s, e) => IOHelper.SaveLog(assemblyResolving, "AssemblyResolving.txt");
             RunApp(args);
         }
         [MethodImpl(MethodImplOptions.NoInlining)]

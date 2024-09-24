@@ -50,5 +50,7 @@ namespace LocalizationStorage.AI {
         public string AzureOpenAIEndpoint => string.IsNullOrEmpty(azureOpenAIEndpoint) ? keyError : azureOpenAIEndpoint;
         public string AzureOpenAIKey => string.IsNullOrEmpty(azureOpenAIKey) ? keyError : azureOpenAIKey;
         public string AIRequest => string.IsNullOrEmpty(request) ? requestError : request;
+        public bool UseExistingGerman { get; set; } = true;
+        public bool UseExistingRussian { get; set; } = true;
     }
 }
