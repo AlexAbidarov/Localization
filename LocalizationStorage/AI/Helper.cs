@@ -59,7 +59,7 @@ namespace LocalizationStorage.AI {
 
         protected override void ConfigureDefaultRequestParameters(ChatMessageRequest chatRequest, GermanTranslateRequest request) {
             base.ConfigureDefaultRequestParameters(chatRequest, request);
-            chatRequest.Temperature = 0.1f;
+            chatRequest.Temperature = AISettings.Default.Temperature;
         }
         protected override string GetSystemPrompt(GermanTranslateRequest request) {
             return AISettings.Default.AIRequest;

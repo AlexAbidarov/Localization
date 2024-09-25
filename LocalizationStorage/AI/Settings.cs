@@ -52,5 +52,6 @@ namespace LocalizationStorage.AI {
         public string AIRequest => string.IsNullOrEmpty(request) ? requestError : request;
         public bool UseExistingGerman { get; set; } = true;
         public bool UseExistingRussian { get; set; } = true;
+        public float Temperature { get; set; } = 0.45f;
     }
 }

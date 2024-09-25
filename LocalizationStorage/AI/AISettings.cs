@@ -11,6 +11,7 @@ namespace LocalizationStorage.AI {
             memoEdit1.Text = AISettings.Default.AIRequest;
             ceGerman.DataBindings.Add("Checked", AISettings.Default, "UseExistingGerman");
             ceRussian.DataBindings.Add("Checked", AISettings.Default, "UseExistingRussian");
+            seTemperature.DataBindings.Add("EditValue", AISettings.Default, "Temperature");
         }
         protected override bool ProcessDialogKey(Keys keyData) {
             if(keyData == Keys.Escape) 
@@ -20,6 +21,7 @@ namespace LocalizationStorage.AI {
         protected override void OnClosing(CancelEventArgs e) {
             ceGerman.DoValidate();
             ceRussian.DoValidate();
+            seTemperature.DoValidate();
             base.OnClosing(e);
         }
     }

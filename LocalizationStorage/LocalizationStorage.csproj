@@ -124,6 +124,7 @@
     </Compile>
     <EmbeddedResource Include="AI\AISettings.resx">
       <DependentUpon>AISettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Experts\Comment.resx">
       <DependentUpon>Comment.cs</DependentUpon>
