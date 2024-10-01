@@ -108,10 +108,10 @@ namespace LocalizationStorage {
             int index = name.LastIndexOf(".");
             return $"{name.Substring(0, index)}.{satelliteExt}.resx";
         }
-        internal static string GetSatellitePath(string root, string keyPath, string satelliteExt) {
+        internal static string GetSatellitePath(string root, string keyPath, string satelliteExt, bool force = false) {
             keyPath = SatelliteByName(keyPath, satelliteExt);
             string path = Path.Combine(root, keyPath);
-            if(File.Exists(path))
+            if(File.Exists(path) || force)
                 return path;
             return string.Empty;
         } 

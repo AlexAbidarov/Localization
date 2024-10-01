@@ -28,9 +28,12 @@ namespace LocalizationStorage {
             gridControl1.DataSource = source;
             InitGrid();
             tePath.Text = root;
-            if(Directory.Exists(tePath.Text))
+            if(Directory.Exists(tePath.Text)) {
                 UpdateDataPath(tePath.Text);
+                CreateEmptySatellites();
+            }
             else sbExport.Enabled = false;
+            
         }
         void UpdateDataPath(string root) {
             source.ForEach(row => row.DePath = LocalizationHelper.GetSatellitePath(root, row.Path, satteliteExt));
@@ -177,23 +180,18 @@ namespace LocalizationStorage {
             if(keyData == Keys.Escape) Close();
             return false;
         }
+        void CreateEmptySatellites() {
+            source.ForEach(row => {
+                if(string.IsNullOrEmpty(row.DePath))
+                    row.DePath = ResxExportHelper.CreateSatellite(root, row.Path, satteliteExt);
+            });
+        }
         private void sbExport_Click(object sender, System.EventArgs e) {
             int count = 0;
             Cursor = Cursors.WaitCursor;
             try {
-                source.ForEach(r => {
-                    if(string.IsNullOrEmpty(r.DePath)) {
-                        ResxExportHelper.CreateSatellite(root, r.Path, r.DePath);
-                    }
-                    if(!string.IsNullOrEmpty(r.DePath)) {
-                        FileInfo fi = new FileInfo(r.DePath);
-                        if(ResxExportHelper.SetXValue(fi, r.Key, r.Translation
-                            , fi.FullName.IndexOf("DevExpress.XtraEditors") >= 0 //TODO check all values
-                            ))
-                            count++;
-                    }
-
-                });
+                source.ForEach(row => 
+                count += ResxExportHelper.ChangeXValue(row.DePath, row.Key, row.Translation));
             } finally {
                 Cursor = Cursors.Default;
             }
