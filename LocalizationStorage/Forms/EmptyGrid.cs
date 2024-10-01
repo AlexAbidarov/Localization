@@ -1,6 +1,5 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Columns;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace LocalizationStorage {
@@ -13,7 +12,7 @@ namespace LocalizationStorage {
 
         public EmptyGrid(Form owner, object data) {
             InitializeComponent();
-            this.Location = new Point(owner.Location.X + (owner.Width - Width) / 2, owner.Location.Y + (owner.Height - Height) / 2);
+            Location = UIHelper.GetCenterPoint(owner, Size);
             gridControl1.DataSource = data;
             gridView1.Columns.ForEach(col => col.OptionsColumn.AllowFocus = false);
             if(gridView1.Columns.Count > 0) {

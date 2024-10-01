@@ -104,6 +104,17 @@ namespace LocalizationStorage {
         static int LineCount(string text) {
             return text.Length - text.Replace("\n", string.Empty).Length;
         }
+        static string SatelliteByName(string name, string satelliteExt) {
+            int index = name.LastIndexOf(".");
+            return $"{name.Substring(0, index)}.{satelliteExt}.resx";
+        }
+        internal static string GetSatellitePath(string root, string keyPath, string satelliteExt) {
+            keyPath = SatelliteByName(keyPath, satelliteExt);
+            string path = Path.Combine(root, keyPath);
+            if(File.Exists(path))
+                return path;
+            return string.Empty;
+        } 
     }
     public class Settings {
         public static void ClearData() {
@@ -256,6 +267,10 @@ namespace LocalizationStorage {
             List<GroupSummarySortInfo> items = new List<GroupSummarySortInfo>();
             items.Add(new GroupSummarySortInfo(view.GroupSummary[0], column, order));
             view.GroupSummarySortInfo.ClearAndAddRange(items.ToArray());
+        }
+        public static Point GetCenterPoint(Control owner, Size size) {
+            return new Point(owner.Location.X + (owner.Width - size.Width) / 2, 
+                owner.Location.Y + (owner.Height - size.Height) / 2);
         }
     }
     public class IOHelper {

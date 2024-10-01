@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using System;
@@ -303,6 +304,42 @@ namespace LocalizationStorage {
             view.EndDataUpdate();
             view.GridControl.FindForm().Cursor = Cursors.Default;
         }
+        bool IsEmptyStatus(TranslationStatus status) {
+            return status == TranslationStatus.None ||
+                status == TranslationStatus.NoTranslationNeeded ||
+                status == TranslationStatus.NotSure ||
+                status == TranslationStatus.Problems;
+        }
+        public List<SimpleTranslation> GetTranslationData() {
+            var result = new List<SimpleTranslation>();
+            foreach(DataRow row in this.Rows) {
+                if(IsEmptyStatus((TranslationStatus)row[colStatus])) continue;
+                string translation = $"{row[colTranslate]}";
+                if(!LocalizationHelper.ValueExist(translation)) continue;
+                if($"{row[colGerman]}" == translation) continue; //Check All Values
+                if($"{row[colGerman]}" == translation) continue; //Check All Values
+                result.Add(new SimpleTranslation(
+                    $"{row[colPath]}",
+                    $"{row[colKey]}",
+                    $"{row[colEnglish]}",
+                    translation
+                    ));
+            }
+            return result.OrderBy(x => x.Path).ToList();
+        }
+    }
+    public class  SimpleTranslation {
+        public SimpleTranslation(string path, string key, string english, string translation) { 
+            Path = path;
+            Key = key;
+            English = english;
+            Translation = translation;
+        }
+        public string DePath { get; set; } = string.Empty;
+        public string Path { get; set; }
+        public string Key { get; set; }
+        public string English { get; set; }
+        public string Translation { get; set; }
     }
     public class LocalizationPath {
         public LocalizationPath(FileInfo file) {

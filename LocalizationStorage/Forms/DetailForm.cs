@@ -1,5 +1,4 @@
 ﻿using DevExpress.XtraEditors;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace LocalizationStorage {
@@ -25,7 +24,7 @@ namespace LocalizationStorage {
 
         public DetailForm(Form owner, LocalizationTranslation info) {
             InitializeComponent();
-            this.Location = new Point(owner.Location.X + (owner.Width - Width) / 2, owner.Location.Y + (owner.Height - Height) / 2);
+            Location = UIHelper.GetCenterPoint(owner, Size);
             textEdit2.Text = info.Key;
             textEdit1.Text = info.Path;
             textEdit3.Text = info.English;

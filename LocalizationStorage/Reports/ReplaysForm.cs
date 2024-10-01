@@ -3,10 +3,8 @@ using DevExpress.Utils.Extensions;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Columns;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LocalizationStorage.Reports {
@@ -15,8 +13,7 @@ namespace LocalizationStorage.Reports {
         List<LocalizationRepDe> replications = new List<LocalizationRepDe>();
         public ReplaysForm(Form owner) {
             InitializeComponent();
-            this.Location = new Point(owner.Location.X + (owner.Width - Width) / 2, 
-                owner.Location.Y + (owner.Height - Height) / 2);
+            Location = UIHelper.GetCenterPoint(owner, Size);
             data = Settings.Keys
                 .Where(k => !string.IsNullOrEmpty(k.English) && k.English.Length > 1)
                 .ToList();

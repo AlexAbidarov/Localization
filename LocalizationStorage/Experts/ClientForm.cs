@@ -2,7 +2,6 @@
 using DevExpress.Data.Filtering;
 using DevExpress.LookAndFeel;
 using DevExpress.Utils;
-using DevExpress.Utils.Colors;
 using DevExpress.Utils.Text;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
@@ -24,6 +23,7 @@ namespace LocalizationStorage {
             this.IconOptions.ImageUri = "language;Size32x32;Svg";
             repositoryItemImageComboBox1.AddEnum(typeof(TranslationStatus), true);
             UIHelper.SortBySummary(gridView1, colEnglish, ColumnSortOrder.Descending);
+            AddResxExport();
             AddFirstTranslation();
             //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
@@ -136,6 +136,17 @@ namespace LocalizationStorage {
                 button.ToolTip = $"Show {traslationName}_DX Data";
                 gridView1.ShowFindPanel();
             }
+        }
+        void AddResxExport() {
+            if(Settings.User.IndexOf("admin", StringComparison.OrdinalIgnoreCase) < 0) return;
+            var button = gridView1.FindPanelItems.AddButton(string.Empty, null,
+                    (s, args) => {
+                        using(ResxExportForm form = new ResxExportForm(this, Source.GetTranslationData()))
+                            form.ShowDialog();
+                    });
+            button.ImageOptions.ImageUri.Uri = "exportas;Size16x16;Svg";
+            button.ToolTip = $"ResX Export";
+            gridView1.ShowFindPanel();
         }
         void AddOperationButtons() {
             gridView1.FindPanelItems.AddButton(string.Empty, "Automatic translation", (s, args) => {

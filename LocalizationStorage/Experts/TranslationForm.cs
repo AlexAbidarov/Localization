@@ -1,7 +1,5 @@
 ﻿using DevExpress.XtraEditors;
-using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace LocalizationStorage {
@@ -26,8 +24,8 @@ namespace LocalizationStorage {
             else
                 mainControl = CreateRowControl(info);
             mainControl.Parent = pnlContainer;
-            this.Size = mainControl.Size;
-            this.Location = new Point(owner.Location.X + (owner.Width - Width) / 2, owner.Location.Y + (owner.Height - Height) / 2);
+            Size = mainControl.Size;
+            Location = UIHelper.GetCenterPoint(owner, Size);
             mainControl.Dock = DockStyle.Fill;
         }
         protected virtual TranslatinUserControl CreateRowControl(TranslationDe info) {

@@ -122,6 +122,10 @@
     <Compile Include="Experts\GroupRowTranslation.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="ResxExport\ResxExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResxExport\ResxExportHelper.cs" />
     <EmbeddedResource Include="AI\AISettings.resx">
       <DependentUpon>AISettings.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -157,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experts\GroupRowTranslation.resx">
       <DependentUpon>GroupRowTranslation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResxExport\ResxExportForm.resx">
+      <DependentUpon>ResxExportForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
