@@ -33,7 +33,7 @@ namespace LocalizationStorage {
                 CreateEmptySatellites();
             }
             else sbExport.Enabled = false;
-            
+
         }
         void UpdateDataPath(string root) {
             source.ForEach(row => row.DePath = LocalizationHelper.GetSatellitePath(root, row.Path, satteliteExt));
@@ -186,16 +186,42 @@ namespace LocalizationStorage {
                     row.DePath = ResxExportHelper.CreateSatellite(root, row.Path, satteliteExt);
             });
         }
-        private void sbExport_Click(object sender, System.EventArgs e) {
+        int DoStepToStepExport() {
             int count = 0;
+            source.ForEach(row => {
+                if(ResxExportHelper.IsTestValue(row.DePath))
+                    count += ResxExportHelper.ChangeXValue(row.DePath, row.Key, row.Translation);
+            });
+            return count;
+        }
+        int DoOptimizedExport() {
+            int count = 0;
+            Dictionary<string, string> valuePairs = new Dictionary<string, string>();
+            string path = null;
+            source.ForEach(row => {
+                if(ResxExportHelper.IsTestValue(row.DePath)) {
+                    if(path != row.DePath) {
+                        count += ResxExportHelper.ChangeXValues(path, valuePairs);
+                        valuePairs.Clear();
+                        path = row.DePath;
+                    }
+                    valuePairs.Add(row.Key, row.Translation);
+                }
+            });
+            count += ResxExportHelper.ChangeXValues(path, valuePairs);
+            return count;
+        }
+        private void sbExport_Click(object sender, System.EventArgs e) {
+            int count;
             Cursor = Cursors.WaitCursor;
             try {
-                source.ForEach(row => 
-                count += ResxExportHelper.ChangeXValue(row.DePath, row.Key, row.Translation));
+                ElapsedTime.Start();
+                count = DoOptimizedExport();
+                ElapsedTime.Stop();
             } finally {
                 Cursor = Cursors.Default;
             }
-            XtraMessageBox.Show($"Export {count} values.", "ResX Export");
+            XtraMessageBox.Show($"Export {count} values. Time: {ElapsedTime.GetNuGetTime()}", "ResX Export");
         }
     }
 }
