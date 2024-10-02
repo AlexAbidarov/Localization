@@ -316,7 +316,7 @@ namespace LocalizationStorage {
                 if(IsEmptyStatus((TranslationStatus)row[colStatus])) continue;
                 string translation = $"{row[colTranslate]}";
                 if(!LocalizationHelper.ValueExist(translation)) continue;
-                if($"{row[colGerman]}" == translation) continue; //Check All Values
+                if($"{row[colGerman]}" == translation) continue; //TODO Check All Values
                 result.Add(new SimpleTranslation(
                     $"{row[colPath]}",
                     $"{row[colKey]}",

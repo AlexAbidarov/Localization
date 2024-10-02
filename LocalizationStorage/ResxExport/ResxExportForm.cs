@@ -205,7 +205,8 @@ namespace LocalizationStorage {
                         valuePairs.Clear();
                         path = row.DePath;
                     }
-                    valuePairs.Add(row.Key, row.Translation);
+                    if(!valuePairs.ContainsKey(row.Key)) //TODO some resources have duplicate keys(!)
+                        valuePairs.Add(row.Key, row.Translation);
                 }
             });
             count += ResxExportHelper.ChangeXValues(path, valuePairs);
