@@ -187,9 +187,9 @@ namespace LocalizationStorage {
                 (row) => SetRowValue(row, string.Empty, TranslationStatus.None),
                 key, pKey, path);
         }
-        public int AddComment(string key, string comment, string pKey, string path) {
+        public int AddComment(string key, string comment, string pKey, string path, bool auto = true) {
             return ChangeRowValue(
-                (row) => SetRowComment(row, comment, string.IsNullOrEmpty(comment) ? TranslationStatus.None : TranslationStatus.Problems),
+                (row) => SetRowComment(row, comment, string.IsNullOrEmpty(comment) ? TranslationStatus.None : TranslationStatus.Problems, auto),
                 key, pKey, path);
         }
         int ChangeRowValue(Func<DataRow, bool> change, string key, string pKey = null, string path = null) {
@@ -213,10 +213,10 @@ namespace LocalizationStorage {
             row[colStatus] = status;
             return true;
         }
-        bool SetRowComment(DataRow row, string @value, TranslationStatus status) {
+        bool SetRowComment(DataRow row, string @value, TranslationStatus status, bool auto = true) {
             row[colComment] = @value;
-            if((status == TranslationStatus.None && IsStatusExist(row[colStatus], 
-                new TranslationStatus[] { TranslationStatus.Problems })) || status == TranslationStatus.Problems)
+            if(auto && ((status == TranslationStatus.None && IsStatusExist(row[colStatus], 
+                new TranslationStatus[] { TranslationStatus.Problems })) || status == TranslationStatus.Problems))
                 row[colStatus] = status;
             return true;
         }

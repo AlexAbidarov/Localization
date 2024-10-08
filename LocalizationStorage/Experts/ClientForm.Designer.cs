@@ -305,6 +305,7 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.bbTranslate),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNoTranslate),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNotSure),
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbComment),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
             this.pmGroupRowMenu.Manager = this.toolbarFormManager1;
             this.pmGroupRowMenu.Name = "pmGroupRowMenu";

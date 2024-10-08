@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Base;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -17,18 +18,17 @@ namespace LocalizationStorage {
         TranslatinUserControl mainControl = null;
         public TranslationForm(Form owner, TranslationDe info) {
             InitializeComponent();
-            if(info.IsGroup) {
+            if(info.IsGroup)
                 Text = $"{Text}(Group)";
-                mainControl = new GroupRowTranslation(info);
-            } 
-            else
-                mainControl = CreateRowControl(info);
+            mainControl = CreateRowControl(info);
             mainControl.Parent = pnlContainer;
             Size = mainControl.Size;
             Location = UIHelper.GetCenterPoint(owner, Size);
             mainControl.Dock = DockStyle.Fill;
         }
         protected virtual TranslatinUserControl CreateRowControl(TranslationDe info) {
+            if(info.IsGroup)
+                return new GroupRowTranslation(info);
             return new RowTranslation(info);
         }
         public string Translation => mainControl.Translation;
@@ -36,6 +36,7 @@ namespace LocalizationStorage {
         public string Key => mainControl.Key;
         public string Path => mainControl.Path;
         public string Comment => mainControl.Comment;
+        public bool Auto => mainControl.Auto;
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TranslationForm));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();

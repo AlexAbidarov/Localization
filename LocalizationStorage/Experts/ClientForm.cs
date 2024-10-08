@@ -267,7 +267,7 @@ namespace LocalizationStorage {
             using(CommentForm form = new CommentForm(this, Source.GetTranslationObjectByRow(e.Link, gridView1))) {
                 if(form.ShowDialog() == DialogResult.OK)
                     RowUpdate(() => Source.AddComment(
-                        form.English, form.Comment, form.Key, form.Path));
+                        form.English, form.Comment, form.Key, form.Path, form.Auto));
             }
         }
         private void gridView1_SubstituteFilter(object sender, SubstituteFilterEventArgs e) {
