@@ -9,7 +9,8 @@
 /Bin/LocalizationStorage.pdb
 /LocalizationStorage/LocalizationStorage.csproj.user
 /Bin/*.bat
-/Localization.zip
 /Bin/*.dll
 /Bin/AI/azure.key
 /Bin/Logs/*.txt
+/Import/*
+/*.zip

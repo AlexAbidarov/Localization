@@ -182,12 +182,21 @@ namespace LocalizationStorage {
             return string.IsNullOrEmpty(name) || fileNotFount.Equals(name) || keyNotFount.Equals(name);
         }
         public static void ShowHelp() {
-            string docName = $@"{Application.StartupPath}\Docs\Localization Tool for John and Oliver.docx";
+            string docName = GetHelpDoc($@"{Application.StartupPath}\Docs", "Readme.docx");
             if(!File.Exists(docName))
                 XtraMessageBox.Show($"Document {docName} wasn't found.", "Documentation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else { 
                 Process.Start(docName); 
             }
+        }
+        static string GetHelpDoc(string directory, string name) {
+            string doc = Path.Combine(directory, name);
+            if(File.Exists(doc)) return doc;
+            if(Directory.Exists(directory)) {
+                var files = Directory.GetFiles(directory, "*.doc*");
+                if(files.Length > 0) return files[0];
+            }
+            return doc;
         }
     }
     public static class ElapsedTime {
