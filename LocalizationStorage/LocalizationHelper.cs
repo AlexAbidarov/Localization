@@ -13,6 +13,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -301,8 +302,14 @@ namespace LocalizationStorage {
                     lines.ForEach((line) => sw.WriteLine($"{++index}. {line}"));
                 }
             } catch(Exception e) {
-                XtraMessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public static string GetLog(List<string> lines) {
+            StringBuilder result = new StringBuilder(); 
+            int index = 0;
+            lines.ForEach((line) => result.AppendLine($"{++index}. {line}"));
+            return $"{result}";
         }
     }
     public class GridHelper {

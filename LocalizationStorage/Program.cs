@@ -10,19 +10,36 @@ using System.Windows.Forms;
 namespace LocalizationStorage {
     internal static class Program {
         static List<string> assemblyResolving = new List<string>();
+        static Program() {
+            try {
+                string packagesDir = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "Packages");
+                if(!Directory.Exists(packagesDir))
+                    assemblyResolving.Add($"{packagesDir} not found.");
+                AppDomain.CurrentDomain.AssemblyResolve += (context, assembly) => {
+                    string path = Path.Combine(packagesDir,
+                        $@"{IOHelper.GetShortAssembluName(assembly.Name)}.dll");
+                    bool fileExist = File.Exists(path);
+                    assemblyResolving.Add($"{path} - {fileExist}");
+                    if(fileExist)
+                        return Assembly.LoadFrom(path);
+                    return null;
+                };
+            } catch(Exception ex) {
+                assemblyResolving.Add($"{ex.Message}");
+            }
+        }
         [STAThread]
         static void Main(string[] args) {
-            AppDomain.CurrentDomain.AssemblyResolve += (context, assembly) => {
-                string path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
-                    $@"Packages\{IOHelper.GetShortAssembluName(assembly.Name)}.dll");
-                bool fileExist = File.Exists(path);
-                assemblyResolving.Add($"{path} - {fileExist}");
-                if(fileExist)
-                    return Assembly.LoadFrom(path);
-                return null;
-            };
-            Application.ApplicationExit += (s, e) => IOHelper.SaveLog(assemblyResolving, "AssemblyResolving.txt");
-            RunApp(args);
+            try {
+                Application.ApplicationExit += (s, e) => SaveLog();
+                RunApp(args);
+            } catch {
+                MessageBox.Show(IOHelper.GetLog(assemblyResolving), "Error");
+                SaveLog();
+            }
+        }
+        static void SaveLog() {
+            IOHelper.SaveLog(assemblyResolving, "AssemblyResolving.txt");
         }
         [MethodImpl(MethodImplOptions.NoInlining)]
         static void RunApp(string[] args) {
