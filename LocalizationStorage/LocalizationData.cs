@@ -343,12 +343,14 @@ namespace LocalizationStorage {
             if(status == data.Status && translation == data.Translation && comment == data.Comment)
                 return false;
             row[colStatus] = data.Status;
-            row[colTranslate] = data.Translation;
-            row[colComment] = data.Comment;
+            if(!string.IsNullOrEmpty(data.Translation))
+                row[colTranslate] = data.Translation;
+            if(!string.IsNullOrEmpty(data.Comment))
+                row[colComment] = data.Comment;
             row[colUser] = data.User;
+            row[colSessionChanged] = true;
             return true;
         }
-
     }
     public class  SimpleTranslation {
         public SimpleTranslation(string path, string key, string english, string translation) { 

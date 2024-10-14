@@ -113,7 +113,9 @@ namespace LocalizationStorage {
             panel.AddFilterItem("Accepted (<b>Needs Verification</b>)", "[Status] = 6");
             panel.AddFilterItem("Accepted (<b>Auto</b>)", "[Status] = 5");
             panel.AddFilterItem("Translations with <b>problems</b>", "[Status] = 3 Or [Status] = 4");
-            panel.AddFilterItem($"Created by {Settings.User}", $"[User] = '{Settings.User}'", $"All records modified by {Settings.User}", "bo_lead;Size16x16;Svg");
+            panel.AddFilterItem($"Created by {Settings.User}",
+                $"[User] = '{Settings.User}' or (StartsWith([User], '{Settings.User}[') and EndsWith([User], ']'))",
+                $"All records modified by {Settings.User}", "bo_lead;Size16x16;Svg");
             panel.AddFilterItem($"Changed Records", $"[SessionChanged] = True", "Records modified during this session", "bo_audit_changehistory;Size16x16;Svg");
         }
         protected override void OnFormClosing(FormClosingEventArgs e) {
