@@ -19,6 +19,7 @@ namespace LocalizationStorage {
         static readonly string satteliteExt = "de";
         private SimpleButton sbExport;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         static readonly string root = @"D:\Work\v24.2\Localization";
 
         public ResxExportForm(Form owner, List<SimpleTranslation> data) {
@@ -26,7 +27,7 @@ namespace LocalizationStorage {
             Location = UIHelper.GetCenterPoint(owner, Size);
             source = data;
             gridControl1.DataSource = source;
-            InitGrid();
+            UIHelper.SetGridReadOnly(gridView1, false);
             tePath.Text = root;
             if(Directory.Exists(tePath.Text)) {
                 UpdateDataPath(tePath.Text);
@@ -37,13 +38,6 @@ namespace LocalizationStorage {
         }
         void UpdateDataPath(string root) {
             source.ForEach(row => row.DePath = LocalizationHelper.GetSatellitePath(root, row.Path, satteliteExt));
-        }
-        void InitGrid() {
-            gridView1.Columns.ForEach(col => col.OptionsColumn.AllowFocus = false);
-            if(gridView1.Columns.Count > 0) {
-                GridColumn column = gridView1.Columns[0];
-                column.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
-            }
         }
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ResxExportForm));
@@ -56,6 +50,7 @@ namespace LocalizationStorage {
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tePath.Properties)).BeginInit();
@@ -65,6 +60,7 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -84,7 +80,7 @@ namespace LocalizationStorage {
             // 
             this.sbExport.Location = new System.Drawing.Point(12, 36);
             this.sbExport.Name = "sbExport";
-            this.sbExport.Size = new System.Drawing.Size(1374, 22);
+            this.sbExport.Size = new System.Drawing.Size(441, 22);
             this.sbExport.StyleController = this.layoutControl1;
             this.sbExport.TabIndex = 6;
             this.sbExport.Text = "Export Data to ResXs";
@@ -94,7 +90,7 @@ namespace LocalizationStorage {
             // 
             this.tePath.Location = new System.Drawing.Point(108, 12);
             this.tePath.Name = "tePath";
-            this.tePath.Size = new System.Drawing.Size(1278, 20);
+            this.tePath.Size = new System.Drawing.Size(345, 20);
             this.tePath.StyleController = this.layoutControl1;
             this.tePath.TabIndex = 5;
             // 
@@ -122,7 +118,8 @@ namespace LocalizationStorage {
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1,
             this.layoutControlItem2,
-            this.layoutControlItem3});
+            this.layoutControlItem3,
+            this.emptySpaceItem1});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(1398, 468);
             this.Root.TextVisible = false;
@@ -141,7 +138,7 @@ namespace LocalizationStorage {
             this.layoutControlItem2.Control = this.tePath;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(1378, 24);
+            this.layoutControlItem2.Size = new System.Drawing.Size(445, 24);
             this.layoutControlItem2.Text = "Localization Path:";
             this.layoutControlItem2.TextSize = new System.Drawing.Size(84, 13);
             // 
@@ -150,9 +147,17 @@ namespace LocalizationStorage {
             this.layoutControlItem3.Control = this.sbExport;
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(1378, 26);
+            this.layoutControlItem3.Size = new System.Drawing.Size(445, 26);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
+            // 
+            // emptySpaceItem1
+            // 
+            this.emptySpaceItem1.AllowHotTrack = false;
+            this.emptySpaceItem1.Location = new System.Drawing.Point(445, 0);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(933, 50);
+            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // ResxExportForm
             // 
@@ -173,6 +178,7 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             this.ResumeLayout(false);
 
         }

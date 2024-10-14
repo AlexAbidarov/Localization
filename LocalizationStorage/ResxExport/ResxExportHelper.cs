@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 
 namespace LocalizationStorage.ResxExport {
-    public class ResxExportHelper {
+    public static class ResxExportHelper {
         static void UpdateValue(XDocument doc, string key, string translation) {
             var elements = doc.Root.Elements("data").ToList<XElement>();
             bool addNewKey = true;
@@ -78,6 +78,5 @@ namespace LocalizationStorage.ResxExport {
         }
         internal static bool IsTestValue(string path) => true;
             //path.IndexOf(@"DevExpress.XtraEditors") >= 0 || path.IndexOf(@"DXFontEditor") >= 0; //TODO check all values
-
     }
 }

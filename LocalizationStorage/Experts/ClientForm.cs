@@ -23,6 +23,7 @@ namespace LocalizationStorage {
             this.IconOptions.ImageUri = "language;Size32x32;Svg";
             repositoryItemImageComboBox1.AddEnum(typeof(TranslationStatus), true);
             UIHelper.SortBySummary(gridView1, colEnglish, ColumnSortOrder.Descending);
+            AddDataMerging();
             AddResxExport();
             AddFirstTranslation();
             //AddOperationButtons(); //single operation, code left as an example
@@ -137,15 +138,34 @@ namespace LocalizationStorage {
                 gridView1.ShowFindPanel();
             }
         }
-        void AddResxExport() {
-            if(Settings.User.IndexOf("admin", StringComparison.OrdinalIgnoreCase) < 0) return;
-            var button = gridView1.FindPanelItems.AddButton(string.Empty, null,
+        void AddResxExport(string name = "Resx Export") {
+            if(!Settings.IsAdmin) return;
+            var button = gridView1.FindPanelItems.AddButton(string.Empty, name,
                     (s, args) => {
-                        using(ResxExportForm form = new ResxExportForm(this, Source.GetTranslationData()))
+                        using(var form = new ResxExportForm(this, Source.GetTranslationData()))
                             form.ShowDialog();
                     });
             button.ImageOptions.ImageUri.Uri = "exportas;Size16x16;Svg";
-            button.ToolTip = $"ResX Export";
+            button.ToolTip = name;
+            gridView1.ShowFindPanel();
+        }
+        void AddDataMerging(string name = "Data Merging") {
+            if(!Settings.IsAdmin) return;
+            var button = gridView1.FindPanelItems.AddButton(string.Empty, name,
+                    (s, args) => {
+                        gridView1.BeginDataUpdate();
+                        try {
+                            using(var form = new DataMergingForm(this)) {
+                                form.ShowDialog();
+                                if(form.RowChanged > 0)
+                                    bbSave.Enabled = true;
+                            }
+                        } finally {
+                            gridView1.EndDataUpdate();
+                        }
+                    });
+            button.ImageOptions.ImageUri.Uri = "mergeacross;Size16x16;Svg";
+            button.ToolTip = name;
             gridView1.ShowFindPanel();
         }
         void AddOperationButtons() {

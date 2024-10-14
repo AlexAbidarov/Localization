@@ -14,12 +14,7 @@ namespace LocalizationStorage {
             InitializeComponent();
             Location = UIHelper.GetCenterPoint(owner, Size);
             gridControl1.DataSource = data;
-            gridView1.Columns.ForEach(col => col.OptionsColumn.AllowFocus = false);
-            if(gridView1.Columns.Count > 0) {
-                GridColumn column = gridView1.Columns[0];
-                column.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
-                column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-            }
+            UIHelper.SetGridReadOnly(gridView1);
         }
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmptyGrid));

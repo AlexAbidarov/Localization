@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="AI\Helper.cs" />
     <Compile Include="AI\Settings.cs" />
+    <Compile Include="DataMerging\DataMergingHelper.cs" />
     <Compile Include="Experts\Objects.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,6 +123,9 @@
     <Compile Include="Experts\GroupRowTranslation.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="DataMerging\DataMergingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ResxExport\ResxExportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experts\GroupRowTranslation.resx">
       <DependentUpon>GroupRowTranslation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataMerging\DataMergingForm.resx">
+      <DependentUpon>DataMergingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ResxExport\ResxExportForm.resx">
       <DependentUpon>ResxExportForm.cs</DependentUpon>

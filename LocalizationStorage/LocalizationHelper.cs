@@ -150,6 +150,7 @@ namespace LocalizationStorage {
                 user = value;
             }
         }
+        public static bool IsAdmin => user.IndexOf("admin", StringComparison.OrdinalIgnoreCase) >= 0;
         public static string DataPath { get; } = $@"{Application.StartupPath}\Data";
         public static string LogsPath => Path.Combine(DataPath, @"..\Logs");
         public static string GermanDataSetPath { get; } = $@"{DataPath}\{deDataSetName}";
@@ -281,6 +282,15 @@ namespace LocalizationStorage {
         public static Point GetCenterPoint(Control owner, Size size) {
             return new Point(owner.Location.X + (owner.Width - size.Width) / 2, 
                 owner.Location.Y + (owner.Height - size.Height) / 2);
+        }
+        public static void SetGridReadOnly(GridView view, bool allowSort = true) {
+            view.Columns.ForEach(col => col.OptionsColumn.AllowFocus = false);
+            if(view.Columns.Count > 0) {
+                GridColumn column = view.Columns[0];
+                column.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
+                if(allowSort) 
+                    column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            }
         }
     }
     public class IOHelper {

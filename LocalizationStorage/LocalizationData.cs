@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraBars;
-using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using LocalizationStorage.DataMerging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -87,18 +87,18 @@ namespace LocalizationStorage {
         }
     }
     public class ExpertDataTableDe : DataTable {
-        DataColumn colEnglish = new DataColumn("English", typeof(string));
-        DataColumn colPath = new DataColumn("Path", typeof(string));
-        DataColumn colKey = new DataColumn("Key", typeof(string));
-        DataColumn colTranslate = new DataColumn("NewGerman", typeof(string));
-        DataColumn colGerman = new DataColumn("German", typeof(string));
-        DataColumn colRussian = new DataColumn("Russian", typeof(string));
-        DataColumn colStatus = new DataColumn("Status", typeof(int));
-        DataColumn colComment = new DataColumn("Comment", typeof(string));
-        DataColumn colNotes = new DataColumn("Notes", typeof(string));
-        DataColumn colPicture = new DataColumn("Picture", typeof(byte[]));
-        DataColumn colUser = new DataColumn("User", typeof(string));
+        protected DataColumn colEnglish = new DataColumn("English", typeof(string));
+        protected DataColumn colPath = new DataColumn("Path", typeof(string));
+        protected DataColumn colKey = new DataColumn("Key", typeof(string));
+        protected DataColumn colTranslate = new DataColumn("NewGerman", typeof(string));
+        protected DataColumn colGerman = new DataColumn("German", typeof(string));
+        protected DataColumn colStatus = new DataColumn("Status", typeof(int));
+        protected DataColumn colComment = new DataColumn("Comment", typeof(string));
+        protected DataColumn colUser = new DataColumn("User", typeof(string));
         DataColumn colSessionChanged = new DataColumn("SessionChanged", typeof(bool));
+        DataColumn colRussian = new DataColumn("Russian", typeof(string));
+        DataColumn colNotes = new DataColumn("Notes", typeof(string));
+        DataColumn colPicture = new DataColumn("Picture", typeof(string));
         public ExpertDataTableDe() {
             TableName = Settings.deTableName;
             this.Columns.Add(colPath);
@@ -326,6 +326,29 @@ namespace LocalizationStorage {
             }
             return result.OrderBy(x => x.Path).ToList();
         }
+        public int MergeData(List<SimpleTranslationDe> fromData) {
+            int count = 0;
+            foreach(DataRow row in Rows) {
+                SimpleTranslationDe data = fromData.Where(x => x.Path.Equals($"{row[colPath]}") && x.Key.Equals($"{row[colKey]}")).FirstOrDefault();
+                if(data != null)
+                    count += MergeRow(row, data) ? 1 : 0;
+            }
+            return count;
+        }
+        bool MergeRow(DataRow row, SimpleTranslationDe data) {
+            TranslationStatus status = (TranslationStatus)row[colStatus];
+            string translation = $"{row[colTranslate]}";
+            string comment = $"{row[colComment]}";
+            //string user = $"{row[colUser]}";
+            if(status == data.Status && translation == data.Translation && comment == data.Comment)
+                return false;
+            row[colStatus] = data.Status;
+            row[colTranslate] = data.Translation;
+            row[colComment] = data.Comment;
+            row[colUser] = data.User;
+            return true;
+        }
+
     }
     public class  SimpleTranslation {
         public SimpleTranslation(string path, string key, string english, string translation) { 
