@@ -10,12 +10,14 @@ using System.Windows.Forms;
 namespace LocalizationStorage {
     internal static class Program {
         static List<string> assemblyResolving = new List<string>();
+        static string ExAssembly = "LocalizationStorage.resources";
         static Program() {
             try {
                 string packagesDir = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "Packages");
                 if(!Directory.Exists(packagesDir))
                     assemblyResolving.Add($"{packagesDir} not found.");
                 AppDomain.CurrentDomain.AssemblyResolve += (context, assembly) => {
+                    if(assembly.Name.IndexOf(ExAssembly, StringComparison.OrdinalIgnoreCase) == 0) return null;
                     string path = Path.Combine(packagesDir,
                         $@"{IOHelper.GetShortAssembluName(assembly.Name)}.dll");
                     bool fileExist = File.Exists(path);
@@ -33,7 +35,8 @@ namespace LocalizationStorage {
             try {
                 Application.ApplicationExit += (s, e) => SaveLog();
                 RunApp(args);
-            } catch {
+            } catch(Exception ex) {
+                assemblyResolving.Add($"{ex.Message}");
                 MessageBox.Show(IOHelper.GetLog(assemblyResolving), "Error");
                 SaveLog();
             }
