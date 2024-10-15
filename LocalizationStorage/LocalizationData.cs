@@ -355,7 +355,7 @@ namespace LocalizationStorage {
                 row[colComment] = data.Comment;
             row[colUser] = data.User;
             row[colSessionChanged] = true;
-            merge.Add($"{GetWarning(user)}{status}->{data.Status} '{english}' {GetLine(translation)}->{GetLine(data.Translation)}");
+            merge.Add($"{GetWarning(user)}{status}→{data.Status} '{english}' {GetLine(translation)}→{GetLine(data.Translation)}");
             return true;
         }
         string GetWarning(string user) {
@@ -365,7 +365,7 @@ namespace LocalizationStorage {
         }
         string GetLine(string line) {
             if(string.IsNullOrEmpty(line))
-                return $"epmty";
+                return $"empty";
             return $"'{line}'";
         }
     }
