@@ -34,6 +34,7 @@ namespace LocalizationStorage {
             //bsUser.Caption = $"{Info}";
             bbGroupCustomization.Down = true;
             CreateFilterPanel();
+            UIHelper.SetColumnAppearance(gridView1.Columns);
             SplashScreenManager.CloseForm();
         }
         void SetRowMenu() {

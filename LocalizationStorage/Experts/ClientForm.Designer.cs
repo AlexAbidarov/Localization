@@ -90,7 +90,7 @@
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemImageComboBox1});
-            this.gridControl1.Size = new System.Drawing.Size(1074, 624);
+            this.gridControl1.Size = new System.Drawing.Size(1275, 624);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -141,7 +141,9 @@
             this.colPath.OptionsColumn.AllowEdit = false;
             this.colPath.OptionsColumn.AllowFocus = false;
             this.colPath.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.colPath.Width = 215;
+            this.colPath.Visible = true;
+            this.colPath.VisibleIndex = 6;
+            this.colPath.Width = 173;
             // 
             // colKey
             // 
@@ -151,6 +153,9 @@
             this.colKey.OptionsColumn.AllowEdit = false;
             this.colKey.OptionsColumn.AllowFocus = false;
             this.colKey.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.colKey.Visible = true;
+            this.colKey.VisibleIndex = 7;
+            this.colKey.Width = 71;
             // 
             // colEnglish
             // 
@@ -186,7 +191,7 @@
             this.colGermanNew.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colGermanNew.Visible = true;
             this.colGermanNew.VisibleIndex = 2;
-            this.colGermanNew.Width = 209;
+            this.colGermanNew.Width = 150;
             // 
             // colRussian
             // 
@@ -209,7 +214,7 @@
             this.colGerman.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colGerman.Visible = true;
             this.colGerman.VisibleIndex = 3;
-            this.colGerman.Width = 196;
+            this.colGerman.Width = 136;
             // 
             // colStatus
             // 
@@ -258,7 +263,7 @@
             this.colComment.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colComment.Visible = true;
             this.colComment.VisibleIndex = 4;
-            this.colComment.Width = 205;
+            this.colComment.Width = 107;
             // 
             // colPicture
             // 
@@ -278,7 +283,7 @@
             this.colUser.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colUser.Visible = true;
             this.colUser.VisibleIndex = 5;
-            this.colUser.Width = 133;
+            this.colUser.Width = 106;
             // 
             // layoutControl1
             // 
@@ -288,7 +293,7 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1214, 348, 650, 400);
             this.layoutControl1.Root = this.Root;
-            this.layoutControl1.Size = new System.Drawing.Size(1098, 648);
+            this.layoutControl1.Size = new System.Drawing.Size(1299, 648);
             this.layoutControl1.TabIndex = 6;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -299,7 +304,7 @@
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1});
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(1098, 648);
+            this.Root.Size = new System.Drawing.Size(1299, 648);
             this.Root.TextVisible = false;
             // 
             // layoutControlItem1
@@ -307,7 +312,7 @@
             this.layoutControlItem1.Control = this.gridControl1;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(1078, 628);
+            this.layoutControlItem1.Size = new System.Drawing.Size(1279, 628);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
@@ -411,7 +416,7 @@
             this.barDockControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControl1.Location = new System.Drawing.Point(0, 31);
             this.barDockControl1.Manager = this.toolbarFormManager1;
-            this.barDockControl1.Size = new System.Drawing.Size(1098, 20);
+            this.barDockControl1.Size = new System.Drawing.Size(1299, 20);
             // 
             // barDockControl2
             // 
@@ -419,7 +424,7 @@
             this.barDockControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.barDockControl2.Location = new System.Drawing.Point(0, 699);
             this.barDockControl2.Manager = this.toolbarFormManager1;
-            this.barDockControl2.Size = new System.Drawing.Size(1098, 0);
+            this.barDockControl2.Size = new System.Drawing.Size(1299, 0);
             // 
             // barDockControl3
             // 
@@ -433,7 +438,7 @@
             // 
             this.barDockControl4.CausesValidation = false;
             this.barDockControl4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControl4.Location = new System.Drawing.Point(1098, 51);
+            this.barDockControl4.Location = new System.Drawing.Point(1299, 51);
             this.barDockControl4.Manager = this.toolbarFormManager1;
             this.barDockControl4.Size = new System.Drawing.Size(0, 648);
             // 
@@ -501,7 +506,7 @@
             this.toolbarFormControl1.Location = new System.Drawing.Point(0, 0);
             this.toolbarFormControl1.Manager = this.toolbarFormManager1;
             this.toolbarFormControl1.Name = "toolbarFormControl1";
-            this.toolbarFormControl1.Size = new System.Drawing.Size(1098, 31);
+            this.toolbarFormControl1.Size = new System.Drawing.Size(1299, 31);
             this.toolbarFormControl1.TabIndex = 11;
             this.toolbarFormControl1.TabStop = false;
             this.toolbarFormControl1.TitleItemLinks.Add(this.bbSave);
@@ -528,7 +533,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1098, 699);
+            this.ClientSize = new System.Drawing.Size(1299, 699);
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.barDockControl3);
             this.Controls.Add(this.barDockControl4);
