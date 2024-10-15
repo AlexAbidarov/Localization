@@ -302,7 +302,7 @@ namespace LocalizationStorage {
             Cursor = Cursors.WaitCursor;
             try {
                 ExpertDataTableDe toTable = Settings.MainDataSet.Tables[Settings.deTableName] as ExpertDataTableDe;
-                rowChangedCount = toTable.MergeData(fromData);
+                rowChangedCount = toTable.MergeData(fromData, $"{rgUsers.Text}[{UserDate}].txt");
             } finally {
                 Cursor = Cursors.Default;
             }

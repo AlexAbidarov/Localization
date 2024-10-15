@@ -43,6 +43,7 @@
             this.colNotes = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colComment = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPicture = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colUser = new DevExpress.XtraGrid.Columns.GridColumn();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -50,6 +51,7 @@
             this.bbTranslate = new DevExpress.XtraBars.BarButtonItem();
             this.bbNoTranslate = new DevExpress.XtraBars.BarButtonItem();
             this.bbNotSure = new DevExpress.XtraBars.BarButtonItem();
+            this.bbComment = new DevExpress.XtraBars.BarButtonItem();
             this.bbClearTranslate = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormManager1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormManager(this.components);
             this.bFilter = new DevExpress.XtraBars.Bar();
@@ -62,7 +64,6 @@
             this.skinDropDownButtonItem1 = new DevExpress.XtraBars.SkinDropDownButtonItem();
             this.bbGroupCustomization = new DevExpress.XtraBars.BarButtonItem();
             this.bbAddTranslation = new DevExpress.XtraBars.BarButtonItem();
-            this.bbComment = new DevExpress.XtraBars.BarButtonItem();
             this.bsUser = new DevExpress.XtraBars.BarStaticItem();
             this.bHelp = new DevExpress.XtraBars.BarButtonItem();
             this.bAI = new DevExpress.XtraBars.BarButtonItem();
@@ -107,7 +108,8 @@
             this.colStatus,
             this.colNotes,
             this.colComment,
-            this.colPicture});
+            this.colPicture,
+            this.colUser});
             this.gridView1.DetailHeight = 404;
             this.gridView1.FixedLineWidth = 1;
             this.gridView1.GridControl = this.gridControl1;
@@ -268,6 +270,14 @@
             this.colPicture.OptionsColumn.AllowFocus = false;
             this.colPicture.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             // 
+            // colUser
+            // 
+            this.colUser.FieldName = "User";
+            this.colUser.Name = "colUser";
+            this.colUser.OptionsColumn.AllowEdit = false;
+            this.colUser.OptionsColumn.AllowFocus = false;
+            this.colUser.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            // 
             // layoutControl1
             // 
             this.layoutControl1.Controls.Add(this.gridControl1);
@@ -330,6 +340,13 @@
             this.bbNotSure.Id = 4;
             this.bbNotSure.Name = "bbNotSure";
             this.bbNotSure.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbNotSure_ItemClick);
+            // 
+            // bbComment
+            // 
+            this.bbComment.Caption = "Add Comment";
+            this.bbComment.Id = 10;
+            this.bbComment.Name = "bbComment";
+            this.bbComment.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbComment_ItemClick);
             // 
             // bbClearTranslate
             // 
@@ -445,13 +462,6 @@
             this.bbAddTranslation.Id = 9;
             this.bbAddTranslation.Name = "bbAddTranslation";
             this.bbAddTranslation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbAddTranslation_ItemClick);
-            // 
-            // bbComment
-            // 
-            this.bbComment.Caption = "Add Comment";
-            this.bbComment.Id = 10;
-            this.bbComment.Name = "bbComment";
-            this.bbComment.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbComment_ItemClick);
             // 
             // bsUser
             // 
@@ -572,6 +582,7 @@
         private DevExpress.XtraBars.Bar bFilter;
         private DevExpress.XtraBars.BarButtonItem bHelp;
         private DevExpress.XtraBars.BarButtonItem bAI;
+        private DevExpress.XtraGrid.Columns.GridColumn colUser;
     }
 }
 

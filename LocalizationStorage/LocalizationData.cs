@@ -326,22 +326,28 @@ namespace LocalizationStorage {
             }
             return result.OrderBy(x => x.Path).ToList();
         }
-        public int MergeData(List<SimpleTranslationDe> fromData) {
+        List<string> merge = new List<string>();
+        public int MergeData(List<SimpleTranslationDe> fromData, string logName) {
+            merge.Clear();
             int count = 0;
             foreach(DataRow row in Rows) {
                 SimpleTranslationDe data = fromData.Where(x => x.Path.Equals($"{row[colPath]}") && x.Key.Equals($"{row[colKey]}")).FirstOrDefault();
                 if(data != null)
                     count += MergeRow(row, data) ? 1 : 0;
             }
+            IOHelper.SaveLog(merge, logName);
             return count;
         }
         bool MergeRow(DataRow row, SimpleTranslationDe data) {
             TranslationStatus status = (TranslationStatus)row[colStatus];
+            string english = $"{row[colEnglish]}";
             string translation = $"{row[colTranslate]}";
             string comment = $"{row[colComment]}";
-            //string user = $"{row[colUser]}";
-            if(status == data.Status && translation == data.Translation && comment == data.Comment)
+            string user = $"{row[colUser]}";
+            if(status == data.Status && translation == data.Translation && comment == data.Comment) {
+                merge.Add($"Error: {status} '{english}' - Nothing changed");
                 return false;
+            }
             row[colStatus] = data.Status;
             if(!string.IsNullOrEmpty(data.Translation))
                 row[colTranslate] = data.Translation;
@@ -349,7 +355,18 @@ namespace LocalizationStorage {
                 row[colComment] = data.Comment;
             row[colUser] = data.User;
             row[colSessionChanged] = true;
+            merge.Add($"{GetWarning(user)}{status}->{data.Status} '{english}' {GetLine(translation)}->{GetLine(data.Translation)}");
             return true;
+        }
+        string GetWarning(string user) {
+            if(string.IsNullOrEmpty(user))
+                return string.Empty;
+            return $"Warning ({user} changed): ";
+        }
+        string GetLine(string line) {
+            if(string.IsNullOrEmpty(line))
+                return $"epmty";
+            return $"'{line}'";
         }
     }
     public class  SimpleTranslation {
