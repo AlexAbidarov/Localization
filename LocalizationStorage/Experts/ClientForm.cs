@@ -45,6 +45,9 @@ namespace LocalizationStorage {
             bbTranslate.ImageOptions.ImageUri = "spreadsheet/group;Size16x16;Svg";
             bbGroupCustomization.ImageOptions.ImageUri = "treemap;Size16x16;Svg";
             bbComment.ImageOptions.ImageUri = "actions_comment;Size16x16;Svg";
+            bbVerify.ImageOptions.ImageUri = "check;Size16x16;Svg";
+            pmGroupRowMenu.BeforePopup += (s, e) => RemoveNoTranslationNeeded(s as PopupMenu);
+            pmRowMenu.BeforePopup += (s, e) => RemoveNoTranslationNeeded(s as PopupMenu);
             gridView1.PopupMenuShowing += (s, e) => {
                 if(e.HitInfo.InGroupRow) {
                     pmGroupRowMenu.Tag = e.HitInfo;
@@ -56,6 +59,10 @@ namespace LocalizationStorage {
                     e.ShowCustomMenu(pmRowMenu);
                 }
             };
+        }
+        void RemoveNoTranslationNeeded(PopupMenu menu) {
+            if(menu != null && !Settings.IsAdmin)
+                UIHelper.RemoveLinksFromMenu(menu, "No Translation Needed");
         }
         void SetRowVisualInfo() {
             gridView1.RowCellStyle += (s, e) => {
@@ -291,6 +298,13 @@ namespace LocalizationStorage {
                     RowUpdate(() => Source.AddComment(
                         form.English, form.Comment, form.Key, form.Path, form.Auto));
             }
+        }
+        private void bbVerify_ItemClick(object sender, ItemClickEventArgs e) {
+            string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
+            if(key != null)
+                RowUpdate(() => Source.Verify(key,
+                    Source.GetKeyByLink(e.Link, gridView1),
+                    Source.GetPathByLink(e.Link, gridView1)));
         }
         private void gridView1_SubstituteFilter(object sender, SubstituteFilterEventArgs e) {
             e.Filter |= CriteriaOperator.Parse("[SessionChanged] = true");

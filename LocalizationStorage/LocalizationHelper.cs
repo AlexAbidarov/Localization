@@ -292,6 +292,11 @@ namespace LocalizationStorage {
                     column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
             }
         }
+        internal static void RemoveLinksFromMenu(PopupMenu menu, string name) {
+            for(int i = menu.ItemLinks.Count - 1; i >= 0; i--)
+                if(menu.ItemLinks[i].Item.Caption.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                    menu.RemoveLink(menu.ItemLinks[i]);
+        }
     }
     public class IOHelper {
         internal static string GetShortAssembluName(string name) {

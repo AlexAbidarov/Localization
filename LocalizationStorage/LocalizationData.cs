@@ -136,6 +136,15 @@ namespace LocalizationStorage {
                 },
                 key, pKey, path);
         }
+        public int Verify(string key, string pKey = null, string path = null) { 
+            return ChangeRowValue(
+                (row) => {
+                    if(string.IsNullOrEmpty($"{row[colTranslate]}")) return false;
+                    row[colStatus] = TranslationStatus.Translated;
+                    return true;
+                },
+                key, pKey, path);
+        }
         internal int TryToAddAutomaticTranslate(string key, int rowHandle, GridView view) {
             if(view.IsGroupRow(rowHandle)) {
                 int iStartRow = view.GetChildRowHandle(rowHandle, 0);
@@ -345,7 +354,12 @@ namespace LocalizationStorage {
             string comment = $"{row[colComment]}";
             string user = $"{row[colUser]}";
             if(status == data.Status && translation == data.Translation && comment == data.Comment) {
-                merge.Add($"Error: {status} '{english}' - Nothing changed");
+                row[colUser] = data.User;
+                merge.Add($"Verify Translation: {status} '{english}' - nothing changed");
+                return true; //change user only
+            }
+            if(data.Status == TranslationStatus.None) {
+                merge.Add($"Error: {status}→{data.Status} '{english}'");
                 return false;
             }
             row[colStatus] = data.Status;

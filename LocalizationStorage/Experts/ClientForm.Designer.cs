@@ -49,6 +49,7 @@
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.pmGroupRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
             this.bbTranslate = new DevExpress.XtraBars.BarButtonItem();
+            this.bbVerify = new DevExpress.XtraBars.BarButtonItem();
             this.bbNoTranslate = new DevExpress.XtraBars.BarButtonItem();
             this.bbNotSure = new DevExpress.XtraBars.BarButtonItem();
             this.bbComment = new DevExpress.XtraBars.BarButtonItem();
@@ -140,8 +141,6 @@
             this.colPath.OptionsColumn.AllowEdit = false;
             this.colPath.OptionsColumn.AllowFocus = false;
             this.colPath.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.colPath.Visible = true;
-            this.colPath.VisibleIndex = 5;
             this.colPath.Width = 215;
             // 
             // colKey
@@ -187,7 +186,7 @@
             this.colGermanNew.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colGermanNew.Visible = true;
             this.colGermanNew.VisibleIndex = 2;
-            this.colGermanNew.Width = 172;
+            this.colGermanNew.Width = 209;
             // 
             // colRussian
             // 
@@ -210,7 +209,7 @@
             this.colGerman.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colGerman.Visible = true;
             this.colGerman.VisibleIndex = 3;
-            this.colGerman.Width = 162;
+            this.colGerman.Width = 196;
             // 
             // colStatus
             // 
@@ -259,7 +258,7 @@
             this.colComment.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
             this.colComment.Visible = true;
             this.colComment.VisibleIndex = 4;
-            this.colComment.Width = 202;
+            this.colComment.Width = 205;
             // 
             // colPicture
             // 
@@ -277,6 +276,9 @@
             this.colUser.OptionsColumn.AllowEdit = false;
             this.colUser.OptionsColumn.AllowFocus = false;
             this.colUser.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.colUser.Visible = true;
+            this.colUser.VisibleIndex = 5;
+            this.colUser.Width = 133;
             // 
             // layoutControl1
             // 
@@ -313,6 +315,7 @@
             // 
             this.pmGroupRowMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.bbTranslate),
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbVerify),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNoTranslate),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNotSure),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbComment),
@@ -326,6 +329,13 @@
             this.bbTranslate.Id = 2;
             this.bbTranslate.Name = "bbTranslate";
             this.bbTranslate.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbTranslate_ItemClick);
+            // 
+            // bbVerify
+            // 
+            this.bbVerify.Caption = "Verify Translation";
+            this.bbVerify.Id = 14;
+            this.bbVerify.Name = "bbVerify";
+            this.bbVerify.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbVerify_ItemClick);
             // 
             // bbNoTranslate
             // 
@@ -377,8 +387,9 @@
             this.bbComment,
             this.bsUser,
             this.bHelp,
-            this.bAI});
-            this.toolbarFormManager1.MaxItemId = 14;
+            this.bAI,
+            this.bbVerify});
+            this.toolbarFormManager1.MaxItemId = 15;
             // 
             // bFilter
             // 
@@ -506,6 +517,7 @@
             // 
             this.pmRowMenu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.bbAddTranslation),
+            new DevExpress.XtraBars.LinkPersistInfo(this.bbVerify),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbNoTranslate),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbComment),
             new DevExpress.XtraBars.LinkPersistInfo(this.bbClearTranslate, true)});
@@ -583,6 +595,7 @@
         private DevExpress.XtraBars.BarButtonItem bHelp;
         private DevExpress.XtraBars.BarButtonItem bAI;
         private DevExpress.XtraGrid.Columns.GridColumn colUser;
+        private DevExpress.XtraBars.BarButtonItem bbVerify;
     }
 }
 
