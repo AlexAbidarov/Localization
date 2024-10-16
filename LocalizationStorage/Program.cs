@@ -46,6 +46,7 @@ namespace LocalizationStorage {
         }
         [MethodImpl(MethodImplOptions.NoInlining)]
         static void RunApp(string[] args) {
+            DevExpress.XtraEditors.WindowsFormsSettings.DisableAccessibility = DefaultBoolean.True;
             SplashScreenManager.ShowForm(typeof(DemoWaitForm));
             if(args.Length > 0)
                 Settings.RootPath = args[0];

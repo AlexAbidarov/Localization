@@ -126,6 +126,7 @@
             this.gridView1.OptionsEditForm.PopupEditFormWidth = 933;
             this.gridView1.OptionsLayout.Columns.StoreAllOptions = true;
             this.gridView1.OptionsLayout.StoreAllOptions = true;
+            this.gridView1.OptionsView.AllowHtmlDrawGroups = false;
             this.gridView1.OptionsView.ShowAutoFilterRow = true;
             this.gridView1.OptionsView.ShowFooter = true;
             this.gridView1.OptionsView.ShowGroupedColumns = true;
