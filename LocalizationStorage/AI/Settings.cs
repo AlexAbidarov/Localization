@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using DevExpress.AIIntegration;
+using Microsoft.Extensions.AI;
 using System;
 using System.IO;
 using System.Text;
@@ -39,9 +40,11 @@ namespace LocalizationStorage.AI {
         void AIContainerRegistration() {
             var defaultContainer = AIExtensionsContainerDesktop.Default;
             defaultContainer.Register<GermanTranslateExtension>(typeof(GermanTranslateRequest));
-            defaultContainer.RegisterChatClientOpenAIService(
-                new AzureOpenAIClient(new Uri(azureOpenAIEndpoint),
-                new AzureKeyCredential(azureOpenAIKey)), "GPT4o");
+
+            IChatClient asChatClient = new Azure.AI.OpenAI.AzureOpenAIClient(
+                new Uri(azureOpenAIEndpoint), 
+                new System.ClientModel.ApiKeyCredential(azureOpenAIKey)).AsChatClient("GPT4o");
+            defaultContainer.RegisterChatClient(asChatClient);
         }
         string keyError = $"<< {keyName} is not found >>";
         string requestError = $"<< {requestName} is not found >>";
@@ -52,6 +55,6 @@ namespace LocalizationStorage.AI {
         public string AIRequest => string.IsNullOrEmpty(request) ? requestError : request;
         public bool UseExistingGerman { get; set; } = true;
         public bool UseExistingRussian { get; set; } = true;
-        public float Temperature { get; set; } = 0.45f;
+        public float Temperature { get; set; } = 0.05f;
     }
 }

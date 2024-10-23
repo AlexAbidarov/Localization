@@ -12,8 +12,9 @@ namespace LocalizationStorage {
         static List<string> assemblyResolving = new List<string>();
         static string ExAssembly = "LocalizationStorage.resources";
         static Program() {
+            string current = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            string packagesDir = Path.Combine(current, "Packages");
             try {
-                string packagesDir = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "Packages");
                 if(!Directory.Exists(packagesDir))
                     assemblyResolving.Add($"{packagesDir} not found.");
                 AppDomain.CurrentDomain.AssemblyResolve += (context, assembly) => {
@@ -28,6 +29,11 @@ namespace LocalizationStorage {
                 };
             } catch(Exception ex) {
                 assemblyResolving.Add($"{ex.Message}");
+            }
+            try {
+                CheckDXAssemblies();
+            } catch {
+                IOHelper.CopyAssemblies(packagesDir, current);
             }
         }
         [STAThread]
@@ -45,8 +51,11 @@ namespace LocalizationStorage {
             IOHelper.SaveLog(assemblyResolving, "AssemblyResolving.txt");
         }
         [MethodImpl(MethodImplOptions.NoInlining)]
-        static void RunApp(string[] args) {
+        static void CheckDXAssemblies() {
             DevExpress.XtraEditors.WindowsFormsSettings.DisableAccessibility = DefaultBoolean.True;
+        }
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        static void RunApp(string[] args) {
             SplashScreenManager.ShowForm(typeof(DemoWaitForm));
             if(args.Length > 0)
                 Settings.RootPath = args[0];

@@ -326,6 +326,20 @@ namespace LocalizationStorage {
             lines.ForEach((line) => result.AppendLine($"{++index}. {line}"));
             return $"{result}";
         }
+        public static void CopyAssemblies(string source, string target) {
+            DirectoryInfo diSource = new DirectoryInfo(source);
+            if(diSource.Exists) {
+                try {
+                    foreach(FileInfo fi in diSource.GetFiles()) {
+                        if(fi.Extension.IndexOf("dll", StringComparison.OrdinalIgnoreCase) >= 0) {
+                            string newFileName = Path.Combine(target, fi.Name);
+                            fi.CopyTo(newFileName, true);
+                        }
+                    }
+                } catch {
+                }
+            }
+        }
     }
     public class GridHelper {
         public static void ShowRowPopuMenu(GridView view, PopupMenu groupRowMenu, PopupMenu rowMenu) {
