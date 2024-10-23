@@ -326,19 +326,30 @@ namespace LocalizationStorage {
             lines.ForEach((line) => result.AppendLine($"{++index}. {line}"));
             return $"{result}";
         }
-        public static void CopyAssemblies(string source, string target) {
-            DirectoryInfo diSource = new DirectoryInfo(source);
-            if(diSource.Exists) {
-                try {
-                    foreach(FileInfo fi in diSource.GetFiles()) {
-                        if(fi.Extension.IndexOf("dll", StringComparison.OrdinalIgnoreCase) >= 0) {
-                            string newFileName = Path.Combine(target, fi.Name);
-                            fi.CopyTo(newFileName, true);
+        public static bool CopyAssemblies(string[] args) {
+            if(args.Length > 0 && HasCopyArgs(args)) {
+                string source = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                DirectoryInfo diSource = new DirectoryInfo(Path.Combine(source, "Packages"));
+                if(diSource.Exists) {
+                    try {
+                        foreach(FileInfo fi in diSource.GetFiles()) {
+                            if(fi.Extension.IndexOf("dll", StringComparison.OrdinalIgnoreCase) >= 0) {
+                                string newFileName = Path.Combine(source, fi.Name);
+                                fi.CopyTo(newFileName, true);
+                            }
                         }
+                    } catch(Exception ex) {
+                        MessageBox.Show($"{ex.Message}", "Copy Error");
                     }
-                } catch {
                 }
+                return true;
             }
+            return false;
+        }
+        static bool HasCopyArgs(string[] args) { 
+            foreach(string line in args)
+                if("--copy".Equals(line)) return true;
+            return false;
         }
     }
     public class GridHelper {
