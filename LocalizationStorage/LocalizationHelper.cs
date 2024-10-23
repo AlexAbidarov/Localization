@@ -335,7 +335,8 @@ namespace LocalizationStorage {
                         foreach(FileInfo fi in diSource.GetFiles()) {
                             if(fi.Extension.IndexOf("dll", StringComparison.OrdinalIgnoreCase) >= 0) {
                                 string newFileName = Path.Combine(source, fi.Name);
-                                fi.CopyTo(newFileName, true);
+                                if(!File.Exists(newFileName))
+                                    fi.CopyTo(newFileName, true);
                             }
                         }
                     } catch(Exception ex) {
