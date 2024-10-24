@@ -349,7 +349,7 @@ namespace LocalizationStorage {
         }
         static bool HasCopyArgs(string[] args) { 
             foreach(string line in args)
-                if("--copy".Equals(line)) return true;
+                if(line.IndexOf("copylocal", StringComparison.OrdinalIgnoreCase) == 1) return true;
             return false;
         }
     }

@@ -40,7 +40,7 @@ namespace LocalizationStorage {
                 RunApp(args);
             } catch(Exception ex) {
                 assemblyResolving.Add($"{ex.Message}");
-                MessageBox.Show(IOHelper.GetLog(assemblyResolving), "Error");
+                MessageBox.Show(IOHelper.GetLog(assemblyResolving), "Run Application Error");
                 SaveLog();
             }
         }
