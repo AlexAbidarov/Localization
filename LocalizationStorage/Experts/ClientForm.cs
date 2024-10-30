@@ -125,6 +125,7 @@ namespace LocalizationStorage {
                 $"[User] = '{Settings.User}' or (StartsWith([User], '{Settings.User}[') and EndsWith([User], ']'))",
                 $"All records modified by {Settings.User}", "bo_lead;Size16x16;Svg");
             panel.AddFilterItem($"Changed Records", $"[SessionChanged] = True", "Records modified during this session", "bo_audit_changehistory;Size16x16;Svg");
+            panel.AddFilterItem("<i>Different</i> translations", "[NewGerman] != [German]", "Records where new and old translations do not match");
         }
         protected override void OnFormClosing(FormClosingEventArgs e) {
             base.OnFormClosing(e);
