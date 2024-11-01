@@ -319,10 +319,14 @@ namespace LocalizationStorage {
                 status == TranslationStatus.NotSure ||
                 status == TranslationStatus.Problems;
         }
-        public List<SimpleTranslation> GetTranslationData() {
+        public List<SimpleTranslation> GetTranslationData() { //Main source for resx
             var result = new List<SimpleTranslation>();
             foreach(DataRow row in this.Rows) {
-                if(IsEmptyStatus((TranslationStatus)row[colStatus])) continue;
+                //if(IsEmptyStatus((TranslationStatus)row[colStatus])) continue;
+                //Or
+                if(((TranslationStatus)row[colStatus]) != TranslationStatus.Translated) continue;
+                if(string.IsNullOrEmpty($"{row[colUser]}")) continue;
+                //TODO test if($"{row[colUser]}".IndexOf("John") == -1) continue;
                 string translation = $"{row[colTranslate]}";
                 if(!LocalizationHelper.ValueExist(translation)) continue;
                 if($"{row[colGerman]}" == translation) continue; //TODO Check All Values
@@ -330,7 +334,8 @@ namespace LocalizationStorage {
                     $"{row[colPath]}",
                     $"{row[colKey]}",
                     $"{row[colEnglish]}",
-                    translation
+                    translation,
+                    $"{row[colUser]}"
                     ));
             }
             return result.OrderBy(x => x.Path).ToList();
@@ -384,17 +389,20 @@ namespace LocalizationStorage {
         }
     }
     public class  SimpleTranslation {
-        public SimpleTranslation(string path, string key, string english, string translation) { 
+        public SimpleTranslation(string path, string key, string english, string translation, string user) { 
             Path = path;
             Key = key;
             English = english;
             Translation = translation;
+            User = user;
         }
         public string DePath { get; set; } = string.Empty;
         public string Path { get; set; }
         public string Key { get; set; }
         public string English { get; set; }
         public string Translation { get; set; }
+        public string User { get; set; }
+        bool IsUserExists => !string.IsNullOrEmpty(User);
     }
     public class LocalizationPath {
         public LocalizationPath(FileInfo file) {

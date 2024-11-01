@@ -60,14 +60,12 @@ namespace LocalizationStorage.DataMerging {
             string user, 
             int status, 
             string comment) :
-            base(path, key, english, translation) {
+            base(path, key, english, translation, user) {
             DeTranslation = deTranslation;
-            User = user;
             Comment = comment;
             Status = (TranslationStatus)status;
         }
         public TranslationStatus Status { get; set; }
-        public string User { get; set; }
         public string Comment { get; set; }
         public string DeTranslation { get; set; }
     }
