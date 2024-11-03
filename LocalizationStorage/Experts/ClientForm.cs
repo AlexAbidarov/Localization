@@ -20,7 +20,7 @@ namespace LocalizationStorage {
         DataTable firstTranslateTable = null;
         public ClientForm() {
             InitializeComponent();
-            this.IconOptions.ImageUri = "language;Size32x32;Svg";
+            IconOptions.ImageUri = "language;Size32x32;Svg";
             repositoryItemImageComboBox1.AddEnum(typeof(TranslationStatus), true);
             UIHelper.SortBySummary(gridView1, colEnglish, ColumnSortOrder.Descending);
             AddDataMerging();
@@ -30,8 +30,9 @@ namespace LocalizationStorage {
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
             SetRowVisualInfo();
-            bHeader.Caption = $"Localization Storage (German)\r\nUser: {Settings.User}";
-            //bsUser.Caption = $"{Info}";
+            bHeader.Appearance.TextOptions.WordWrap = WordWrap.Wrap;
+            bHeader.Caption = $"Localization Storage (German)<br>User: <r>{Settings.User}</r>";
+            bHelp.Caption = "<b>Ctrl + Click</b> <r>- Show online help</r>";
             bbGroupCustomization.Down = true;
             CreateFilterPanel();
             UIHelper.SetColumnAppearance(gridView1.Columns);

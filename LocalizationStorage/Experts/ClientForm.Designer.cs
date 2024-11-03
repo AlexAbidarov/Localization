@@ -373,6 +373,7 @@
             // 
             // toolbarFormManager1
             // 
+            this.toolbarFormManager1.AllowHtmlText = true;
             this.toolbarFormManager1.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
             this.bFilter});
             this.toolbarFormManager1.DockControls.Add(this.barDockControl1);

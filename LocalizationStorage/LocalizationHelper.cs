@@ -184,11 +184,15 @@ namespace LocalizationStorage {
             return string.IsNullOrEmpty(name) || fileNotFount.Equals(name) || keyNotFount.Equals(name);
         }
         public static void ShowHelp() {
-            string docName = GetHelpDoc($@"{Application.StartupPath}\Docs", "Readme.docx");
+            bool ctrlHelp = (Control.ModifierKeys & System.Windows.Forms.Keys.Control) == System.Windows.Forms.Keys.Control;
+            string docName = GetHelpDoc($@"{Application.StartupPath}\Docs", "Readme.pdf");
             if(!File.Exists(docName))
                 XtraMessageBox.Show($"Document {docName} wasn't found.", "Documentation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            else { 
-                Process.Start(docName); 
+            else {
+                if(!ctrlHelp)
+                    Process.Start(docName);
+                else
+                    Process.Start("https://devexpress-my.sharepoint.com/:w:/p/denis_garavsky/EWfjNyEeBAZMrGFazWJejIoB9Zd0vbKjz5ADnKH7rtzExg?e=3VP197");
             }
         }
         static string GetHelpDoc(string directory, string name) {
