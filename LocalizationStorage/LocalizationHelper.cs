@@ -191,8 +191,8 @@ namespace LocalizationStorage {
             else {
                 if(!ctrlHelp)
                     Process.Start(docName);
-                else
-                    Process.Start("https://devexpress-my.sharepoint.com/:w:/p/denis_garavsky/EWfjNyEeBAZMrGFazWJejIoB9Zd0vbKjz5ADnKH7rtzExg?e=3VP197");
+                else 
+                    Process.Start("https://devexpress-my.sharepoint.com/:w:/p/garavsky/EWfjNyEeBAZMrGFazWJejIoB9Zd0vbKjz5ADnKH7rtzExg");
             }
         }
         static string GetHelpDoc(string directory, string name) {
