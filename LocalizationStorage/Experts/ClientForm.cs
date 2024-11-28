@@ -30,6 +30,7 @@ namespace LocalizationStorage {
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
             SetRowVisualInfo();
+            SetViewHandler();
             bHeader.Appearance.TextOptions.WordWrap = WordWrap.Wrap;
             bHeader.Caption = $"Localization Storage (German)<br>User: <r>{Settings.User}</r>";
             bHelp.Caption = "<b>Ctrl + Click</b> <r>- Show online help</r>";
@@ -81,12 +82,22 @@ namespace LocalizationStorage {
                     //SetColor(e.Appearance, DXSkinColorHelper.GetDXSkinColor(DXSkinColors.FillColors.Warning, 255, LookAndFeel));
                 }
             };
+        }
+        void SetViewHandler() {
             gridView1.KeyDown += (s, e) => {
                 if((e.KeyData == Keys.Space || e.KeyData == Keys.Enter) &&
                     gridView1.IsValidRowHandle(gridView1.FocusedRowHandle))
                     AddTranslation(gridView1.FocusedRowHandle);
-                if(e.KeyData == (Keys.M | Keys.Alt)) 
+                if(e.KeyData == (Keys.M | Keys.Alt))
                     GridHelper.ShowRowPopuMenu(gridView1, pmGroupRowMenu, pmRowMenu);
+            };
+            gridView1.DoubleClick += (s, e) => {
+                DXMouseEventArgs args = e as DXMouseEventArgs;
+                var hInfo = gridView1.CalcHitInfo(args.X, args.Y);
+                if(hInfo.InDataRow || hInfo.InGroupRow) {
+                    AddTranslation(hInfo.RowHandle);
+                    args.Handled = true;
+                }
             };
         }
         void UpdateAppearance(AppearanceObject app, int status) {
@@ -121,12 +132,18 @@ namespace LocalizationStorage {
             panel.AddFilterItem("Translated", "[Status] = 1");
             panel.AddFilterItem("Accepted (<b>Needs Verification</b>)", "[Status] = 6");
             panel.AddFilterItem("Accepted (<b>Auto</b>)", "[Status] = 5");
-            panel.AddFilterItem("Translations with <b>problems</b>", "[Status] = 3 Or [Status] = 4");
+            panel.AddFilterItem("Translations with <b>problems</b>", "([Status] = 3 Or [Status] = 4)");
+            panel.AddFilterItem("<i>Different</i> translations", 
+                "[NewGerman] <> [German] And Not IsNullOrEmpty([NewGerman])", "Records where new and old translations do not match");
             panel.AddFilterItem($"Created by {Settings.User}",
-                $"[User] = '{Settings.User}' or (StartsWith([User], '{Settings.User}[') and EndsWith([User], ']'))",
-                $"All records modified by {Settings.User}", "bo_lead;Size16x16;Svg");
-            panel.AddFilterItem($"Changed Records", $"[SessionChanged] = True", "Records modified during this session", "bo_audit_changehistory;Size16x16;Svg");
-            panel.AddFilterItem("<i>Different</i> translations", "[NewGerman] != [German] and Not IsNullOrEmpty([NewGerman])", "Records where new and old translations do not match");
+                $"[User] = '{Settings.User}' Or StartsWith([User], '{Settings.User}[') And EndsWith([User], ']')",
+                $"All records modified by {Settings.User}", "bo_lead;Size16x16;Svg", true);
+            panel.AddFilterItem($"Changed Records", $"[SessionChanged] = True", "Records modified during this session", "bo_audit_changehistory;Size16x16;Svg", true);
+            panel.AddFilterEx(new List<Tuple<string, string>>() {
+                new Tuple<string, string>("IsNullOrEmpty([User])", "User Is Empty"),
+                new Tuple<string, string>("Not IsNullOrEmpty([User])", "User Is Not Empty"),
+                new Tuple<string, string>(string.Empty, "No Additional Filter")
+            }, Settings.IsAdmin ? 2 : 0);
         }
         protected override void OnFormClosing(FormClosingEventArgs e) {
             base.OnFormClosing(e);
