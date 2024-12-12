@@ -1,5 +1,4 @@
 ﻿using DevExpress.XtraEditors;
-using DevExpress.XtraGrid.Columns;
 using LocalizationStorage.ResxExport;
 using System.Collections.Generic;
 using System.IO;

@@ -25,6 +25,7 @@ namespace LocalizationStorage {
             UIHelper.SortBySummary(gridView1, colEnglish, ColumnSortOrder.Descending);
             AddDataMerging();
             AddResxExport();
+            AddDataImport();
             AddFirstTranslation();
             //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
@@ -194,6 +195,26 @@ namespace LocalizationStorage {
                         }
                     });
             button.ImageOptions.ImageUri.Uri = "mergeacross;Size16x16;Svg";
+            button.ToolTip = name;
+            gridView1.ShowFindPanel();
+        }
+        void AddDataImport(string name = "New Data Import") {
+            if(!Settings.IsAdmin) return;
+            var button = gridView1.FindPanelItems.AddButton(string.Empty, name,
+                    (s, args) => {
+                        Cursor = Cursors.WaitCursor;
+                        gridView1.BeginDataUpdate();
+                        try {
+                            using(var form = new DataImportForm(this)) {
+                                form.ShowDialog();
+                                if(form.RowChanged > 0)
+                                    bbSave.Enabled = true;
+                            }
+                        } finally {
+                            gridView1.EndDataUpdate();
+                            Cursor = Cursors.Default;
+                        }
+                    });
             button.ToolTip = name;
             gridView1.ShowFindPanel();
         }

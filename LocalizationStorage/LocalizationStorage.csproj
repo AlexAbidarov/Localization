@@ -70,6 +70,10 @@
     </Compile>
     <Compile Include="AI\Helper.cs" />
     <Compile Include="AI\Settings.cs" />
+    <Compile Include="DataImport\DataImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataImport\DataImportHelper.cs" />
     <Compile Include="DataMerging\DataMergingHelper.cs" />
     <Compile Include="Experts\Objects.cs">
       <SubType>UserControl</SubType>
@@ -131,6 +135,9 @@
     <EmbeddedResource Include="AI\AISettings.resx">
       <DependentUpon>AISettings.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataImport\DataImportForm.resx">
+      <DependentUpon>DataImportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experts\Comment.resx">
       <DependentUpon>Comment.cs</DependentUpon>

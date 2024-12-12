@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
+using System.IO;
+using System.Windows.Forms;
 
 namespace LocalizationStorage.DataMerging {
     public static class DataMergingHelper {
@@ -13,12 +14,23 @@ namespace LocalizationStorage.DataMerging {
         public static DataSet GetDataSet(string file) {
             dataSet.Tables.Clear();
             try {
-                if(dataSet.Tables.Count == 0) 
+                if(dataSet.Tables.Count == 0)
                     dataSet.Tables.Add(new ExpertDataTableDeMerge());
                 dataSet.ReadXml(file);
             } catch {
             }
             return dataSet;
+        }
+        internal static string GetFile(string name, IWin32Window owner) {
+            FileInfo fi = new FileInfo(name);
+            var openFileDialog = new OpenFileDialog() {
+                InitialDirectory = fi.Exists ? fi.DirectoryName : AppDomain.CurrentDomain.BaseDirectory,
+                Filter = "Data files (*.xml)|*.xml|All files (*.*)|*.*",
+                FilterIndex = 0
+            };
+            if(openFileDialog.ShowDialog(owner) == DialogResult.OK)
+                return openFileDialog.FileName;
+            return null;
         }
     }
     public class ExpertDataTableDeMerge : ExpertDataTableDe {

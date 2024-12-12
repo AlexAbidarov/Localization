@@ -20,7 +20,7 @@ using System.Xml.Linq;
 
 namespace LocalizationStorage {
     public class LocalizationHelper {
-        public static List<LocalizationPath>  GetLocalizationPathSource(string path) {
+        public static List<LocalizationPath> GetLocalizationPathSource(string path) {
             List<LocalizationPath> result = new List<LocalizationPath>();
             AddResX(new DirectoryInfo(path), result);
             return result;

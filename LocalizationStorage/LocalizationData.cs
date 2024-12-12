@@ -95,8 +95,8 @@ namespace LocalizationStorage {
         protected DataColumn colStatus = new DataColumn("Status", typeof(int));
         protected DataColumn colComment = new DataColumn("Comment", typeof(string));
         protected DataColumn colUser = new DataColumn("User", typeof(string));
+        protected DataColumn colRussian = new DataColumn("Russian", typeof(string));
         DataColumn colSessionChanged = new DataColumn("SessionChanged", typeof(bool));
-        DataColumn colRussian = new DataColumn("Russian", typeof(string));
         DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colPicture = new DataColumn("Picture", typeof(string));
         public ExpertDataTableDe() {
@@ -388,21 +388,26 @@ namespace LocalizationStorage {
             return $"'{line}'";
         }
     }
-    public class  SimpleTranslation {
-        public SimpleTranslation(string path, string key, string english, string translation, string user) { 
+    public class BaseTranslation {
+        public BaseTranslation(string path, string key, string english, string user) {
             Path = path;
             Key = key;
             English = english;
-            Translation = translation;
             User = user;
         }
-        public string DePath { get; set; } = string.Empty;
         public string Path { get; set; }
         public string Key { get; set; }
         public string English { get; set; }
-        public string Translation { get; set; }
         public string User { get; set; }
         bool IsUserExists => !string.IsNullOrEmpty(User);
+    }
+    public class  SimpleTranslation : BaseTranslation {
+        public SimpleTranslation(string path, string key, string english, string translation, string user) : 
+            base(path, key, english, user) { 
+            Translation = translation;
+        }
+        public string DePath { get; set; } = string.Empty;
+        public string Translation { get; set; }
     }
     public class LocalizationPath {
         public LocalizationPath(FileInfo file) {
@@ -425,6 +430,7 @@ namespace LocalizationStorage {
         internal bool IsResource {
             get {
                 if(string.IsNullOrEmpty(Path)) return false;
+                if(Path.Contains(@"DevExpress.DLL")) return false;
                 if(Path.IndexOf(Settings.dX) == 0) return true;
                 return false;
             }
