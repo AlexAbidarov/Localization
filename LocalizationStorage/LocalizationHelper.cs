@@ -150,6 +150,8 @@ namespace LocalizationStorage {
                 user = value;
             }
         }
+        public static string FormattedToday => GetDateString(DateOnly.FromDateTime(DateTime.Today));
+        public static string GetDateString(DateOnly date) => string.Format("{0:yyyyMMdd}", date);
         public static bool IsAdmin => user.IndexOf("admin", StringComparison.OrdinalIgnoreCase) >= 0;
         public static string DataPath { get; } = $@"{Application.StartupPath}\Data";
         public static string LogsPath => Path.Combine(DataPath, @"..\Logs");
@@ -180,6 +182,7 @@ namespace LocalizationStorage {
                 return mainDataSet; 
             } 
         }
+        public static ExpertDataTableDe MainTable => Settings.MainDataSet.Tables[Settings.deTableName] as ExpertDataTableDe;
         public static bool IsNameEmpty(string name) {
             return string.IsNullOrEmpty(name) || fileNotFount.Equals(name) || keyNotFount.Equals(name);
         }

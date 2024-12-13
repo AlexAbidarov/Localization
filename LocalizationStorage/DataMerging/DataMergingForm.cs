@@ -245,7 +245,7 @@ namespace LocalizationStorage {
             gridControl1.ForceInitialize();
             UpdateData();
         }
-        string UserDate => DataMergingHelper.GetDateString(deDate.DateOnly);
+        string UserDate => Settings.GetDateString(deDate.DateOnly);
         void deDate_EditValueChanged(object sender, EventArgs e) {
             Text = $"Data Merging [{UserDate}]";
         }
@@ -288,8 +288,7 @@ namespace LocalizationStorage {
             var fromData = gridControl1.DataSource as List<SimpleTranslationDe>;
             Cursor = Cursors.WaitCursor;
             try {
-                ExpertDataTableDe toTable = Settings.MainDataSet.Tables[Settings.deTableName] as ExpertDataTableDe;
-                rowChangedCount = toTable.MergeData(fromData, $"{rgUsers.Text}[{UserDate}].txt");
+                rowChangedCount = Settings.MainTable.MergeData(fromData, $"{rgUsers.Text}[{UserDate}].txt");
             } finally {
                 Cursor = Cursors.Default;
             }

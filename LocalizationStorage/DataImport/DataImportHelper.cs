@@ -5,7 +5,7 @@ using System.Data;
 
 namespace LocalizationStorage.DataImport {
     public class DataImportHelper {
-        static DataSet dataSet = new DataSet();
+        static DataSet dataSet = new();
         public static DataTableDeImport DataTable =>
             dataSet.Tables.Count > 0 ?
             dataSet.Tables[Settings.deTableName] as DataTableDeImport : null;
@@ -68,9 +68,8 @@ namespace LocalizationStorage.DataImport {
             string key,
             string english,
             string german,
-            string russian
-            ) :
-            base(path, key, english, $"[{DataMergingHelper.GetDateString(DateOnly.FromDateTime(DateTime.Today))}]") {
+            string russian) :
+            base(path, key, english, $"New[{Settings.FormattedToday}]") {
             Russian = russian;
             German = german;
         }

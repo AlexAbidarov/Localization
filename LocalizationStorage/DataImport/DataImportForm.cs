@@ -3,6 +3,7 @@ using DevExpress.XtraEditors.Controls;
 using LocalizationStorage.DataImport;
 using LocalizationStorage.DataMerging;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace LocalizationStorage {
@@ -235,10 +236,9 @@ namespace LocalizationStorage {
             }
         }
         static object GetData(bool extra) {
-            var table = Settings.MainDataSet.Tables[Settings.deTableName] as ExpertDataTableDe;
             if(extra)
-                return DataImportHelper.DataTable.GetExtraData(table);
-            return DataImportHelper.DataTable.GetNewData(table);
+                return DataImportHelper.DataTable.GetExtraData(Settings.MainTable);
+            return DataImportHelper.DataTable.GetNewData(Settings.MainTable);
         }
         void beFile_EditValueChanged(object sender, EventArgs e) {
             UpdateData();
@@ -249,7 +249,16 @@ namespace LocalizationStorage {
                 beFile.Text = fileName;
         }
         void sbMerge_Click(object sender, System.EventArgs e) {
-            
+            int rowChangedCount = 0;
+            var fromData = gridControl1.DataSource as List<NewTranslation>;
+            Cursor = Cursors.WaitCursor;
+            try {
+                rowChangedCount = Settings.MainTable.ImportData(fromData, $"New[{Settings.FormattedToday}].txt");
+            } finally {
+                Cursor = Cursors.Default;
+            }
+            RowChanged += rowChangedCount;
+            XtraMessageBox.Show($"Added {rowChangedCount} from {fromData.Count} records.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

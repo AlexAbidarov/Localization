@@ -6,6 +6,7 @@ using DevExpress.Utils.Text;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraSplashScreen;
 using LocalizationStorage.AI;
 using System;
@@ -27,6 +28,7 @@ namespace LocalizationStorage {
             AddResxExport();
             AddDataImport();
             AddFirstTranslation();
+            AddAdminPrivileges();
             //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
@@ -198,6 +200,18 @@ namespace LocalizationStorage {
             button.ToolTip = name;
             gridView1.ShowFindPanel();
         }
+        void AddAdminPrivileges() {
+            if(!Settings.IsAdmin) return;
+            GridColumn column = gridView1.Columns.Add();
+            column.FieldName = "InternalInfo";
+            colUser.OptionsColumn.AllowEdit = true;
+            colUser.OptionsColumn.AllowFocus = true;
+            colStatus.OptionsColumn.AllowEdit = true;
+            colStatus.OptionsColumn.AllowFocus = true;
+            colGermanNew.OptionsColumn.AllowEdit = true;
+            colGermanNew.OptionsColumn.AllowFocus = true;
+            gridView1.OptionsBehavior.Editable = true;
+        }
         void AddDataImport(string name = "New Data Import") {
             if(!Settings.IsAdmin) return;
             var button = gridView1.FindPanelItems.AddButton(string.Empty, name,
@@ -224,7 +238,7 @@ namespace LocalizationStorage {
             });
             gridView1.ShowFindPanel();
         }
-        ExpertDataTableDe Source => Settings.MainDataSet.Tables[Settings.deTableName] as ExpertDataTableDe;
+        ExpertDataTableDe Source => Settings.MainTable;
         protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
             if(ExpertDataHelper.UpdateGermanData())

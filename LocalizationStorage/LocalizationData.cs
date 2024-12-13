@@ -1,6 +1,7 @@
 ﻿using DevExpress.XtraBars;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using LocalizationStorage.DataImport;
 using LocalizationStorage.DataMerging;
 using System;
 using System.Collections.Generic;
@@ -96,6 +97,7 @@ namespace LocalizationStorage {
         protected DataColumn colComment = new DataColumn("Comment", typeof(string));
         protected DataColumn colUser = new DataColumn("User", typeof(string));
         protected DataColumn colRussian = new DataColumn("Russian", typeof(string));
+        protected DataColumn colInternalInfo = new DataColumn("InternalInfo", typeof(string));
         DataColumn colSessionChanged = new DataColumn("SessionChanged", typeof(bool));
         DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colPicture = new DataColumn("Picture", typeof(string));
@@ -112,7 +114,8 @@ namespace LocalizationStorage {
             this.Columns.Add(colComment);
             this.Columns.Add(colPicture);
             this.Columns.Add(colUser);
-            this.Columns.Add(colSessionChanged);
+            this.Columns.Add(colInternalInfo);
+            this.Columns.Add(colSessionChanged); //Last column!
         }
         public int AddTranslation(string key, string word, TranslationStatus status = TranslationStatus.Translated, string pKey = null, string path = null) {
             return ChangeRowValue(
@@ -352,6 +355,18 @@ namespace LocalizationStorage {
             IOHelper.SaveLog(merge, logName);
             return count;
         }
+        public int ImportData(List<NewTranslation> fromData, string logName) {
+            merge.Clear();
+            fromData.ForEach(row => {
+                DataRow newRow = Rows.Add(new object[] {
+                    row.Path, row.Key, row.English, string.Empty, row.German, row.Russian, 0
+                });
+                newRow[colInternalInfo] = row.User;
+                ImportRow(row);
+            });
+            IOHelper.SaveLog(merge, logName);
+            return fromData.Count;
+        }
         bool MergeRow(DataRow row, SimpleTranslationDe data) {
             TranslationStatus status = (TranslationStatus)row[colStatus];
             string english = $"{row[colEnglish]}";
@@ -376,6 +391,9 @@ namespace LocalizationStorage {
             row[colSessionChanged] = true;
             merge.Add($"{GetWarning(user)}{status}→{data.Status} '{english}' {GetLine(translation)}→{GetLine(data.Translation)}");
             return true;
+        }
+        void ImportRow(NewTranslation row) {
+            merge.Add($"Added: {row.English} - {row.Key} - {row.Path}");
         }
         string GetWarning(string user) {
             if(string.IsNullOrEmpty(user))

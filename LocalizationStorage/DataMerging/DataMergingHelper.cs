@@ -6,8 +6,7 @@ using System.Windows.Forms;
 
 namespace LocalizationStorage.DataMerging {
     public static class DataMergingHelper {
-        static DataSet dataSet = new DataSet();
-        public static string GetDateString(DateOnly date) => string.Format("{0:yyyyMMdd}", date);
+        static DataSet dataSet = new();
         public static ExpertDataTableDeMerge DataTable => 
             dataSet.Tables.Count > 0 ? 
             dataSet.Tables[Settings.deTableName] as ExpertDataTableDeMerge : null;
