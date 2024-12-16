@@ -1,7 +1,5 @@
 ﻿using DevExpress.XtraEditors;
-using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace LocalizationStorage {
     public class GroupRowTranslation : TranslatinUserControl {

@@ -23,7 +23,7 @@ namespace LocalizationStorage.AI {
             }
             return value;
         }
-        public static string GetTranslation(string suggest, string translation) { 
+        public static string GetTranslation(string suggest, string translation) {
             if(string.IsNullOrEmpty(suggest)) return translation;
             if(LocalizationHelper.ValueExist(translation) && suggest != translation) {
                 if(XtraMessageBox.Show($"AI suggests replacing\r\n{translation}\r\nwith\r\n{suggest}\r\nDo you agree?",
@@ -48,7 +48,7 @@ namespace LocalizationStorage.AI {
             base(condition) {
         }
         public static string GetRequestCondition(string English, string Russian, string German) {
-            return string.Format(FormatString, English, 
+            return string.Format(FormatString, English,
                 AISettings.Default.UseExistingRussian ? Russian : null,
                 AISettings.Default.UseExistingGerman ? German : null);
         }

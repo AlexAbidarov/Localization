@@ -21,7 +21,7 @@ namespace LocalizationStorage.Reports {
 
         private void ReplaysForm_Load(object sender, System.EventArgs e) {
             var keyValuePairs = new Dictionary<string, int>();
-            data.ForEach(t => { 
+            data.ForEach(t => {
                 string key = t.English;
                 if(keyValuePairs.ContainsKey(key))
                     keyValuePairs[key]++;
@@ -30,8 +30,8 @@ namespace LocalizationStorage.Reports {
             var grouping = keyValuePairs
                 .Where(k => k.Value > 1)
                 .OrderByDescending(k => k.Value);
-            
-            grouping.ForEach(k => 
+
+            grouping.ForEach(k =>
                 replications.Add(new LocalizationRepDe(k.Key, k.Value, data))
             );
             gridControl1.DataSource = replications;

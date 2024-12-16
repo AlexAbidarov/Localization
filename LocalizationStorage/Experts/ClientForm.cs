@@ -1,8 +1,6 @@
 ﻿using DevExpress.Data;
 using DevExpress.Data.Filtering;
-using DevExpress.LookAndFeel;
 using DevExpress.Utils;
-using DevExpress.Utils.Text;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
@@ -12,7 +10,6 @@ using LocalizationStorage.AI;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -28,7 +25,6 @@ namespace LocalizationStorage {
             AddResxExport();
             AddDataImport();
             AddFirstTranslation();
-            AddAdminPrivileges();
             //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
@@ -60,9 +56,16 @@ namespace LocalizationStorage {
                     e.ShowCustomMenu(pmGroupRowMenu);
                     return;
                 }
-                if(e.HitInfo.InRow && e.HitInfo.RowHandle >= 0) { 
+                if(e.HitInfo.InRow && e.HitInfo.RowHandle >= 0) {
                     pmRowMenu.Tag = e.HitInfo;
                     e.ShowCustomMenu(pmRowMenu);
+                }
+            };
+            bbEditNew.ItemClick += (s, e) => {
+                string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
+                using(var form = new EditData(this, key)) {
+                    form.ShowDialog();
+                    bbSave.Enabled = true;
                 }
             };
         }
@@ -73,13 +76,13 @@ namespace LocalizationStorage {
         void SetRowVisualInfo() {
             gridView1.RowCellStyle += (s, e) => {
                 if(e.Column == colStatus && e.CellValue != null)
-                    UpdateAppearance(e.Appearance, (int)e.CellValue);
+                    UIHelper.UpdateAppearance(e.Appearance, (int)e.CellValue);
             };
             gridView1.CustomDrawGroupRow += (s, e) => {
                 if(bbGroupCustomization.Down) {
                     if(e.RowHandle != gridView1.FocusedRowHandle) {
                         TranslationStatus status = Source.GetStatusByGroupRowValue(e.RowHandle, gridView1);
-                        UpdateAppearance(e.Appearance, (int)status);
+                        UIHelper.UpdateAppearance(e.Appearance, (int)status);
                     }
                     else { }
                     //SetColor(e.Appearance, DXSkinColorHelper.GetDXSkinColor(DXSkinColors.FillColors.Warning, 255, LookAndFeel));
@@ -103,32 +106,6 @@ namespace LocalizationStorage {
                 }
             };
         }
-        void UpdateAppearance(AppearanceObject app, int status) {
-            switch(status) {
-                case 1://Translated
-                    SetColor(app, DXSkinColors.FillColors.Success);
-                    break;
-                case 2://No Translation Needed
-                    SetColor(app, DXSkinColors.FillColors.Primary);
-                    break;
-                case 3://Not Sure
-                    SetColor(app, Color.Yellow);
-                    break;
-                case 4://Problems
-                    SetColor(app, DXSkinColors.FillColors.Danger);
-                    break;
-                case 5://Automatic
-                    SetColor(app, Color.LightSkyBlue);
-                    break;
-                case 6://Needs Verification
-                    SetColor(app, Color.LightBlue);
-                    break;
-            }
-        }
-        void SetColor(AppearanceObject app, Color color, object foreColor = null) { 
-            app.BackColor = color;
-            app.ForeColor = foreColor == null ? ContrastColor.GetContrastForeColor(color) : (Color)foreColor;
-        }
         void CreateFilterPanel() {
             FilterPanel panel = new FilterPanel(gridView1, bFilter);
             panel.AddFilterItem("<b>Not</b> Translated", "[Status] = 0");
@@ -136,7 +113,7 @@ namespace LocalizationStorage {
             panel.AddFilterItem("Accepted (<b>Needs Verification</b>)", "[Status] = 6");
             panel.AddFilterItem("Accepted (<b>Auto</b>)", "[Status] = 5");
             panel.AddFilterItem("Translations with <b>problems</b>", "([Status] = 3 Or [Status] = 4)");
-            panel.AddFilterItem("<i>Different</i> translations", 
+            panel.AddFilterItem("<i>Different</i> translations",
                 "[NewGerman] <> [German] And Not IsNullOrEmpty([NewGerman])", "Records where new and old translations do not match");
             panel.AddFilterItem($"Created by {Settings.User}",
                 $"[User] = '{Settings.User}' Or StartsWith([User], '{Settings.User}[') And EndsWith([User], ']')",
@@ -159,7 +136,7 @@ namespace LocalizationStorage {
             string firstTranslatePath = $"{Settings.DataPath}\\{traslationName}.csv";
             if(File.Exists(firstTranslatePath)) {
                 firstTranslateTable = CSVHelper.ConvertCSVtoDataTable(new FileInfo(firstTranslatePath));
-                var button = gridView1.FindPanelItems.AddButton(string.Empty, null, 
+                var button = gridView1.FindPanelItems.AddButton(string.Empty, null,
                     (s, args) => {
                         using(EmptyGrid form = new EmptyGrid(this, firstTranslateTable))
                             form.ShowDialog();
@@ -203,14 +180,12 @@ namespace LocalizationStorage {
         void AddAdminPrivileges() {
             if(!Settings.IsAdmin) return;
             GridColumn column = gridView1.Columns.Add();
+            column.OptionsColumn.AllowFocus = false;
+            column.OptionsColumn.AllowEdit = false;
             column.FieldName = "InternalInfo";
-            colUser.OptionsColumn.AllowEdit = true;
-            colUser.OptionsColumn.AllowFocus = true;
-            colStatus.OptionsColumn.AllowEdit = true;
-            colStatus.OptionsColumn.AllowFocus = true;
-            colGermanNew.OptionsColumn.AllowEdit = true;
-            colGermanNew.OptionsColumn.AllowFocus = true;
-            gridView1.OptionsBehavior.Editable = true;
+            var link = pmRowMenu.ItemLinks[0];
+            link.BeginGroup = true;
+            pmRowMenu.InsertItem(link, bbEditNew);
         }
         void AddDataImport(string name = "New Data Import") {
             if(!Settings.IsAdmin) return;
@@ -241,6 +216,7 @@ namespace LocalizationStorage {
         ExpertDataTableDe Source => Settings.MainTable;
         protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
+            AddAdminPrivileges();
             if(ExpertDataHelper.UpdateGermanData())
                 gridControl1.DataSource = Source;
             else {

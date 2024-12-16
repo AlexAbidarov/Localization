@@ -63,11 +63,11 @@ namespace LocalizationStorage {
         public void RefreshFilter(GridView view, bool forceClear = false) {
             if(buttonItem.Down)
                 view.ActiveFilterCriteria = CriteriaOperator.Parse(FilterString);
-            else 
+            else
                 if(forceClear) view.ActiveFilterCriteria = null;
         }
         public bool Down => buttonItem.Down;
-        string FilterString { 
+        string FilterString {
             get {
                 if(string.IsNullOrEmpty(filterPanel.FilterEx) || simpleFilter) return filterString;
                 return $"{filterString} And {filterPanel.FilterEx}";

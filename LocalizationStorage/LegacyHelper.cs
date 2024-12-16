@@ -75,11 +75,11 @@ namespace LocalizationStorage {
         static string GetResult(StringBuilder builder) {
             string val = builder.ToString();
             val = val.Trim();
-            val = val.Replace("English: ", "");
-            if(string.IsNullOrEmpty(val)) 
+            val = val.Replace("English: ", string.Empty);
+            if(string.IsNullOrEmpty(val))
                 return string.Empty;
             if(val.Substring(0, 1) == "\"" &&
-                val.Substring(val.Length - 1, 1) == "\"") { 
+                val.Substring(val.Length - 1, 1) == "\"") {
                 val = val.Substring(1, val.Length - 2);
             }
             val = val.Replace("\"\"", "\"");

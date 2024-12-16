@@ -14,7 +14,7 @@ namespace LocalizationStorage.AI {
             seTemperature.DataBindings.Add("EditValue", AISettings.Default, "Temperature");
         }
         protected override bool ProcessDialogKey(Keys keyData) {
-            if(keyData == Keys.Escape) 
+            if(keyData == Keys.Escape)
                 Close();
             return false;
         }

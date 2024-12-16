@@ -68,16 +68,16 @@ namespace LocalizationStorage {
             var key = UIHelper.GetKeyByLink(e.Link);
             if(key != null)
                 Clipboard.SetText(key.Name);
-            else { 
+            else {
                 var key2 = UIHelper.GetTranslateByLink(e.Link);
                 if(key2 != null)
                     Clipboard.SetText(key2.Key);
-            } 
+            }
         }
 
         private void bbiCopyValue_ItemClick(object sender, ItemClickEventArgs e) {
             var key = UIHelper.GetKeyByLink(e.Link);
-            if(key != null) 
+            if(key != null)
                 Clipboard.SetText(key.Value);
         }
 

@@ -26,14 +26,14 @@ namespace LocalizationStorage {
         [Display(Name = "Accepted (Needs Verification)")]
         IsAcceptedAutomatically2 = 6
     };
-    public class UserTranslation { 
+    public class UserTranslation {
         public UserTranslation(string name) {
             Name = name;
             Count = 1;
         }
         public string Name { get; set; }
         public int Count { get; private set; }
-        public void AddCount() { 
+        public void AddCount() {
             Count++;
         }
     }
@@ -98,7 +98,7 @@ namespace LocalizationStorage {
         protected DataColumn colUser = new DataColumn("User", typeof(string));
         protected DataColumn colRussian = new DataColumn("Russian", typeof(string));
         protected DataColumn colInternalInfo = new DataColumn("InternalInfo", typeof(string));
-        DataColumn colSessionChanged = new DataColumn("SessionChanged", typeof(bool));
+        DataColumn colSessionChanged = new DataColumn(Settings.sessionChanged, typeof(bool));
         DataColumn colNotes = new DataColumn("Notes", typeof(string));
         DataColumn colPicture = new DataColumn("Picture", typeof(string));
         public ExpertDataTableDe() {
@@ -139,7 +139,7 @@ namespace LocalizationStorage {
                 },
                 key, pKey, path);
         }
-        public int Verify(string key, string pKey = null, string path = null) { 
+        public int Verify(string key, string pKey = null, string path = null) {
             return ChangeRowValue(
                 (row) => {
                     if(string.IsNullOrEmpty($"{row[colTranslate]}")) return false;
@@ -179,7 +179,7 @@ namespace LocalizationStorage {
                         row[colStatus] = status;
                         return true;
                     }
-                    return false; 
+                    return false;
                 },
                 key, null, null);
         }
@@ -227,7 +227,7 @@ namespace LocalizationStorage {
         }
         bool SetRowComment(DataRow row, string @value, TranslationStatus status, bool auto = true) {
             row[colComment] = @value;
-            if(auto && ((status == TranslationStatus.None && IsStatusExist(row[colStatus], 
+            if(auto && ((status == TranslationStatus.None && IsStatusExist(row[colStatus],
                 new TranslationStatus[] { TranslationStatus.Problems })) || status == TranslationStatus.Problems))
                 row[colStatus] = status;
             return true;
@@ -238,7 +238,7 @@ namespace LocalizationStorage {
         }
         public string GetKeyByLink(BarItemLink link, GridView view) {
             if(IsGroupRow(link))
-                return null; 
+                return null;
             var row = UIHelper.GetDataRowByLink(link, view);
             if(row == null) return null;
             return $"{row[colKey]}";
@@ -263,7 +263,7 @@ namespace LocalizationStorage {
         TranslationStatus GetStatus(int rowHandle, GridView view) {
             DataRow row = view.GetDataRow(rowHandle);
             var result = row[colStatus];
-            if(result == null) 
+            if(result == null)
                 return TranslationStatus.None;
             return (TranslationStatus)result;
         }
@@ -274,7 +274,7 @@ namespace LocalizationStorage {
                 int iEndRow = view.GetChildRowHandle(rowHandle, view.GetChildRowCount(rowHandle) - 1);
                 result = GetStatus(iStartRow, view);
                 if(result == TranslationStatus.None) return result;
-                for(int i = iStartRow + 1; i <= iEndRow; i++)  
+                for(int i = iStartRow + 1; i <= iEndRow; i++)
                     if(result != GetStatus(i, view)) return TranslationStatus.None;
                 return result;
             }
@@ -419,9 +419,9 @@ namespace LocalizationStorage {
         public string User { get; set; }
         bool IsUserExists => !string.IsNullOrEmpty(User);
     }
-    public class  SimpleTranslation : BaseTranslation {
-        public SimpleTranslation(string path, string key, string english, string translation, string user) : 
-            base(path, key, english, user) { 
+    public class SimpleTranslation : BaseTranslation {
+        public SimpleTranslation(string path, string key, string english, string translation, string user) :
+            base(path, key, english, user) {
             Translation = translation;
         }
         public string DePath { get; set; } = string.Empty;
@@ -508,28 +508,28 @@ namespace LocalizationStorage {
         public string Name { get; internal set; }
         internal string FullName { get; set; }
         internal string Extension { get; set; }
-        public string Path { 
-            get { 
+        public string Path {
+            get {
                 return FullName.Replace($@"{Settings.RootPath}\", string.Empty);
             }
         }
         public List<LocalizationKey> Translations { get; set; }
         public int KeyCount { get { return Translations == null ? -1 : Translations.Count; } }
-        public string Language { 
+        public string Language {
             get {
                 return LocalizationHelper.GetLangBySatellite(Name.Replace(Extension, string.Empty));
-            } 
+            }
         }
         public long Length { get; internal set; }
     }
     public class LocalizationKey {
-        public LocalizationKey(XElement element) { 
+        public LocalizationKey(XElement element) {
             Name = element.Attribute("name").Value;
             Type = element.Attribute("type")?.Value;
             Xml = $"{element}";
             Value = LocalizationHelper.PrepareValue(element.Value);
         }
-        public string Name { get; internal set;}
+        public string Name { get; internal set; }
         public string Value { get; internal set; }
         public string Xml { get; internal set; }
         public string Type { get; internal set; }
@@ -566,10 +566,10 @@ namespace LocalizationStorage {
         public string English { get; set; } = string.Empty;
         internal string Type { get; set; } = string.Empty;
         public string German { get; internal set; }
-        internal string GermanValue { 
-                get {
+        internal string GermanValue {
+            get {
                 return LocalizationHelper.PrepareTranslation(German, English);
-            } 
+            }
         }
         public string Russian { get; internal set; }
         public string Japan { get; internal set; }
@@ -599,16 +599,16 @@ namespace LocalizationStorage {
         public int Count { get; private set; }
         public int TranslationCount {
             get {
-                if(count == -1 )
+                if(count == -1)
                     count = Names.Select(t => t.GermanValue).Distinct().Count();
                 return count;
-            } 
+            }
         }
         public List<LocalizationTranslation> Names {
             get {
                 if(names == null)
-                    names = data.Where(t => t.English == Name 
-                        && LocalizationHelper.ValueExist(t.German) 
+                    names = data.Where(t => t.English == Name
+                        && LocalizationHelper.ValueExist(t.German)
                         /*&& t.German != t.English*/).ToList();
                 return names;
             }

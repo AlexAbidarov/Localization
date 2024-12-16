@@ -7,8 +7,8 @@ using System.Windows.Forms;
 namespace LocalizationStorage.DataMerging {
     public static class DataMergingHelper {
         static DataSet dataSet = new();
-        public static ExpertDataTableDeMerge DataTable => 
-            dataSet.Tables.Count > 0 ? 
+        public static ExpertDataTableDeMerge DataTable =>
+            dataSet.Tables.Count > 0 ?
             dataSet.Tables[Settings.deTableName] as ExpertDataTableDeMerge : null;
         public static DataSet GetDataSet(string file) {
             dataSet.Tables.Clear();
@@ -63,13 +63,13 @@ namespace LocalizationStorage.DataMerging {
     }
     public class SimpleTranslationDe : SimpleTranslation {
         public SimpleTranslationDe(
-            string path, 
-            string key, 
-            string english, 
-            string translation, 
-            string deTranslation, 
-            string user, 
-            int status, 
+            string path,
+            string key,
+            string english,
+            string translation,
+            string deTranslation,
+            string user,
+            int status,
             string comment) :
             base(path, key, english, translation, user) {
             DeTranslation = deTranslation;

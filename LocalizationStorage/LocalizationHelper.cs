@@ -1,5 +1,8 @@
 ﻿using DevExpress.Data;
+using DevExpress.LookAndFeel;
+using DevExpress.Utils;
 using DevExpress.Utils.Extensions;
+using DevExpress.Utils.Text;
 using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Columns;
@@ -57,13 +60,13 @@ namespace LocalizationStorage {
                 .Where((fi) => {
                     var _ = Settings.satelliteFileNameRegex.Match(fi.Name);
                     return _.Success;
-                }).ForEach(fi => 
+                }).ForEach(fi =>
                 result.Add(new LocalizationSatellite(fi)));
             return result;
         }
         internal static string GetLangBySatellite(string name) {
             int index = name.LastIndexOf(".");
-            if(index > 0) 
+            if(index > 0)
                 return name.Substring(index + 1);
             return name;
         }
@@ -77,10 +80,10 @@ namespace LocalizationStorage {
             value = value.Trim();
             return value;
         }
-        internal static bool IsExistRoot { 
+        internal static bool IsExistRoot {
             get {
-                return !string.IsNullOrEmpty(Settings.RootPath) && 
-                    Directory.Exists(Settings.RootPath) && 
+                return !string.IsNullOrEmpty(Settings.RootPath) &&
+                    Directory.Exists(Settings.RootPath) &&
                     new DirectoryInfo(Settings.RootPath).GetDirectories().Length > 50 &&
                     Settings.RootPath.IndexOf("\\localization", StringComparison.OrdinalIgnoreCase) > 0;
             }
@@ -91,12 +94,12 @@ namespace LocalizationStorage {
                 !Settings.keyNotFount.Equals(name);
         }
         internal static string PrepareTranslation(string value, string original) {
-            value = value.Replace("&", "");
+            value = value.Replace("&", string.Empty);
             value = value.ToLower();
             return value;
         }
         internal static bool IsLastNewRow(string line) {
-            return line.Length > 2 && 
+            return line.Length > 2 &&
                 line.LastIndexOf("\r\n") == line.Length - 2;
         }
         internal static bool AreDifferentLineCount(string line1, string line2) {
@@ -115,7 +118,7 @@ namespace LocalizationStorage {
             if(File.Exists(path) || force)
                 return path;
             return string.Empty;
-        } 
+        }
     }
     public class Settings {
         public static void ClearData() {
@@ -125,6 +128,7 @@ namespace LocalizationStorage {
         internal static string deTableName = "DeTable";
         internal static string dX = "DevExpress";
         internal static string replyFile = "GermanReplays.txt";
+        internal static string sessionChanged = "SessionChanged";
         internal static Regex satelliteFileNameRegex = new Regex(@"^([\w\s-.])+\.([\w\s_-])+\.resx$");
         static List<LocalizationPath> paths = null;
         public static List<LocalizationPath> Paths {
@@ -144,9 +148,9 @@ namespace LocalizationStorage {
         }
         static string userAttribute = "user:";
         static string user = Environment.UserName;
-        public static string User { 
+        public static string User {
             get { return user; }
-            set { 
+            set {
                 user = value;
             }
         }
@@ -159,7 +163,7 @@ namespace LocalizationStorage {
         public static string RootPath { get; set; }
         public static bool LoadTranslations { get; set; } = false;
         public static List<LocalizationTranslation> Keys { get; internal set; }
-        public static List<LocalizationTranslation> ActualKeys => Keys != null ? Keys.Where<LocalizationTranslation>(x => !string.IsNullOrEmpty(x.English)).ToList() : null; 
+        public static List<LocalizationTranslation> ActualKeys => Keys != null ? Keys.Where<LocalizationTranslation>(x => !string.IsNullOrEmpty(x.English)).ToList() : null;
         internal static string fileNotFount = "<< Satellite file is not found >>";
         internal static string keyNotFount = "<< Key is not found >>";
         readonly static string[] keyExceptionEnd = new string[] { ".AccessibleName", ".AccessibleDescription" };
@@ -175,12 +179,12 @@ namespace LocalizationStorage {
         static DataSet mainDataSet = null;
         public static DataSet MainDataSet {
             get {
-                if(mainDataSet == null) { 
+                if(mainDataSet == null) {
                     mainDataSet = new DataSet();
                     mainDataSet.Tables.Add(GeDataTable);
                 }
-                return mainDataSet; 
-            } 
+                return mainDataSet;
+            }
         }
         public static ExpertDataTableDe MainTable => Settings.MainDataSet.Tables[Settings.deTableName] as ExpertDataTableDe;
         public static bool IsNameEmpty(string name) {
@@ -194,7 +198,7 @@ namespace LocalizationStorage {
             else {
                 if(!ctrlHelp)
                     Process.Start(docName);
-                else 
+                else
                     Process.Start("https://devexpress-my.sharepoint.com/:w:/p/denis_garavsky/EWfjNyEeBAZMrGFazWJejIoB9Zd0vbKjz5ADnKH7rtzExg");
             }
         }
@@ -222,7 +226,7 @@ namespace LocalizationStorage {
         }
     }
     public class ExpertDataHelper {
-        internal static bool UpdateGermanData() { 
+        internal static bool UpdateGermanData() {
             if(!Directory.Exists(Settings.DataPath) || !File.Exists(Settings.GermanDataSetPath))
                 return false;
             Settings.MainDataSet.ReadXml(Settings.GermanDataSetPath);
@@ -258,7 +262,7 @@ namespace LocalizationStorage {
             if(info == null) return null;
             return GetDataRow(info.RowHandle, view);
         }
-        internal static GridHitInfo GetGridHitInfoByLink(BarItemLink link) { 
+        internal static GridHitInfo GetGridHitInfoByLink(BarItemLink link) {
             if(!(link.LinkedObject is PopupMenu)) return null;
             return ((PopupMenu)link.LinkedObject).Tag as GridHitInfo;
         }
@@ -287,7 +291,7 @@ namespace LocalizationStorage {
             view.GroupSummarySortInfo.ClearAndAddRange(items.ToArray());
         }
         public static Point GetCenterPoint(Control owner, Size size) {
-            return new Point(owner.Location.X + (owner.Width - size.Width) / 2, 
+            return new Point(owner.Location.X + (owner.Width - size.Width) / 2,
                 owner.Location.Y + (owner.Height - size.Height) / 2);
         }
         public static void SetGridReadOnly(GridView view, bool allowSort = true) {
@@ -295,7 +299,7 @@ namespace LocalizationStorage {
             if(view.Columns.Count > 0) {
                 GridColumn column = view.Columns[0];
                 column.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
-                if(allowSort) 
+                if(allowSort)
                     column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
             }
         }
@@ -303,6 +307,32 @@ namespace LocalizationStorage {
             for(int i = menu.ItemLinks.Count - 1; i >= 0; i--)
                 if(menu.ItemLinks[i].Item.Caption.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
                     menu.RemoveLink(menu.ItemLinks[i]);
+        }
+        public static void UpdateAppearance(AppearanceObject app, int status) {
+            switch(status) {
+                case 1://Translated
+                    SetColor(app, DXSkinColors.FillColors.Success);
+                    break;
+                case 2://No Translation Needed
+                    SetColor(app, DXSkinColors.FillColors.Primary);
+                    break;
+                case 3://Not Sure
+                    SetColor(app, Color.Yellow);
+                    break;
+                case 4://Problems
+                    SetColor(app, DXSkinColors.FillColors.Danger);
+                    break;
+                case 5://Automatic
+                    SetColor(app, Color.LightSkyBlue);
+                    break;
+                case 6://Needs Verification
+                    SetColor(app, Color.LightBlue);
+                    break;
+            }
+        }
+        static void SetColor(AppearanceObject app, Color color, object foreColor = null) {
+            app.BackColor = color;
+            app.ForeColor = foreColor == null ? ContrastColor.GetContrastForeColor(color) : (Color)foreColor;
         }
     }
     public class IOHelper {
@@ -328,7 +358,7 @@ namespace LocalizationStorage {
             }
         }
         public static string GetLog(List<string> lines) {
-            StringBuilder result = new StringBuilder(); 
+            StringBuilder result = new StringBuilder();
             int index = 0;
             lines.ForEach((line) => result.AppendLine($"{++index}. {line}"));
             return $"{result}";
@@ -354,7 +384,7 @@ namespace LocalizationStorage {
             }
             return false;
         }
-        static bool HasCopyArgs(string[] args) { 
+        static bool HasCopyArgs(string[] args) {
             foreach(string line in args)
                 if(line.IndexOf("copylocal", StringComparison.OrdinalIgnoreCase) == 1) return true;
             return false;

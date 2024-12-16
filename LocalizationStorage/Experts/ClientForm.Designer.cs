@@ -68,6 +68,7 @@
             this.bsUser = new DevExpress.XtraBars.BarStaticItem();
             this.bHelp = new DevExpress.XtraBars.BarButtonItem();
             this.bAI = new DevExpress.XtraBars.BarButtonItem();
+            this.bbEditNew = new DevExpress.XtraBars.BarButtonItem();
             this.toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
             this.pmRowMenu = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -395,8 +396,9 @@
             this.bsUser,
             this.bHelp,
             this.bAI,
-            this.bbVerify});
-            this.toolbarFormManager1.MaxItemId = 15;
+            this.bbVerify,
+            this.bbEditNew});
+            this.toolbarFormManager1.MaxItemId = 16;
             // 
             // bFilter
             // 
@@ -503,6 +505,12 @@
             this.bAI.Name = "bAI";
             this.bAI.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bAI_ItemClick);
             // 
+            // bbEditNew
+            // 
+            this.bbEditNew.Caption = "Edit Data (admin)";
+            this.bbEditNew.Id = 15;
+            this.bbEditNew.Name = "bbEditNew";
+            // 
             // toolbarFormControl1
             // 
             this.toolbarFormControl1.Location = new System.Drawing.Point(0, 0);
@@ -603,6 +611,7 @@
         private DevExpress.XtraBars.BarButtonItem bAI;
         private DevExpress.XtraGrid.Columns.GridColumn colUser;
         private DevExpress.XtraBars.BarButtonItem bbVerify;
+        private DevExpress.XtraBars.BarButtonItem bbEditNew;
     }
 }
 

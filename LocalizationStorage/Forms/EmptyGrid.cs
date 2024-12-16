@@ -1,5 +1,4 @@
 ﻿using DevExpress.XtraEditors;
-using DevExpress.XtraGrid.Columns;
 using System.Windows.Forms;
 
 namespace LocalizationStorage {

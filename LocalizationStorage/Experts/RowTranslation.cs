@@ -371,7 +371,7 @@ namespace LocalizationStorage {
         }
         async void sbAI_Click(object sender, System.EventArgs e) {
             if(string.IsNullOrEmpty(requestCondition)) return;
-            string answer = 
+            string answer =
                 await AIExtensionsContainerDesktop.Default.GermanTranslateAsync(new GermanTranslateRequest(requestCondition));
             if(LocalizationHelper.ValueExist(answer)) {
                 teTranslation.Text = answer;//AIHelper.GetTranslation(answer, teTranslation.Text);

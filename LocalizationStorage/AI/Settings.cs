@@ -1,6 +1,4 @@
-﻿using Azure;
-using Azure.AI.OpenAI;
-using DevExpress.AIIntegration;
+﻿using DevExpress.AIIntegration;
 using Microsoft.Extensions.AI;
 using System;
 using System.IO;
@@ -42,7 +40,7 @@ namespace LocalizationStorage.AI {
             defaultContainer.Register<GermanTranslateExtension>(typeof(GermanTranslateRequest));
 
             IChatClient asChatClient = new Azure.AI.OpenAI.AzureOpenAIClient(
-                new Uri(azureOpenAIEndpoint), 
+                new Uri(azureOpenAIEndpoint),
                 new System.ClientModel.ApiKeyCredential(azureOpenAIKey)).AsChatClient("GPT4o");
             defaultContainer.RegisterChatClient(asChatClient);
         }

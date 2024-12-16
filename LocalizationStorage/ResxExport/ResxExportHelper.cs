@@ -77,6 +77,6 @@ namespace LocalizationStorage.ResxExport {
                 path.IndexOf("_Localization", System.StringComparison.OrdinalIgnoreCase) > -1;
         }
         internal static bool IsTestValue(string path) => true;
-            //path.IndexOf(@"DevExpress.XtraEditors") >= 0 || path.IndexOf(@"DXFontEditor") >= 0; //TODO check all values
+        //path.IndexOf(@"DevExpress.XtraEditors") >= 0 || path.IndexOf(@"DXFontEditor") >= 0; //TODO check all values
     }
 }

@@ -231,7 +231,7 @@ namespace LocalizationStorage {
                 gridView1.PopulateColumns();
                 UIHelper.SetGridReadOnly(gridView1, false);
                 sbMerge.Enabled = gridControl1.DataSource != null && gridView1.RowCount > 0 && !cbShowExtraData.Checked;
-            } finally { 
+            } finally {
                 Cursor = Cursors.Default;
             }
         }
