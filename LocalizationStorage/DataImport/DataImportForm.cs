@@ -20,6 +20,8 @@ namespace LocalizationStorage {
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private CheckEdit cbShowExtraData;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
+        private SimpleButton sbRemove;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
 
         public DataImportForm(Form owner) {
@@ -29,6 +31,7 @@ namespace LocalizationStorage {
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataImportForm));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.cbShowExtraData = new DevExpress.XtraEditors.CheckEdit();
             this.sbMerge = new DevExpress.XtraEditors.SimpleButton();
             this.beFile = new DevExpress.XtraEditors.ButtonEdit();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
@@ -39,10 +42,12 @@ namespace LocalizationStorage {
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.splitterItem1 = new DevExpress.XtraLayout.SplitterItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.cbShowExtraData = new DevExpress.XtraEditors.CheckEdit();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.sbRemove = new DevExpress.XtraEditors.SimpleButton();
+            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cbShowExtraData.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.beFile.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
@@ -52,12 +57,13 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbShowExtraData.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.sbRemove);
             this.layoutControl1.Controls.Add(this.cbShowExtraData);
             this.layoutControl1.Controls.Add(this.sbMerge);
             this.layoutControl1.Controls.Add(this.beFile);
@@ -69,6 +75,16 @@ namespace LocalizationStorage {
             this.layoutControl1.Size = new System.Drawing.Size(1433, 468);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // cbShowExtraData
+            // 
+            this.cbShowExtraData.Location = new System.Drawing.Point(12, 36);
+            this.cbShowExtraData.Name = "cbShowExtraData";
+            this.cbShowExtraData.Properties.Caption = "Show Extra Data";
+            this.cbShowExtraData.Size = new System.Drawing.Size(387, 20);
+            this.cbShowExtraData.StyleController = this.layoutControl1;
+            this.cbShowExtraData.TabIndex = 7;
+            this.cbShowExtraData.CheckedChanged += new System.EventHandler(this.cbShowExtraData_CheckedChanged);
             // 
             // sbMerge
             // 
@@ -121,7 +137,8 @@ namespace LocalizationStorage {
             this.layoutControlItem3,
             this.splitterItem1,
             this.emptySpaceItem1,
-            this.layoutControlItem4});
+            this.layoutControlItem4,
+            this.layoutControlItem5});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(1433, 468);
             this.Root.TextVisible = false;
@@ -162,17 +179,7 @@ namespace LocalizationStorage {
             // 
             this.emptySpaceItem1.Location = new System.Drawing.Point(0, 48);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(391, 374);
-            // 
-            // cbShowExtraData
-            // 
-            this.cbShowExtraData.Location = new System.Drawing.Point(12, 36);
-            this.cbShowExtraData.Name = "cbShowExtraData";
-            this.cbShowExtraData.Properties.Caption = "Show Extra Data";
-            this.cbShowExtraData.Size = new System.Drawing.Size(387, 20);
-            this.cbShowExtraData.StyleController = this.layoutControl1;
-            this.cbShowExtraData.TabIndex = 7;
-            this.cbShowExtraData.CheckedChanged += new System.EventHandler(this.cbShowExtraData_CheckedChanged);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(391, 348);
             // 
             // layoutControlItem4
             // 
@@ -181,6 +188,24 @@ namespace LocalizationStorage {
             this.layoutControlItem4.Name = "layoutControlItem4";
             this.layoutControlItem4.Size = new System.Drawing.Size(391, 24);
             this.layoutControlItem4.TextVisible = false;
+            // 
+            // sbRemove
+            // 
+            this.sbRemove.Location = new System.Drawing.Point(12, 408);
+            this.sbRemove.Name = "sbRemove";
+            this.sbRemove.Size = new System.Drawing.Size(387, 22);
+            this.sbRemove.StyleController = this.layoutControl1;
+            this.sbRemove.TabIndex = 8;
+            this.sbRemove.Text = "Remove Extra Data";
+            this.sbRemove.Click += new System.EventHandler(this.sbRemove_Click);
+            // 
+            // layoutControlItem5
+            // 
+            this.layoutControlItem5.Control = this.sbRemove;
+            this.layoutControlItem5.Location = new System.Drawing.Point(0, 396);
+            this.layoutControlItem5.Name = "layoutControlItem5";
+            this.layoutControlItem5.Size = new System.Drawing.Size(391, 26);
+            this.layoutControlItem5.TextVisible = false;
             // 
             // DataImportForm
             // 
@@ -194,6 +219,7 @@ namespace LocalizationStorage {
             this.Text = "Data Import";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cbShowExtraData.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.beFile.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
@@ -203,8 +229,8 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cbShowExtraData.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -230,7 +256,9 @@ namespace LocalizationStorage {
                 else gridControl1.DataSource = null;
                 gridView1.PopulateColumns();
                 UIHelper.SetGridReadOnly(gridView1, false);
-                sbMerge.Enabled = gridControl1.DataSource != null && gridView1.RowCount > 0 && !cbShowExtraData.Checked;
+                bool isNotNullData = gridControl1.DataSource != null && gridView1.RowCount > 0;
+                sbMerge.Enabled = isNotNullData && !cbShowExtraData.Checked;
+                sbRemove.Enabled = isNotNullData && cbShowExtraData.Checked;
             } finally {
                 Cursor = Cursors.Default;
             }
@@ -259,6 +287,19 @@ namespace LocalizationStorage {
             }
             RowChanged += rowChangedCount;
             XtraMessageBox.Show($"Added {rowChangedCount} from {fromData.Count} records.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void sbRemove_Click(object sender, EventArgs e) {
+            int rowChangedCount = 0;
+            var fromData = gridControl1.DataSource as List<SimpleTranslationDe>;
+            Cursor = Cursors.WaitCursor;
+            try {
+                rowChangedCount = Settings.MainTable.RemoveExtraData(fromData, $"Extra[{Settings.FormattedToday}].txt");
+            } finally {
+                Cursor = Cursors.Default;
+            }
+            RowChanged += rowChangedCount;
+            XtraMessageBox.Show($"Removed {rowChangedCount} from {fromData.Count} records.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -55,7 +55,9 @@ namespace LocalizationStorage.ResxExport {
             return 0;
         }
         public static string CreateSatellite(string root, string path, string satteliteExt) {
-            if(IsException(path)) return string.Empty;
+            if(LocalizationPath.IsException(path)) return string.Empty;
+            string keyPath = Path.Combine(root, path);
+            if(!File.Exists(keyPath)) return string.Empty;
             XDocument doc = new XDocument();
             doc.Add(new XElement("root", string.Empty));
             doc.Root.Add(CreateResheaderElement("resmimetype", "text/microsoft-resx"));
@@ -71,10 +73,6 @@ namespace LocalizationStorage.ResxExport {
             result.SetAttributeValue("name", name);
             result.Add(new XElement("value", @value));
             return result;
-        }
-        static bool IsException(string path) {
-            return path.IndexOf("~Localization", System.StringComparison.OrdinalIgnoreCase) > -1 ||
-                path.IndexOf("_Localization", System.StringComparison.OrdinalIgnoreCase) > -1;
         }
         internal static bool IsTestValue(string path) => true;
         //path.IndexOf(@"DevExpress.XtraEditors") >= 0 || path.IndexOf(@"DXFontEditor") >= 0; //TODO check all values

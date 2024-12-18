@@ -364,8 +364,32 @@ namespace LocalizationStorage {
                 newRow[colInternalInfo] = row.User;
                 ImportRow(row);
             });
-            IOHelper.SaveLog(merge, logName);
-            return fromData.Count;
+            if(merge.Count > 0)
+                IOHelper.SaveLog(merge, logName);
+            return merge.Count;
+        }
+        public int RemoveExtraData(List<SimpleTranslationDe> fromData, string logName) {
+            merge.Clear();
+            fromData.ForEach(row => {
+                if(!(row.Status == TranslationStatus.Translated && row.IsUserExists)) {
+                    DataRow dRow = GetDataRow(row.Key, row.Path, row.English);
+                    if(dRow != null) {
+                        Rows.Remove(dRow);
+                        RemoveRow(row);
+                    }
+                }
+            });
+            if(merge.Count > 0)
+                IOHelper.SaveLog(merge, logName);
+            return merge.Count;
+        }
+        DataRow GetDataRow(string key, string path, string english) {
+            foreach(DataRow row in Rows)
+                if(key.Equals(row[colKey]) &&
+                    path.Equals(row[colPath]) &&
+                    english.Equals(row[colEnglish]))
+                    return row;
+            return null;
         }
         bool MergeRow(DataRow row, SimpleTranslationDe data) {
             TranslationStatus status = (TranslationStatus)row[colStatus];
@@ -395,6 +419,9 @@ namespace LocalizationStorage {
         void ImportRow(NewTranslation row) {
             merge.Add($"Added: {row.English} - {row.Key} - {row.Path}");
         }
+        void RemoveRow(SimpleTranslationDe row) {
+            merge.Add($"Remove: {row.English} - {row.Key} - {row.Path}");
+        }
         string GetWarning(string user) {
             if(string.IsNullOrEmpty(user))
                 return string.Empty;
@@ -417,7 +444,7 @@ namespace LocalizationStorage {
         public string Key { get; set; }
         public string English { get; set; }
         public string User { get; set; }
-        bool IsUserExists => !string.IsNullOrEmpty(User);
+        internal bool IsUserExists => !string.IsNullOrEmpty(User);
     }
     public class SimpleTranslation : BaseTranslation {
         public SimpleTranslation(string path, string key, string english, string translation, string user) :
@@ -448,10 +475,15 @@ namespace LocalizationStorage {
         internal bool IsResource {
             get {
                 if(string.IsNullOrEmpty(Path)) return false;
+                if(IsException(Path)) return false;
                 if(Path.Contains(@"DevExpress.DLL")) return false;
                 if(Path.IndexOf(Settings.dX) == 0) return true;
                 return false;
             }
+        }
+        internal static bool IsException(string path) {
+            return path.IndexOf("~Localization", System.StringComparison.OrdinalIgnoreCase) > -1 ||
+                path.IndexOf("_Localization", System.StringComparison.OrdinalIgnoreCase) > -1;
         }
         internal bool IsSatellite { get; set; }
         public List<LocalizationSatellite> Satellites { get; set; }
