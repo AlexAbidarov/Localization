@@ -276,6 +276,11 @@ namespace LocalizationStorage {
             if(!string.IsNullOrEmpty(fileName))
                 beFile.Text = fileName;
         }
+        bool dataImport = false;
+        void DisableButtons() { 
+            sbMerge.Enabled = false;
+            sbRemove.Enabled = false;
+        }
         void sbMerge_Click(object sender, System.EventArgs e) {
             int rowChangedCount = 0;
             var fromData = gridControl1.DataSource as List<NewTranslation>;
@@ -287,8 +292,8 @@ namespace LocalizationStorage {
             }
             RowChanged += rowChangedCount;
             XtraMessageBox.Show($"Added {rowChangedCount} from {fromData.Count} records.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            DisableButtons();
         }
-
         private void sbRemove_Click(object sender, EventArgs e) {
             int rowChangedCount = 0;
             var fromData = gridControl1.DataSource as List<SimpleTranslationDe>;
@@ -300,6 +305,7 @@ namespace LocalizationStorage {
             }
             RowChanged += rowChangedCount;
             XtraMessageBox.Show($"Removed {rowChangedCount} from {fromData.Count} records.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            DisableButtons();
         }
     }
 }
