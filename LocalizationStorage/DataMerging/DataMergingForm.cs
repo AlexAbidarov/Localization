@@ -21,6 +21,8 @@ namespace LocalizationStorage {
         private RadioGroup rgUsers;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
         private DevExpress.XtraLayout.SplitterItem splitterItem1;
+        private CheckEdit ceUsers;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
 
         public DataMergingForm(Form owner) {
@@ -44,6 +46,8 @@ namespace LocalizationStorage {
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.splitterItem1 = new DevExpress.XtraLayout.SplitterItem();
+            this.ceUsers = new DevExpress.XtraEditors.CheckEdit();
+            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rgUsers.Properties)).BeginInit();
@@ -59,10 +63,13 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceUsers.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.ceUsers);
             this.layoutControl1.Controls.Add(this.rgUsers);
             this.layoutControl1.Controls.Add(this.deDate);
             this.layoutControl1.Controls.Add(this.sbMerge);
@@ -98,7 +105,7 @@ namespace LocalizationStorage {
             this.deDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.deDate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.deDate.Size = new System.Drawing.Size(329, 20);
+            this.deDate.Size = new System.Drawing.Size(133, 20);
             this.deDate.StyleController = this.layoutControl1;
             this.deDate.TabIndex = 7;
             this.deDate.EditValueChanged += new System.EventHandler(this.deDate_EditValueChanged);
@@ -154,7 +161,8 @@ namespace LocalizationStorage {
             this.layoutControlItem5,
             this.layoutControlItem1,
             this.layoutControlItem3,
-            this.splitterItem1});
+            this.splitterItem1,
+            this.layoutControlItem6});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(1433, 468);
             this.Root.TextVisible = false;
@@ -166,14 +174,16 @@ namespace LocalizationStorage {
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.Size = new System.Drawing.Size(391, 24);
             this.layoutControlItem2.Text = "Data File:";
+            this.layoutControlItem2.TextSize = new System.Drawing.Size(46, 13);
             // 
             // layoutControlItem4
             // 
             this.layoutControlItem4.Control = this.deDate;
             this.layoutControlItem4.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(391, 24);
+            this.layoutControlItem4.Size = new System.Drawing.Size(195, 24);
             this.layoutControlItem4.Text = "Date:";
+            this.layoutControlItem4.TextSize = new System.Drawing.Size(46, 13);
             // 
             // layoutControlItem5
             // 
@@ -181,7 +191,6 @@ namespace LocalizationStorage {
             this.layoutControlItem5.Location = new System.Drawing.Point(0, 48);
             this.layoutControlItem5.Name = "layoutControlItem5";
             this.layoutControlItem5.Size = new System.Drawing.Size(391, 374);
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextVisible = false;
             // 
             // layoutControlItem1
@@ -190,7 +199,6 @@ namespace LocalizationStorage {
             this.layoutControlItem1.Location = new System.Drawing.Point(401, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(1012, 448);
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem3
@@ -199,7 +207,6 @@ namespace LocalizationStorage {
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 422);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(391, 26);
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
             // 
             // splitterItem1
@@ -207,6 +214,25 @@ namespace LocalizationStorage {
             this.splitterItem1.Location = new System.Drawing.Point(391, 0);
             this.splitterItem1.Name = "splitterItem1";
             this.splitterItem1.Size = new System.Drawing.Size(10, 448);
+            // 
+            // ceUsers
+            // 
+            this.ceUsers.EditValue = true;
+            this.ceUsers.Location = new System.Drawing.Point(207, 36);
+            this.ceUsers.Name = "ceUsers";
+            this.ceUsers.Properties.Caption = "Show only raw records";
+            this.ceUsers.Size = new System.Drawing.Size(192, 20);
+            this.ceUsers.StyleController = this.layoutControl1;
+            this.ceUsers.TabIndex = 9;
+            this.ceUsers.CheckedChanged += new System.EventHandler(this.ceUsers_CheckedChanged);
+            // 
+            // layoutControlItem6
+            // 
+            this.layoutControlItem6.Control = this.ceUsers;
+            this.layoutControlItem6.Location = new System.Drawing.Point(195, 24);
+            this.layoutControlItem6.Name = "layoutControlItem6";
+            this.layoutControlItem6.Size = new System.Drawing.Size(196, 24);
+            this.layoutControlItem6.TextVisible = false;
             // 
             // DataMergingForm
             // 
@@ -233,6 +259,8 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ceUsers.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -255,11 +283,14 @@ namespace LocalizationStorage {
             rgUsers.Properties.Items.Clear();
             rgUsers.SelectedIndex = -1;
             if(gridControl1.IsHandleCreated && isTableExist) {
-                DataMergingHelper.DataTable.GetUserList().ForEach(x =>
+                DataMergingHelper.DataTable.GetUserList(!ceUsers.Checked).ForEach(x =>
                     rgUsers.Properties.Items.Add(new RadioGroupItem(x, x)));
             }
         }
         void beFile_EditValueChanged(object sender, EventArgs e) {
+            UpdateData();
+        }
+        private void ceUsers_CheckedChanged(object sender, EventArgs e) {
             UpdateData();
         }
         void UpdateDataSource() {

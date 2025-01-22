@@ -33,11 +33,15 @@ namespace LocalizationStorage.DataMerging {
         }
     }
     public class ExpertDataTableDeMerge : ExpertDataTableDe {
-        public HashSet<string> GetUserList() {
+        bool CheckUpdatedUser(bool fullList, string value) {
+            if(fullList) return false;
+            return value.Contains("[") && value.EndsWith("]");
+        }
+        public HashSet<string> GetUserList(bool fullList = true) {
             var result = new HashSet<string>();
             foreach(DataRow row in this.Rows) {
                 string @value = $"{row[colUser]}";
-                if(!string.IsNullOrEmpty(@value))
+                if(!string.IsNullOrEmpty(@value) && !CheckUpdatedUser(fullList, @value))
                     result.Add(@value);
             }
             return result;
