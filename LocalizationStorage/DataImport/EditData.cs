@@ -36,7 +36,7 @@ namespace LocalizationStorage {
                 var row = e.Row as DataRowView;
                 if(row != null) {
                     row[Settings.sessionChanged] = true;
-                    if(1.Equals(row["Status"])) //TODO
+                    if(1.Equals(row["Status"]) && string.IsNullOrEmpty($"{row["User"]}")) //TODO
                         row["User"] = "New[20241213]";
                 }
             };
