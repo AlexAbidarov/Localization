@@ -10,7 +10,6 @@ namespace LocalizationStorage {
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
-        private TextEdit tePath;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
 
@@ -19,6 +18,7 @@ namespace LocalizationStorage {
         private SimpleButton sbExport;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
+        private ButtonEdit tePath;
         static readonly string root = @"D:\Work\v24.2\Localization";
 
         public ResxExportForm(Form owner, List<SimpleTranslation> data) {
@@ -37,12 +37,12 @@ namespace LocalizationStorage {
         }
         void UpdateDataPath(string root) {
             source.ForEach(row => row.DePath = LocalizationHelper.GetSatellitePath(root, row.Path, satteliteExt));
+            gridView1.LayoutChanged();
         }
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ResxExportForm));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.sbExport = new DevExpress.XtraEditors.SimpleButton();
-            this.tePath = new DevExpress.XtraEditors.TextEdit();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
@@ -50,9 +50,9 @@ namespace LocalizationStorage {
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.tePath = new DevExpress.XtraEditors.ButtonEdit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tePath.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
@@ -60,13 +60,14 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tePath.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
             this.layoutControl1.Controls.Add(this.sbExport);
-            this.layoutControl1.Controls.Add(this.tePath);
             this.layoutControl1.Controls.Add(this.gridControl1);
+            this.layoutControl1.Controls.Add(this.tePath);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.Name = "layoutControl1";
@@ -84,14 +85,6 @@ namespace LocalizationStorage {
             this.sbExport.TabIndex = 6;
             this.sbExport.Text = "Export Data to ResXs";
             this.sbExport.Click += new System.EventHandler(this.sbExport_Click);
-            // 
-            // tePath
-            // 
-            this.tePath.Location = new System.Drawing.Point(108, 12);
-            this.tePath.Name = "tePath";
-            this.tePath.Size = new System.Drawing.Size(345, 20);
-            this.tePath.StyleController = this.layoutControl1;
-            this.tePath.TabIndex = 5;
             // 
             // gridControl1
             // 
@@ -129,7 +122,6 @@ namespace LocalizationStorage {
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 50);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(1378, 398);
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem2
@@ -147,16 +139,26 @@ namespace LocalizationStorage {
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(445, 26);
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
-            this.emptySpaceItem1.AllowHotTrack = false;
             this.emptySpaceItem1.Location = new System.Drawing.Point(445, 0);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
             this.emptySpaceItem1.Size = new System.Drawing.Size(933, 50);
-            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // tePath
+            // 
+            this.tePath.Location = new System.Drawing.Point(108, 12);
+            this.tePath.Name = "tePath";
+            this.tePath.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.tePath.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.tePath.Size = new System.Drawing.Size(345, 20);
+            this.tePath.StyleController = this.layoutControl1;
+            this.tePath.TabIndex = 5;
+            this.tePath.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.tePath_ButtonClick);
+            this.tePath.EditValueChanged += new System.EventHandler(this.tePath_EditValueChanged);
             // 
             // ResxExportForm
             // 
@@ -170,7 +172,6 @@ namespace LocalizationStorage {
             this.Text = "ResX Export";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tePath.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
@@ -178,6 +179,7 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tePath.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -188,7 +190,7 @@ namespace LocalizationStorage {
         void CreateEmptySatellites() {
             source.ForEach(row => {
                 if(string.IsNullOrEmpty(row.DePath))
-                    row.DePath = ResxExportHelper.CreateSatellite(root, row.Path, satteliteExt);
+                    row.DePath = ResxExportHelper.CreateSatellite(tePath.Text, row.Path, satteliteExt);
             });
         }
         int DoStepToStepExport() {
@@ -228,6 +230,15 @@ namespace LocalizationStorage {
                 Cursor = Cursors.Default;
             }
             XtraMessageBox.Show($"Export {count} values. Time: {ElapsedTime.GetNuGetTime()}", "ResX Export");
+        }
+        private void tePath_EditValueChanged(object sender, System.EventArgs e) {
+            UpdateDataPath(tePath.Text);
+            CreateEmptySatellites();
+        }
+        private void tePath_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e) {
+            string folderName = ResxExportHelper.GetFolder(tePath.Text, this);
+            if(!string.IsNullOrEmpty(folderName))
+                tePath.Text = folderName;
         }
     }
 }

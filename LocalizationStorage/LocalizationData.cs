@@ -322,7 +322,7 @@ namespace LocalizationStorage {
                 status == TranslationStatus.NotSure ||
                 status == TranslationStatus.Problems;
         }
-        public List<SimpleTranslation> GetTranslationData() { //Main source for resx
+        public List<SimpleTranslation> GetTranslationData(bool onlyDifferentValues = false) { //Main source for resx
             var result = new List<SimpleTranslation>();
             foreach(DataRow row in this.Rows) {
                 //if(IsEmptyStatus((TranslationStatus)row[colStatus])) continue;
@@ -332,7 +332,7 @@ namespace LocalizationStorage {
                 //TODO test if($"{row[colUser]}".IndexOf("John") == -1) continue;
                 string translation = $"{row[colTranslate]}";
                 if(!LocalizationHelper.ValueExist(translation)) continue;
-                if($"{row[colGerman]}" == translation) continue; //TODO Check All Values
+                if(onlyDifferentValues && $"{row[colGerman]}" == translation) continue;
                 result.Add(new SimpleTranslation(
                     $"{row[colPath]}",
                     $"{row[colKey]}",

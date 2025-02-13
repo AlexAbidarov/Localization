@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace LocalizationStorage.ResxExport {
@@ -76,5 +78,14 @@ namespace LocalizationStorage.ResxExport {
         }
         internal static bool IsTestValue(string path) => true;
         //path.IndexOf(@"DevExpress.XtraEditors") >= 0 || path.IndexOf(@"DXFontEditor") >= 0; //TODO check all values
+        internal static string GetFolder(string name, IWin32Window owner) {
+            DirectoryInfo di = new DirectoryInfo(name);
+            var openDialog = new FolderBrowserDialog() {
+                SelectedPath = di.Exists ? di.FullName : AppDomain.CurrentDomain.BaseDirectory
+            };
+            if(openDialog.ShowDialog(owner) == DialogResult.OK)
+                return openDialog.SelectedPath;
+            return null;
+        }
     }
 }

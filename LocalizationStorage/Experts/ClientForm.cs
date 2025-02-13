@@ -151,11 +151,13 @@ namespace LocalizationStorage {
             if(!Settings.IsAdmin) return;
             var button = gridView1.FindPanelItems.AddButton(string.Empty, name,
                     (s, args) => {
-                        using(var form = new ResxExportForm(this, Source.GetTranslationData()))
+                        using(var form = new ResxExportForm(this, Source.GetTranslationData(
+                            (Control.ModifierKeys & System.Windows.Forms.Keys.Control) == System.Windows.Forms.Keys.Control)))
                             form.ShowDialog();
                     });
             button.ImageOptions.ImageUri.Uri = "exportas;Size16x16;Svg";
-            button.ToolTip = name;
+            button.AllowHtmlTextInToolTip = DefaultBoolean.True;
+            button.ToolTip = $"{name}<br><b>Ctrl + Click</b> <r>- Simplified selection</r>";
             gridView1.ShowFindPanel();
         }
         void AddDataMerging(string name = "Data Merging") {
@@ -340,11 +342,9 @@ namespace LocalizationStorage {
         private void gridView1_SubstituteFilter(object sender, SubstituteFilterEventArgs e) {
             e.Filter |= CriteriaOperator.Parse("[SessionChanged] = true");
         }
-
         private void bHelp_ItemClick(object sender, ItemClickEventArgs e) {
             Settings.ShowHelp();
         }
-
         private void bAI_ItemClick(object sender, ItemClickEventArgs e) {
             using(var form = new AISettingsForm())
                 form.ShowDialog(this);
