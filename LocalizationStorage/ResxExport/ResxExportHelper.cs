@@ -14,7 +14,8 @@ namespace LocalizationStorage.ResxExport {
                 if(element.Attribute("name").Value == key) {
                     addNewKey = false;
                     XElement e = element.Elements("value").First();
-                    e.Value = translation;
+                    if(!string.Equals(e.Value.Trim(), translation.Trim())) //TODO Correction of values ​​containing spaces at the beginning and end of the translation
+                        e.Value = translation;
                 }
             }
             if(addNewKey) {
