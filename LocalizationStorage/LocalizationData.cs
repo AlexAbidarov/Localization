@@ -38,7 +38,7 @@ namespace LocalizationStorage {
         }
     }
     public class TranslationDe {
-        List<UserTranslation> userTranslation = new List<UserTranslation>();
+        readonly List<UserTranslation> userTranslation = [];
         public List<UserTranslation> UserTranslation => userTranslation;
         public TranslationDe() {
             IsGroup = false;
@@ -598,11 +598,8 @@ namespace LocalizationStorage {
         public string English { get; set; } = string.Empty;
         internal string Type { get; set; } = string.Empty;
         public string German { get; internal set; }
-        internal string GermanValue {
-            get {
-                return LocalizationHelper.PrepareTranslation(German, English);
-            }
-        }
+        internal string GermanValue => 
+            LocalizationHelper.PrepareTranslation(German);
         public string Russian { get; internal set; }
         public string Japan { get; internal set; }
     }

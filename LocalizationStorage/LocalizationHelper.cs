@@ -24,13 +24,13 @@ using System.Xml.Linq;
 namespace LocalizationStorage {
     public class LocalizationHelper {
         public static List<LocalizationPath> GetLocalizationPathSource(string path) {
-            List<LocalizationPath> result = new List<LocalizationPath>();
+            List<LocalizationPath> result = [];
             AddResX(new DirectoryInfo(path), result);
             return result;
         }
         static void AddResX(DirectoryInfo di, List<LocalizationPath> result) {
             di.GetFiles("*.resx").ForEach(file => {
-                LocalizationPath path = new LocalizationPath(file);
+                LocalizationPath path = new(file);
                 if(path.IsResource &&
                     !path.IsSatellite) //show all
                     result.Add(path);
@@ -41,10 +41,10 @@ namespace LocalizationStorage {
             var localizationKeys = new List<LocalizationTranslation>();
             paths.ForEach(path => {
                 var dataElements = GetAllElements(XDocument.Load(path.Info.FullName));
-                path.Keys = new List<LocalizationKey>();
+                path.Keys = [];
                 dataElements.ForEach(e => path.Keys.Add(new LocalizationKey(e)));
                 dataElements.ForEach(element => {
-                    LocalizationTranslation key = new LocalizationTranslation(element, path);
+                    LocalizationTranslation key = new(element, path);
                     if(key.IsLocalization)
                         localizationKeys.Add(key);
                 });
@@ -52,10 +52,10 @@ namespace LocalizationStorage {
             Settings.Keys = localizationKeys;
         }
         internal static List<XElement> GetAllElements(XDocument document) {
-            return document.Root.Elements("data").ToList<XElement>();
+            return [.. document.Root.Elements("data")];
         }
         internal static List<LocalizationSatellite> GetSatellites(FileInfo file) {
-            List<LocalizationSatellite> result = new List<LocalizationSatellite>();
+            List<LocalizationSatellite> result = [];
             file.Directory.GetFiles($"{GetShortName(file)}.*.resx")
                 .Where((fi) => {
                     var _ = Settings.satelliteFileNameRegex.Match(fi.Name);
@@ -93,7 +93,7 @@ namespace LocalizationStorage {
                 !Settings.fileNotFount.Equals(name) &&
                 !Settings.keyNotFount.Equals(name);
         }
-        internal static string PrepareTranslation(string value, string original) {
+        internal static string PrepareTranslation(string value) {
             value = value.Replace("&", string.Empty);
             value = value.ToLower();
             return value;
@@ -119,6 +119,43 @@ namespace LocalizationStorage {
                 return path;
             return string.Empty;
         }
+        static string GetMainResourceFilePath(string satelliteFilePath) {
+            if(Settings.satelliteFileNameRegex.Match(Path.GetFileName(satelliteFilePath)).Success) {
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(satelliteFilePath);
+                string[] parts = fileNameWithoutExtension.Split('.');
+                if(parts.Length > 1 && parts[parts.Length - 1].Length >= 2) {
+                    string mainFileName = string.Join(".", parts.Take(parts.Length - 1)) + ".resx";
+                    return Path.Combine(Path.GetDirectoryName(satelliteFilePath), mainFileName);
+                }
+            }
+            return string.Empty;
+        }
+        static List<XElement> GetMainResourceElements(string satelliteFilePath) {
+            string mainFileName = GetMainResourceFilePath(satelliteFilePath);
+            if(File.Exists(mainFileName))
+                return GetAllElements(XDocument.Load(mainFileName));
+            return null;
+        }
+        static bool IsElementExists(XElement element, List<XElement> elements) {
+            foreach(var e in elements)
+                if(e.Attribute("name").Value == element.Attribute("name").Value)
+                    return true;
+            return false;
+        }
+        internal static int RemoveOutdatedKeys(string path, XDocument doc) { //Remove outdated keys from the satellite file
+            int removedItemsCount = 0;
+            var mainElements = GetMainResourceElements(path);
+            if(mainElements != null) {
+                var docElements = GetAllElements(doc);
+                for(int i = docElements.Count - 1; i >= 0; i--) {
+                    if(!IsElementExists(docElements[i], mainElements)) {
+                        docElements[i].Remove();
+                        removedItemsCount++;
+                    }
+                }
+            }
+            return removedItemsCount;
+        }
     }
     public class Settings {
         public static void ClearData() {
@@ -129,7 +166,7 @@ namespace LocalizationStorage {
         internal static string dX = "DevExpress";
         internal static string replyFile = "GermanReplays.txt";
         internal static string sessionChanged = "SessionChanged";
-        internal static Regex satelliteFileNameRegex = new Regex(@"^([\w\s-.])+\.([\w\s_-])+\.resx$");
+        internal static Regex satelliteFileNameRegex = new(@"^([\w\s-.])+\.([\w\s_-])+\.resx$");
         static List<LocalizationPath> paths = null;
         public static List<LocalizationPath> Paths {
             get {
@@ -146,7 +183,7 @@ namespace LocalizationStorage {
                     user = x.Replace(userAttribute, string.Empty);
             });
         }
-        static string userAttribute = "user:";
+        static readonly string userAttribute = "user:";
         static string user = Environment.UserName;
         public static string User {
             get { return user; }
@@ -163,11 +200,11 @@ namespace LocalizationStorage {
         public static string RootPath { get; set; }
         public static bool LoadTranslations { get; set; } = false;
         public static List<LocalizationTranslation> Keys { get; internal set; }
-        public static List<LocalizationTranslation> ActualKeys => Keys != null ? Keys.Where<LocalizationTranslation>(x => !string.IsNullOrEmpty(x.English)).ToList() : null;
+        public static List<LocalizationTranslation> ActualKeys => Keys?.Where<LocalizationTranslation>(x => !string.IsNullOrEmpty(x.English)).ToList();
         internal static string fileNotFount = "<< Satellite file is not found >>";
         internal static string keyNotFount = "<< Key is not found >>";
-        readonly static string[] keyExceptionEnd = new string[] { ".AccessibleName", ".AccessibleDescription" };
-        readonly static string[] valueException = new string[] { "layoutcontrol" };
+        readonly static string[] keyExceptionEnd = [".AccessibleName", ".AccessibleDescription"];
+        readonly static string[] valueException = ["layoutcontrol"];
         internal static bool DenyLocalization(string key, string value) {
             foreach(string item in valueException)
                 if(value.IndexOf(item, StringComparison.OrdinalIgnoreCase) >= 0) return true;
@@ -213,7 +250,7 @@ namespace LocalizationStorage {
         }
     }
     public static class ElapsedTime {
-        static readonly Stopwatch stopWatch = new Stopwatch();
+        static readonly Stopwatch stopWatch = new();
         public static void Start() { stopWatch.Restart(); }
         public static void Stop() { stopWatch.Stop(); }
         public static string GetTime() {
@@ -234,7 +271,7 @@ namespace LocalizationStorage {
         }
     }
     public class UIHelper {
-        readonly static Font rowFont = new Font("Calibry", 7.95F);
+        readonly static Font rowFont = new("Calibry", 7.95F);
         public static void SetColumnAppearance(GridColumnCollection collection) {
             collection.ForEach(column => {
                 if(column.FieldName == "Path" || column.FieldName == "Key")
@@ -246,8 +283,8 @@ namespace LocalizationStorage {
         }
         public static void ShowTranslatioDetailForm(GridHitInfo info) {
             if(!info.InDataRow) return;
-            if(info.View.GetRow(info.RowHandle) is LocalizationTranslation) {
-                using(DetailForm form = new DetailForm(info.View.GridControl.FindForm(), (LocalizationTranslation)info.View.GetRow(info.RowHandle))) {
+            if(info.View.GetRow(info.RowHandle) is LocalizationTranslation translation) {
+                using(DetailForm form = new(info.View.GridControl.FindForm(), translation)) {
                     form.ShowDialog();
                 }
             }
@@ -263,7 +300,7 @@ namespace LocalizationStorage {
             return GetDataRow(info.RowHandle, view);
         }
         internal static GridHitInfo GetGridHitInfoByLink(BarItemLink link) {
-            if(!(link.LinkedObject is PopupMenu)) return null;
+            if(link.LinkedObject is not PopupMenu) return null;
             return ((PopupMenu)link.LinkedObject).Tag as GridHitInfo;
         }
         static T GetValueByLink<T>(BarItemLink link) where T : class {
@@ -280,15 +317,14 @@ namespace LocalizationStorage {
         internal static int ConvertData() {
             if(Settings.ActualKeys == null || Settings.ActualKeys.Count < 1) return 0;
             foreach(var item in Settings.ActualKeys) {
-                Settings.GeDataTable.Rows.Add(new object[] { item.Path, item.Key, item.English, string.Empty,
-                item.German, item.Russian, 0});
+                Settings.GeDataTable.Rows.Add([item.Path, item.Key, item.English, string.Empty, item.German, item.Russian, 0]);
             }
             return Settings.ActualKeys.Count;
         }
         internal static void SortBySummary(GridView view, GridColumn column, ColumnSortOrder order) {
-            List<GroupSummarySortInfo> items = new List<GroupSummarySortInfo>();
+            List<GroupSummarySortInfo> items = [];
             items.Add(new GroupSummarySortInfo(view.GroupSummary[0], column, order));
-            view.GroupSummarySortInfo.ClearAndAddRange(items.ToArray());
+            view.GroupSummarySortInfo.ClearAndAddRange([.. items]);
         }
         public static Point GetCenterPoint(Control owner, Size size) {
             return new Point(owner.Location.X + (owner.Width - size.Width) / 2,
@@ -340,16 +376,16 @@ namespace LocalizationStorage {
             return name.Substring(0, name.IndexOf(","));
         }
         public static void CreateBakFile(string name) {
-            FileInfo fi = new FileInfo(name);
+            FileInfo fi = new(name);
             string bakFile = $"{fi.FullName}.bak";
             if(File.Exists(bakFile)) File.Delete(bakFile);
             fi.MoveTo(bakFile);
         }
         public static void SaveLog(List<string> lines, string name) {
-            FileInfo fi = new FileInfo($@"{Settings.LogsPath}\{name}");
+            FileInfo fi = new($@"{Settings.LogsPath}\{name}");
             if(!fi.Directory.Exists) fi.Directory.Create();
             try {
-                using(StreamWriter sw = new StreamWriter(fi.FullName)) {
+                using(StreamWriter sw = new(fi.FullName)) {
                     int index = 0;
                     lines.ForEach((line) => sw.WriteLine($"{++index}. {line}"));
                 }
@@ -358,7 +394,7 @@ namespace LocalizationStorage {
             }
         }
         public static string GetLog(List<string> lines) {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new();
             int index = 0;
             lines.ForEach((line) => result.AppendLine($"{++index}. {line}"));
             return $"{result}";
@@ -366,7 +402,7 @@ namespace LocalizationStorage {
         public static bool CopyAssemblies(string[] args) {
             if(args.Length > 0 && HasCopyArgs(args)) {
                 string source = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-                DirectoryInfo diSource = new DirectoryInfo(Path.Combine(source, "Packages"));
+                DirectoryInfo diSource = new(Path.Combine(source, "Packages"));
                 if(diSource.Exists) {
                     try {
                         foreach(FileInfo fi in diSource.GetFiles()) {
@@ -402,7 +438,7 @@ namespace LocalizationStorage {
             var rows = GetGridViewInfo(view).RowsInfo;
             GridRowInfo ri = GetRowInfo(rows, rowHandle);
             if(ri != null) {
-                Point pi = new Point(ri.Bounds.X + ri.RowLineHeight / 2, ri.Bounds.Y + ri.RowLineHeight / 2);
+                Point pi = new(ri.Bounds.X + ri.RowLineHeight / 2, ri.Bounds.Y + ri.RowLineHeight / 2);
                 menu.Tag = view.CalcHitInfo(pi);
                 menu.ShowPopup(view.GridControl.PointToScreen(pi));
             }
