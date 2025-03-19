@@ -130,6 +130,25 @@ namespace LocalizationStorage {
             }
             return string.Empty;
         }
+        public static Dictionary<string, string> UpdateTranslatedValuesByMask(string satellitePath, Dictionary<string, string> values) {
+            Dictionary<string, string> result = [];
+            var docElements = GetMainResourceElements(satellitePath) ?? throw new Exception("Main resource file is not found");
+            values.ForEach(row => {
+                string value = $"{row.Value}";
+                XElement e = GetElement(row.Key, docElements);
+                if(e != null) {
+                    value = GetValueWithSpaces(e.Element("value").Value, value);
+                    result.Add(row.Key, value);
+                }
+            });
+            return result;
+        }
+        static string GetValueWithSpaces(string mainValue, string value) {
+            var spaces = new SpacesMask(mainValue);
+            if(!spaces.IsEmpty)  
+                value = $"{spaces.LeadingSpacesString}{value}{spaces.TrailingSpacesString}";
+            return value;
+        }
         static List<XElement> GetMainResourceElements(string satelliteFilePath) {
             string mainFileName = GetMainResourceFilePath(satelliteFilePath);
             if(File.Exists(mainFileName))
@@ -141,6 +160,12 @@ namespace LocalizationStorage {
                 if(e.Attribute("name").Value == element.Attribute("name").Value)
                     return true;
             return false;
+        }
+        static XElement GetElement(string element, List<XElement> elements) {
+            foreach(var e in elements)
+                if(e.Attribute("name").Value == element)
+                    return e;
+            return null;
         }
         internal static int RemoveOutdatedKeys(string path, XDocument doc) { //Remove outdated keys from the satellite file
             int removedItemsCount = 0;
@@ -452,6 +477,17 @@ namespace LocalizationStorage {
             foreach(var row in list)
                 if(row.RowHandle == rowHandle) return row;
             return null;
+        }
+    }
+    public class SpacesMask(string value) {
+        public bool IsEmpty => LeadingSpaces == 0 && TrailingSpaces == 0;
+        int LeadingSpaces { get; } = value.Length - value.TrimStart().Length;
+        int TrailingSpaces { get; } = value.Length - value.TrimEnd().Length;
+        public string LeadingSpacesString => GetSpacesString(LeadingSpaces);
+        public string TrailingSpacesString => GetSpacesString(TrailingSpaces);
+        static string GetSpacesString(int count) {
+            if(count <= 0) return string.Empty;
+            return new string(' ', count);
         }
     }
 }

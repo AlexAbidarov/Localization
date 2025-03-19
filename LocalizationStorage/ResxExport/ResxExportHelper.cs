@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Utils.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace LocalizationStorage.ResxExport {
                 if(element.Attribute("name").Value == key) {
                     addNewKey = false;
                     XElement e = element.Elements("value").First();
-                    if(!string.Equals(GetCorrectValue(e.Value), GetCorrectValue(translation))) {//TODO Correction of values ​​containing spaces at the beginning and end of the translation
+                    if(!string.Equals(
+                        GetCorrectValue(e.Value),
+                        GetCorrectValue(translation))) {
                         e.Value = translation;
                         update = true;
                     }
@@ -31,7 +34,6 @@ namespace LocalizationStorage.ResxExport {
             return addNewKey || update;
         }
         static string GetCorrectValue(string line) {
-            line = line.Trim();
             line = line.Replace("\n", "");
             line = line.Replace("\r", "");
             return line;
@@ -62,7 +64,8 @@ namespace LocalizationStorage.ResxExport {
                 FileInfo fi = new(tPath);
                 if(fi.Exists) {
                     XDocument doc = XDocument.Load(fi.FullName);
-                    int count = SetXValues(doc, values);
+                    var valuesWithMask = LocalizationHelper.UpdateTranslatedValuesByMask(fi.FullName, values);
+                    int count = SetXValues(doc, valuesWithMask); //use values if you don't need to update the mask
                     if(count > 0)
                         count -= LocalizationHelper.RemoveOutdatedKeys(fi.FullName, doc);
                     doc.Save(fi.FullName);

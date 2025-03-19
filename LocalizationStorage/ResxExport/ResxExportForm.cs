@@ -13,7 +13,7 @@ namespace LocalizationStorage {
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
 
-        List<SimpleTranslation> source = null;
+        readonly List<SimpleTranslation> source = null;
         static readonly string satteliteExt = "de";
         private SimpleButton sbExport;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
@@ -203,7 +203,7 @@ namespace LocalizationStorage {
         }
         int DoOptimizedExport() {
             int count = 0;
-            Dictionary<string, string> valuePairs = new Dictionary<string, string>();
+            Dictionary<string, string> valuePairs = [];
             string path = null;
             source.ForEach(row => {
                 if(ResxExportHelper.IsTestValue(row.DePath)) {
