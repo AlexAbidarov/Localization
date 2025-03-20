@@ -8,19 +8,19 @@ using System.Text;
 namespace LocalizationStorage {
     internal static class CSVHelper {
         static Type GetTypeByName(string name) {
-            string[] dates = new string[] { "creation_date", "fixed_on", "closed_on" };
+            string[] dates = ["creation_date", "fixed_on", "closed_on"];
             if(dates.Contains(name)) return typeof(DateOnly);
             return typeof(string);
         }
         static bool IsId(string name) {
-            string[] ids = new string[] { "ticket_scid" };
+            string[] ids = ["ticket_scid"];
             return ids.Contains(name);
         }
         public static DataTable ConvertCSVtoDataTable(FileInfo fi) {
-            DataTable dt = new DataTable();
-            HashSet<string> id = new HashSet<string>();
+            DataTable dt = new();
+            HashSet<string> id = [];
             int idIndex = -1;
-            using(StreamReader sr = new StreamReader(fi.FullName)) {
+            using(StreamReader sr = new(fi.FullName)) {
                 string[] headers = SplitCSV(sr.ReadLine());
                 for(int i = 0; i < headers.Length; i++) {
                     string header = headers[i];
@@ -54,9 +54,9 @@ namespace LocalizationStorage {
             return dt;
         }
         static string[] SplitCSV(string line) {
-            List<string> result = new List<string>();
+            List<string> result = [];
             line = line.Trim();
-            StringBuilder res = new StringBuilder(string.Empty);
+            StringBuilder res = new(string.Empty);
             int quote = 0;
             int index = 0;
             foreach(Char c in line) {
@@ -70,7 +70,7 @@ namespace LocalizationStorage {
                 if(++index == line.Length)
                     result.Add(GetResult(res));
             }
-            return result.ToArray();
+            return [.. result];
         }
         static string GetResult(StringBuilder builder) {
             string val = builder.ToString();

@@ -66,8 +66,10 @@ namespace LocalizationStorage.ResxExport {
                     XDocument doc = XDocument.Load(fi.FullName);
                     var valuesWithMask = LocalizationHelper.UpdateTranslatedValuesByMask(fi.FullName, values);
                     int count = SetXValues(doc, valuesWithMask); //use values if you don't need to update the mask
-                    if(count > 0)
+                    /*if(count > 0)
                         count -= LocalizationHelper.RemoveOutdatedKeys(fi.FullName, doc);
+                    //Remove keys that are not in the values list. Uncomment if needed.
+                    */
                     doc.Save(fi.FullName);
                     return count;
                 }

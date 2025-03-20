@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace LocalizationStorage {
     public class FilterPanel {
-        List<FilterPanelItem> items = new List<FilterPanelItem>();
-        GridView view;
-        Bar bar;
+        readonly List<FilterPanelItem> items = [];
+        readonly GridView view;
+        readonly Bar bar;
         BarEditItem filterEx = null;
         public FilterPanel(GridView view, Bar bar) {
             this.view = view;
@@ -36,24 +36,25 @@ namespace LocalizationStorage {
         public string FilterEx => $"{filterEx?.EditValue}";
     }
     internal class FilterPanelItem {
-        BarButtonItem buttonItem = null;
-        string filterString = string.Empty;
-        FilterPanel filterPanel = null;
-        bool simpleFilter = false;
+        readonly BarButtonItem buttonItem = null;
+        readonly string filterString = string.Empty;
+        readonly FilterPanel filterPanel = null;
+        readonly bool simpleFilter = false;
         public FilterPanelItem(GridView view, Bar bar, string caption, string filterString, string description, string image, bool simpleFilter, FilterPanel panel) {
             this.filterString = filterString;
             this.simpleFilter = simpleFilter;
             filterPanel = panel;
-            buttonItem = new BarButtonItem();
-            buttonItem.ButtonStyle = BarButtonStyle.Check;
-            buttonItem.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-            buttonItem.Caption = caption;
-            buttonItem.PaintStyle = BarItemPaintStyle.CaptionGlyph;
+            buttonItem = new BarButtonItem {
+                ButtonStyle = BarButtonStyle.Check,
+                AllowHtmlText = DevExpress.Utils.DefaultBoolean.True,
+                Caption = caption,
+                PaintStyle = BarItemPaintStyle.CaptionGlyph
+            };
             //buttonItem.ItemAppearance.Normal.BackColor = Color.LightGray;
             if(!string.IsNullOrEmpty(image))
                 buttonItem.ImageOptions.ImageUri = image;
             if(!string.IsNullOrEmpty(description)) {
-                SuperToolTip toolTip = new SuperToolTip();
+                SuperToolTip toolTip = new();
                 toolTip.Items.Add(description);
                 buttonItem.SuperTip = toolTip;
             }
