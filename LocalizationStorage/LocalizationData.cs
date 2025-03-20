@@ -367,11 +367,21 @@ namespace LocalizationStorage {
         public int RemoveExtraData(List<SimpleTranslationDe> fromData, string logName) {
             merge.Clear();
             fromData.ForEach(row => {
-                if(!(row.Status == TranslationStatus.Translated && row.IsUserExists)) {
-                    DataRow dRow = GetDataRow(row.Key, row.Path, row.English);
-                    if(dRow != null) {
+                DataRow dRow = GetDataRow(row.Key, row.Path, row.English);
+                if(dRow != null) {
+                    if(!(row.Status == TranslationStatus.Translated && row.IsUserExists)) {
                         Rows.Remove(dRow);
                         RemoveRow(row);
+                    }
+                    else {
+                        if(GetTranslatedDataRowCount(row.English) < 2) {
+                            if(string.IsNullOrEmpty($"{dRow[colInternalInfo]}"))
+                                dRow[colInternalInfo] = $"Del[{Settings.FormattedToday}]";
+                        }
+                        else {
+                            Rows.Remove(dRow);
+                            RemoveRow(row);
+                        }
                     }
                 }
             });
@@ -386,6 +396,15 @@ namespace LocalizationStorage {
                     english.Equals(row[colEnglish]))
                     return row;
             return null;
+        }
+        int GetTranslatedDataRowCount(string english) {
+            int count = 0;
+            foreach(DataRow row in Rows)
+                if(english.Equals(row[colEnglish]) &&
+                    ((int)TranslationStatus.Translated).Equals(row[colStatus]) &&
+                    !string.IsNullOrEmpty($"{row[colUser]}"))
+                    count ++;
+            return count;
         }
         bool MergeRow(DataRow row, SimpleTranslationDe data) {
             TranslationStatus status = (TranslationStatus)row[colStatus];
