@@ -580,12 +580,19 @@ namespace LocalizationStorage {
         internal bool IsLocalization { //TODO right criteria
             get {
                 if(!string.IsNullOrEmpty(Type)) return false;
+                if(IsProhibitedValues(German)) return false;
                 if(Key.IndexOf(@">>") == 0) return false;
                 //if(Key.IndexOf(@"stringid", StringComparison.OrdinalIgnoreCase) >= 0) return true; 
                 //if(string.IsNullOrEmpty(Value)) return false;
                 //if(Settings.DenyLocalization(Key, Value)) return false;
                 return true;
             }
+        }
+        static readonly HashSet<string> prohibitedValues = ["This string has not yet been translated"];
+        internal static bool IsProhibitedValues(string value) {
+            foreach(var item in prohibitedValues)
+                if(value.Contains(item)) return true;
+            return false;
         }
         internal LocalizationPath LocalizationPath { get; set; }
         public string Path { get { return LocalizationPath.Path; } }

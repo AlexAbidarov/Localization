@@ -92,7 +92,7 @@ namespace LocalizationStorage {
         }
 
         private void simpleButton3_Click(object sender, EventArgs e) {
-            using(ReplaysForm form = new ReplaysForm(this)) {
+            using(ReplaysForm form = new(this)) {
                 form.ShowDialog();
             }
         }

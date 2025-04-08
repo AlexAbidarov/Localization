@@ -309,9 +309,8 @@ namespace LocalizationStorage {
         public static void ShowTranslatioDetailForm(GridHitInfo info) {
             if(!info.InDataRow) return;
             if(info.View.GetRow(info.RowHandle) is LocalizationTranslation translation) {
-                using(DetailForm form = new(info.View.GridControl.FindForm(), translation)) {
+                using(DetailForm form = new(info.View.GridControl.FindForm(), translation)) 
                     form.ShowDialog();
-                }
             }
         }
         internal static DataRow GetDataRow(int rowHandle, GridView view) {
