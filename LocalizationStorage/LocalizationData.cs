@@ -374,7 +374,8 @@ namespace LocalizationStorage {
                         RemoveRow(row);
                     }
                     else {
-                        if(GetTranslatedDataRowCount(row.English) < 2) {
+                        if(GetTranslatedDataRowCount(row.English) < 2 &&
+                            LocalizationTranslation.IsLegalKeyKey(row.Key)) {
                             if(string.IsNullOrEmpty($"{dRow[colInternalInfo]}"))
                                 dRow[colInternalInfo] = $"Del[{Settings.FormattedToday}]";
                         }
@@ -584,9 +585,16 @@ namespace LocalizationStorage {
                 if(Key.IndexOf(@">>") == 0) return false;
                 //if(Key.IndexOf(@"stringid", StringComparison.OrdinalIgnoreCase) >= 0) return true; 
                 //if(string.IsNullOrEmpty(Value)) return false;
-                //if(Settings.DenyLocalization(Key, Value)) return false;
+                if(!IsLegalKeyKey(Key)) return false;
                 return true;
             }
+        }
+        internal static bool IsLegalKeyKey(string key) { 
+            //Some resources do not require translation, for example, spreadsheet functions and attributes must have the same translation as in Excel
+            if(key.Contains("XtraSpreadsheetFunctionNameStringId")) return false;
+            if(key.Contains("XtraSpreadsheetFunctionArgumentNameStringId")) return false;
+            return true;
+
         }
         static readonly HashSet<string> prohibitedValues = ["This string has not yet been translated"];
         internal static bool IsProhibitedValues(string value) {
