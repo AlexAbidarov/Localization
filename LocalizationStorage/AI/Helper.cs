@@ -53,10 +53,7 @@ namespace LocalizationStorage.AI {
                 AISettings.Default.UseExistingGerman ? German : null);
         }
     }
-    public class GermanTranslateExtension : ChangeTextExtension<GermanTranslateRequest> {
-        public GermanTranslateExtension(IServiceProvider serviceProvider) : base(serviceProvider) {
-        }
-
+    public class GermanTranslateExtension(IServiceProvider serviceProvider) : ChangeTextExtension<GermanTranslateRequest>(serviceProvider) {
         protected override void ConfigureDefaultRequestParameters(ChatMessageRequest chatRequest, GermanTranslateRequest request) {
             base.ConfigureDefaultRequestParameters(chatRequest, request);
             chatRequest.Options.Temperature = AISettings.Default.Temperature;

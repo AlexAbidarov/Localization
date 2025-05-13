@@ -5,7 +5,7 @@ using System.Data;
 
 namespace LocalizationStorage.DataImport {
     public class DataImportHelper {
-        static DataSet dataSet = new();
+        static readonly DataSet dataSet = new();
         public static DataTableDeImport DataTable =>
             dataSet.Tables.Count > 0 ?
             dataSet.Tables[Settings.deTableName] as DataTableDeImport : null;
@@ -22,7 +22,7 @@ namespace LocalizationStorage.DataImport {
     }
     public class DataTableDeImport : ExpertDataTableDe {
         public List<NewTranslation> GetNewData(ExpertDataTableDe data) {
-            HashSet<string> keys = new HashSet<string>();
+            HashSet<string> keys = [];
             foreach(DataRow row in data.Rows)
                 keys.Add(GetKey(row[colPath.ColumnName], row[colKey.ColumnName]));
             var result = new List<NewTranslation>();
@@ -39,7 +39,7 @@ namespace LocalizationStorage.DataImport {
             return result;
         }
         public List<SimpleTranslationDe> GetExtraData(ExpertDataTableDe data) {
-            HashSet<string> keys = new HashSet<string>();
+            HashSet<string> keys = [];
             foreach(DataRow row in this.Rows)
                 keys.Add(GetKey(row[colPath], row[colKey]));
             var result = new List<SimpleTranslationDe>();
@@ -62,18 +62,13 @@ namespace LocalizationStorage.DataImport {
             return $"~{path}~{key}~";
         }
     }
-    public class NewTranslation : BaseTranslation {
-        public NewTranslation(
-            string path,
-            string key,
-            string english,
-            string german,
-            string russian) :
-            base(path, key, english, $"New[{Settings.FormattedToday}]") {
-            Russian = russian;
-            German = german;
-        }
-        public string German { get; set; }
-        public string Russian { get; set; }
+    public class NewTranslation(
+        string path,
+        string key,
+        string english,
+        string german,
+        string russian) : BaseTranslation(path, key, english, $"New[{Settings.FormattedToday}]") {
+        public string German { get; set; } = german;
+        public string Russian { get; set; } = russian;
     }
 }

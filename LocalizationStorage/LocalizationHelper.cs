@@ -146,7 +146,7 @@ namespace LocalizationStorage {
         static string GetValueWithSpaces(string mainValue, string value) {
             var spaces = new SpacesMask(mainValue);
             if(!spaces.IsEmpty)  
-                value = $"{spaces.LeadingSpacesString}{value}{spaces.TrailingSpacesString}";
+                value = $"{spaces.LeadingString}{value}{spaces.TrailingString}";
             return value;
         }
         static List<XElement> GetMainResourceElements(string satelliteFilePath) {
@@ -479,14 +479,19 @@ namespace LocalizationStorage {
         }
     }
     public class SpacesMask(string value) {
-        public bool IsEmpty => LeadingSpaces == 0 && TrailingSpaces == 0;
-        int LeadingSpaces { get; } = value.Length - value.TrimStart().Length;
-        int TrailingSpaces { get; } = value.Length - value.TrimEnd().Length;
-        public string LeadingSpacesString => GetSpacesString(LeadingSpaces);
-        public string TrailingSpacesString => GetSpacesString(TrailingSpaces);
-        static string GetSpacesString(int count) {
+        public bool IsEmpty => LeadingSpaces == 0 && 
+            TrailingSpaces == 0 && 
+            LeadingNewLine == 0 && 
+            TrailingNewLine == 0;
+        int LeadingSpaces { get; } = value.Length - value.TrimStart(' ').Length;
+        int TrailingSpaces { get; } = value.Length - value.TrimEnd(' ').Length;
+        int LeadingNewLine { get; } = value.Length - value.TrimStart('\n').Length;
+        int TrailingNewLine { get; } = value.Length - value.TrimEnd('\n').Length;
+        public string LeadingString => $"{GetCharString(LeadingNewLine, '\n')}{GetCharString(LeadingSpaces)}";
+        public string TrailingString => $"{GetCharString(TrailingSpaces)}{GetCharString(TrailingNewLine, '\n')}";
+        static string GetCharString(int count, char symbol = ' ') {
             if(count <= 0) return string.Empty;
-            return new string(' ', count);
+            return new string(symbol, count);
         }
     }
 }

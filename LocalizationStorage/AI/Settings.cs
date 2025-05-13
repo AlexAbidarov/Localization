@@ -9,10 +9,10 @@ namespace LocalizationStorage.AI {
     internal class AISettings {
         const string keyName = @"AI\azure.key";
         const string requestName = @"AI\request.txt";
-        string azureOpenAIEndpoint, azureOpenAIKey, request = null;
-        public static readonly AISettings Default = new AISettings(Application.StartupPath);
+        readonly string azureOpenAIEndpoint, azureOpenAIKey, request = null;
+        public static readonly AISettings Default = new(Application.StartupPath);
         public AISettings(string appPath) {
-            FileInfo fi = new FileInfo(Path.Combine(appPath, keyName));
+            FileInfo fi = new(Path.Combine(appPath, keyName));
             if(fi.Exists) {
                 using(StreamReader sr = fi.OpenText()) {
                     azureOpenAIEndpoint = sr.ReadLine();
@@ -25,7 +25,7 @@ namespace LocalizationStorage.AI {
             }
             fi = new FileInfo(Path.Combine(appPath, requestName));
             if(fi.Exists) {
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 using(StreamReader sr = fi.OpenText()) {
                     string line = null;
                     while((line = sr.ReadLine()) != null)
@@ -44,8 +44,8 @@ namespace LocalizationStorage.AI {
                 new System.ClientModel.ApiKeyCredential(azureOpenAIKey)).AsChatClient("GPT4o");
             defaultContainer.RegisterChatClient(asChatClient);
         }
-        string keyError = $"<< {keyName} is not found >>";
-        string requestError = $"<< {requestName} is not found >>";
+        readonly string keyError = $"<< {keyName} is not found >>";
+        readonly string requestError = $"<< {requestName} is not found >>";
         public bool KeysExist => !(string.IsNullOrEmpty(azureOpenAIEndpoint) && string.IsNullOrEmpty(azureOpenAIKey));
         public bool RequestExists => !string.IsNullOrEmpty(request);
         public string AzureOpenAIEndpoint => string.IsNullOrEmpty(azureOpenAIEndpoint) ? keyError : azureOpenAIEndpoint;
