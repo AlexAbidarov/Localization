@@ -38,10 +38,10 @@ namespace LocalizationStorage.AI {
         void AIContainerRegistration() {
             var defaultContainer = AIExtensionsContainerDesktop.Default;
             defaultContainer.Register<GermanTranslateExtension>(typeof(GermanTranslateRequest));
-
+            string DeploymentName = "gpt-4o-mini";
             IChatClient asChatClient = new Azure.AI.OpenAI.AzureOpenAIClient(
                 new Uri(azureOpenAIEndpoint),
-                new System.ClientModel.ApiKeyCredential(azureOpenAIKey)).AsChatClient("GPT4o");
+                new System.ClientModel.ApiKeyCredential(azureOpenAIKey)).GetChatClient(DeploymentName).AsIChatClient();
             defaultContainer.RegisterChatClient(asChatClient);
         }
         readonly string keyError = $"<< {keyName} is not found >>";
