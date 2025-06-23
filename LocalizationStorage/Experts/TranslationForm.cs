@@ -13,7 +13,8 @@ namespace LocalizationStorage {
         private PanelControl pnlContainer;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
-
+        private CheckEdit cbCheckTranslation;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         TranslatinUserControl mainControl = null;
         public TranslationForm(Form owner, TranslationDe info) {
             InitializeComponent();
@@ -47,6 +48,8 @@ namespace LocalizationStorage {
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.cbCheckTranslation = new DevExpress.XtraEditors.CheckEdit();
+            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlContainer)).BeginInit();
@@ -55,10 +58,13 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbCheckTranslation.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.cbCheckTranslation);
             this.layoutControl1.Controls.Add(this.pnlContainer);
             this.layoutControl1.Controls.Add(this.simpleButton2);
             this.layoutControl1.Controls.Add(this.simpleButton1);
@@ -106,7 +112,8 @@ namespace LocalizationStorage {
             this.layoutControlItem6,
             this.emptySpaceItem2,
             this.layoutControlItem7,
-            this.layoutControlItem1});
+            this.layoutControlItem1,
+            this.layoutControlItem2});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(477, 237);
             this.Root.TextVisible = false;
@@ -120,16 +127,13 @@ namespace LocalizationStorage {
             this.layoutControlItem6.Name = "layoutControlItem6";
             this.layoutControlItem6.Size = new System.Drawing.Size(74, 26);
             this.layoutControlItem6.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem6.TextVisible = false;
             // 
             // emptySpaceItem2
             // 
-            this.emptySpaceItem2.AllowHotTrack = false;
-            this.emptySpaceItem2.Location = new System.Drawing.Point(0, 191);
+            this.emptySpaceItem2.Location = new System.Drawing.Point(158, 191);
             this.emptySpaceItem2.Name = "emptySpaceItem2";
-            this.emptySpaceItem2.Size = new System.Drawing.Size(300, 26);
-            this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
+            this.emptySpaceItem2.Size = new System.Drawing.Size(142, 26);
             // 
             // layoutControlItem7
             // 
@@ -141,7 +145,6 @@ namespace LocalizationStorage {
             this.layoutControlItem7.Padding = new DevExpress.XtraLayout.Utils.Padding(8, 2, 2, 2);
             this.layoutControlItem7.Size = new System.Drawing.Size(83, 26);
             this.layoutControlItem7.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
             // 
             // layoutControlItem1
@@ -151,8 +154,24 @@ namespace LocalizationStorage {
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
             this.layoutControlItem1.Size = new System.Drawing.Size(457, 191);
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
+            // 
+            // cbCheckTranslation
+            // 
+            this.cbCheckTranslation.Location = new System.Drawing.Point(12, 203);
+            this.cbCheckTranslation.Name = "cbCheckTranslation";
+            this.cbCheckTranslation.Properties.Caption = "Don\'t check the number of lines";
+            this.cbCheckTranslation.Size = new System.Drawing.Size(154, 20);
+            this.cbCheckTranslation.StyleController = this.layoutControl1;
+            this.cbCheckTranslation.TabIndex = 12;
+            // 
+            // layoutControlItem2
+            // 
+            this.layoutControlItem2.Control = this.cbCheckTranslation;
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 191);
+            this.layoutControlItem2.Name = "layoutControlItem2";
+            this.layoutControlItem2.Size = new System.Drawing.Size(158, 26);
+            this.layoutControlItem2.TextVisible = false;
             // 
             // TranslationForm
             // 
@@ -174,6 +193,8 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbCheckTranslation.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -183,7 +204,7 @@ namespace LocalizationStorage {
         }
         protected override void OnClosing(CancelEventArgs e) {
             base.OnClosing(e);
-            if(DialogResult == DialogResult.OK) {
+            if(DialogResult == DialogResult.OK && !cbCheckTranslation.Checked) {
                 if(LocalizationHelper.AreDifferentLineCount(English, Translation)) {
                     XtraMessageBox.Show("We can't save the translation.\r\nThe translation and the original have different number of lines.",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
