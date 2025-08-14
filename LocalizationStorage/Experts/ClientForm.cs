@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace LocalizationStorage {
     public partial class ClientForm : ToolbarForm {
@@ -25,6 +26,7 @@ namespace LocalizationStorage {
             AddResxExport();
             AddDataImport();
             AddFirstTranslation();
+            AddNotTranslationNeededImport();
             //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
@@ -146,6 +148,24 @@ namespace LocalizationStorage {
                 button.ToolTip = $"Show {traslationName}_DX Data";
                 gridView1.ShowFindPanel();
             }
+        }
+        void AddNotTranslationNeededImport(string name = "Internal data export") {
+            if(!Settings.IsAdmin) return;
+            var button = gridView1.FindPanelItems.AddButton(string.Empty, null,
+                    (s, args) => {
+                        Cursor = Cursors.WaitCursor;
+                        try {
+                            var serializer = new XmlSerializer(typeof(HashSet<string>));
+                            using(var fs = new FileStream($"{Settings.DataPath}\\NoTranslationNeeded.xml", FileMode.Create)) {
+                                serializer.Serialize(fs, Source.GetNoTranslationNeededKeys());
+                            }
+                        } finally {
+                            Cursor = Cursors.Default;
+                        }
+                    });
+            button.ImageOptions.ImageUri.Uri = "export;Size16x16;Svg";
+            button.ToolTip = name;
+            gridView1.ShowFindPanel();
         }
         void AddResxExport(string name = "Resx Export") {
             if(!Settings.IsAdmin) return;

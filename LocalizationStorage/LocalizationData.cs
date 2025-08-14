@@ -318,6 +318,14 @@ namespace LocalizationStorage {
                 status == TranslationStatus.NotSure ||
                 status == TranslationStatus.Problems;
         }
+        internal HashSet<string> GetNoTranslationNeededKeys() {
+            var result = new HashSet<string>();
+            foreach(DataRow row in this.Rows) {
+                if(((TranslationStatus)row[colStatus]) == TranslationStatus.NoTranslationNeeded)
+                    result.Add($"{row[colPath]}|{row[colKey]}");
+            }
+            return [.. result.OrderBy(x => x)];
+        }
         public List<SimpleTranslation> GetTranslationData(bool onlyDifferentValues = false) { //Main source for resx
             var result = new List<SimpleTranslation>();
             foreach(DataRow row in this.Rows) {
