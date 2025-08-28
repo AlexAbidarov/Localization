@@ -321,7 +321,8 @@ namespace LocalizationStorage {
         internal HashSet<string> GetNoTranslationNeededKeys() {
             var result = new HashSet<string>();
             foreach(DataRow row in this.Rows) {
-                if(((TranslationStatus)row[colStatus]) == TranslationStatus.NoTranslationNeeded)
+                if(((TranslationStatus)row[colStatus]) == TranslationStatus.NoTranslationNeeded &&
+                    string.IsNullOrEmpty($"{row[colUser]}")) //Use only admin approved entries
                     result.Add($"{row[colPath]}|{row[colKey]}");
             }
             return [.. result.OrderBy(x => x)];
