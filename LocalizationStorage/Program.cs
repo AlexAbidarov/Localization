@@ -19,7 +19,7 @@ namespace LocalizationStorage {
                 AppDomain.CurrentDomain.AssemblyResolve += (context, assembly) => {
                     if(assembly.Name.IndexOf(ExAssembly, StringComparison.OrdinalIgnoreCase) == 0) return null;
                     string path = Path.Combine(packagesDir,
-                        $@"{IOHelper.GetShortAssembluName(assembly.Name)}.dll");
+                        $@"{IOHelper.GetShortAssemblyName(assembly.Name)}.dll");
                     bool fileExist = File.Exists(path);
                     assemblyResolving.Add($"{path} - {fileExist}");
                     if(fileExist)

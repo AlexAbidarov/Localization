@@ -396,7 +396,7 @@ namespace LocalizationStorage {
         }
     }
     public class IOHelper {
-        internal static string GetShortAssembluName(string name) {
+        internal static string GetShortAssemblyName(string name) {
             return name.Substring(0, name.IndexOf(","));
         }
         public static void CreateBakFile(string name) {
