@@ -418,11 +418,12 @@ namespace LocalizationStorage {
         }
         bool MergeRow(DataRow row, SimpleTranslationDe data) {
             TranslationStatus status = (TranslationStatus)row[colStatus];
-            if(status == TranslationStatus.NoTranslationNeeded) return false; //no changes allowed if old status is NoTranslationNeeded!!!
             string english = $"{row[colEnglish]}";
             string translation = $"{row[colTranslate]}";
             string comment = $"{row[colComment]}";
             string user = $"{row[colUser]}";
+            if(status == TranslationStatus.NoTranslationNeeded &&
+                string.IsNullOrEmpty(user)) return false; //no changes allowed if old status is NoTranslationNeeded!!!
             if(status == data.Status && translation == data.Translation && comment == data.Comment) {
                 row[colUser] = data.User;
                 merge.Add($"Verify Translation: {status} '{english}' - nothing changed");
