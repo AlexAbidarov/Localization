@@ -418,6 +418,7 @@ namespace LocalizationStorage {
         }
         bool MergeRow(DataRow row, SimpleTranslationDe data) {
             TranslationStatus status = (TranslationStatus)row[colStatus];
+            if(status == TranslationStatus.NoTranslationNeeded) return false; //no changes allowed if old status is NoTranslationNeeded!!!
             string english = $"{row[colEnglish]}";
             string translation = $"{row[colTranslate]}";
             string comment = $"{row[colComment]}";
