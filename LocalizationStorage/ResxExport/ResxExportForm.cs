@@ -19,7 +19,7 @@ namespace LocalizationStorage {
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private ButtonEdit tePath;
-        static readonly string root = @"D:\Work\v25.1\Localization";
+        static readonly string root = @"D:\Work\v25.2\Localization";
 
         public ResxExportForm(Form owner, List<SimpleTranslation> data) {
             InitializeComponent();

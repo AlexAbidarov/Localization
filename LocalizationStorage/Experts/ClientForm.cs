@@ -205,6 +205,7 @@ namespace LocalizationStorage {
             column.OptionsColumn.AllowFocus = false;
             column.OptionsColumn.AllowEdit = false;
             column.FieldName = "InternalInfo";
+            column.Visible = true;
             var link = pmRowMenu.ItemLinks[0];
             link.BeginGroup = true;
             pmRowMenu.InsertItem(link, bbEditNew);
