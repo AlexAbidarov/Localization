@@ -94,7 +94,7 @@ namespace LocalizationStorage {
         void SetViewHandler() {
             gridView1.KeyDown += (s, e) => {
                 if((e.KeyData == Keys.Space || e.KeyData == Keys.Enter) &&
-                    gridView1.IsValidRowHandle(gridView1.FocusedRowHandle))
+                    gridView1.IsValidRowHandle(gridView1.FocusedRowHandle) && !gridView1.IsFilterRow(gridView1.FocusedRowHandle))
                     AddTranslation(gridView1.FocusedRowHandle);
                 if(e.KeyData == (Keys.M | Keys.Alt))
                     GridHelper.ShowRowPopuMenu(gridView1, pmGroupRowMenu, pmRowMenu);
