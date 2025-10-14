@@ -327,6 +327,18 @@ namespace LocalizationStorage {
             }
             return [.. result.OrderBy(x => x)];
         }
+        public List<AdvTranslation> TranslationRows {
+            get {
+                return [.. this.AsEnumerable().Select(row => new AdvTranslation(
+                        row.Field<string>(colPath.ColumnName),
+                        row.Field<string>(colKey.ColumnName),
+                        row.Field<string>(colEnglish.ColumnName),
+                        row.Field<string>(colTranslate.ColumnName),
+                        row.Field<string>(colUser.ColumnName),
+                        row.Field<TranslationStatus>(colStatus.ColumnName),
+                        row.Field<string>(colComment.ColumnName)))];
+            }
+        }
         public List<SimpleTranslation> GetTranslationData(bool onlyDifferentValues = false) { //Main source for resx
             var result = new List<SimpleTranslation>();
             foreach(DataRow row in this.Rows) {
@@ -413,7 +425,7 @@ namespace LocalizationStorage {
                 if(english.Equals(row[colEnglish]) &&
                     ((int)TranslationStatus.Translated).Equals(row[colStatus]) &&
                     !string.IsNullOrEmpty($"{row[colUser]}"))
-                    count ++;
+                    count++;
             return count;
         }
         bool MergeRow(DataRow row, SimpleTranslationDe data) {
@@ -472,6 +484,11 @@ namespace LocalizationStorage {
         public string DePath { get; set; } = string.Empty;
         public string Translation { get; set; } = translation;
     }
+    public class AdvTranslation(string path, string key, string english, string translation, string user, TranslationStatus status, string comment) :
+        SimpleTranslation(path, key, english, translation, user) {
+        public TranslationStatus Status { get; set; } = status;
+        public string Comment { get; set; } = comment;
+    }
     public class LocalizationPath {
         public LocalizationPath(FileInfo file) {
             if(string.IsNullOrEmpty(Settings.RootPath))
@@ -495,7 +512,7 @@ namespace LocalizationStorage {
                 if(string.IsNullOrEmpty(Path)) return false;
                 if(IsException(Path)) return false;
                 if(Path.Contains(@"DevExpress.DLL")) return false;
-                if(Path.IndexOf(Settings.dX) == 0) return true;
+                if(Path.IndexOf(Settings.DX) == 0) return true;
                 return false;
             }
         }
@@ -600,7 +617,7 @@ namespace LocalizationStorage {
                 return true;
             }
         }
-        internal static bool IsLegalKey(string key) { 
+        internal static bool IsLegalKey(string key) {
             //Some resources do not require translation, for example, spreadsheet functions and attributes must have the same translation as in Excel
             if(key.Contains("XtraSpreadsheetFunctionNameStringId")) return false;
             if(key.Contains("XtraSpreadsheetFunctionArgumentNameStringId")) return false;
@@ -621,7 +638,7 @@ namespace LocalizationStorage {
         public string English { get; set; } = string.Empty;
         internal string Type { get; set; } = string.Empty;
         public string German { get; internal set; }
-        internal string GermanValue => 
+        internal string GermanValue =>
             LocalizationHelper.PrepareTranslation(German);
         public string Russian { get; internal set; }
         public string Japan { get; internal set; }

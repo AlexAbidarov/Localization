@@ -7,6 +7,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraSplashScreen;
 using LocalizationStorage.AI;
+using LocalizationStorage.XLS;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,8 +26,9 @@ namespace LocalizationStorage {
             AddDataMerging();
             AddResxExport();
             AddDataImport();
-            AddFirstTranslation();
+            //AddFirstTranslation(); //do it only for the firts version
             AddNotTranslationNeededImport();
+            AddProblemResourcesImport();
             //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
@@ -109,7 +111,7 @@ namespace LocalizationStorage {
             };
         }
         void CreateFilterPanel() {
-            FilterPanel panel = new FilterPanel(gridView1, bFilter);
+            FilterPanel panel = new(gridView1, bFilter);
             panel.AddFilterItem("<b>Not</b> Translated", "[Status] = 0");
             panel.AddFilterItem("Translated", "[Status] = 1");
             panel.AddFilterItem("Accepted (<b>Needs Verification</b>)", "[Status] = 6");
@@ -164,6 +166,21 @@ namespace LocalizationStorage {
                         }
                     });
             button.ImageOptions.ImageUri.Uri = "export;Size16x16;Svg";
+            button.ToolTip = name;
+            gridView1.ShowFindPanel();
+        }
+        void AddProblemResourcesImport(string name = "Create xls file for the problem resources") {
+            if(!Settings.IsAdmin) return;
+            var button = gridView1.FindPanelItems.AddButton(string.Empty, null,
+                    (s, args) => {
+                        Cursor = Cursors.WaitCursor;
+                        try {
+                            XLSHelper.DoXLSImport(Source.TranslationRows, @$"{Settings.DataPath}\TranslationProblems.de.xlsx");
+                        } finally {
+                            Cursor = Cursors.Default;
+                        }
+                    });
+            button.ImageOptions.ImageUri.Uri = "business_idea;Size16x16;Svg";
             button.ToolTip = name;
             gridView1.ShowFindPanel();
         }

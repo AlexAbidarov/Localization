@@ -276,7 +276,7 @@ namespace LocalizationStorage {
             if(!string.IsNullOrEmpty(fileName))
                 beFile.Text = fileName;
         }
-        void DisableButtons() { 
+        void DisableButtons() {
             sbMerge.Enabled = false;
             sbRemove.Enabled = false;
         }

@@ -56,7 +56,7 @@ namespace LocalizationStorage {
                 int status = row["Status"] as int? ?? 0;
                 string english = row["English"] as string ?? "";
                 string translation = row["NewGerman"] as string ?? "";
-                if(status != 0) { 
+                if(status != 0) {
                     statusSet.Add(status);
                     if(!string.IsNullOrEmpty(translation)) translationSet.Add(translation);
                 }

@@ -145,7 +145,7 @@ namespace LocalizationStorage {
         }
         static string GetValueWithSpaces(string mainValue, string value) {
             var spaces = new SpacesMask(mainValue);
-            if(!spaces.IsEmpty)  
+            if(!spaces.IsEmpty)
                 value = $"{spaces.LeadingString}{value}{spaces.TrailingString}";
             return value;
         }
@@ -181,6 +181,13 @@ namespace LocalizationStorage {
             }
             return removedItemsCount;
         }
+        internal static string GetFirstChildDirectoryName(string path) {
+            if(path.Contains(Settings.RootPath))
+                path = Settings.GetSimplePath(path);
+
+            var firstSeparatorIndex = path.IndexOf('\\');
+            return firstSeparatorIndex >= 0 ? path.Substring(0, firstSeparatorIndex) : path;
+        }
     }
     public class Settings {
         public static void ClearData() {
@@ -188,7 +195,8 @@ namespace LocalizationStorage {
         }
         internal static string deDataSetName = "ExpertDataDe.xml";
         internal static string deTableName = "DeTable";
-        internal static string dX = "DevExpress";
+        internal static string DX { get; } = "DevExpress";
+        internal static string Xtra { get; } = "Xtra";
         internal static string replyFile = "GermanReplays.txt";
         internal static string sessionChanged = "SessionChanged";
         internal static Regex satelliteFileNameRegex = new(@"^([\w\s-.])+\.([\w\s_-])+\.resx$");
@@ -216,6 +224,8 @@ namespace LocalizationStorage {
                 user = value;
             }
         }
+        public static string GetSimplePath(string path) =>
+            path.Replace(@$"{RootPath}\", string.Empty);
         public static string FormattedToday => GetDateString(DateOnly.FromDateTime(DateTime.Today));
         public static string GetDateString(DateOnly date) => string.Format("{0:yyyyMMdd}", date);
         public static bool IsAdmin => user.IndexOf("admin", StringComparison.OrdinalIgnoreCase) >= 0;
@@ -309,7 +319,7 @@ namespace LocalizationStorage {
         public static void ShowTranslatioDetailForm(GridHitInfo info) {
             if(!info.InDataRow) return;
             if(info.View.GetRow(info.RowHandle) is LocalizationTranslation translation) {
-                using(DetailForm form = new(info.View.GridControl.FindForm(), translation)) 
+                using(DetailForm form = new(info.View.GridControl.FindForm(), translation))
                     form.ShowDialog();
             }
         }
@@ -479,9 +489,9 @@ namespace LocalizationStorage {
         }
     }
     public class SpacesMask(string value) {
-        public bool IsEmpty => LeadingSpaces == 0 && 
-            TrailingSpaces == 0 && 
-            LeadingNewLine == 0 && 
+        public bool IsEmpty => LeadingSpaces == 0 &&
+            TrailingSpaces == 0 &&
+            LeadingNewLine == 0 &&
             TrailingNewLine == 0;
         int LeadingSpaces { get; } = value.Length - value.TrimStart(' ').Length;
         int TrailingSpaces { get; } = value.Length - value.TrimEnd(' ').Length;

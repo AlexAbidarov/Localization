@@ -135,6 +135,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ResxExport\ResxExportHelper.cs" />
+    <Compile Include="XLS\GroupsHelper.cs" />
+    <Compile Include="XLS\XLSHelper.cs" />
     <EmbeddedResource Include="AI\AISettings.resx">
       <DependentUpon>AISettings.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -201,6 +203,7 @@
     <PackageReference Include="Azure.AI.OpenAI" Version="2.2.0-beta.4" />
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.5.0-preview.1.25265.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="OfficeIMO.Excel" Version="0.5.0" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
