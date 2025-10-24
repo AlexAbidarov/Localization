@@ -471,6 +471,16 @@ namespace LocalizationStorage {
                 return $"empty";
             return $"'{line}'";
         }
+
+        internal void MakePromptsUntranslatable() {
+            foreach(DataRow row in Rows) {
+                if(PromptHelper.IsPromptKey(row[colKey] as string)) {
+                    row[colStatus] = TranslationStatus.NoTranslationNeeded;
+                    row[colUser] = "Prompt[20251025]";
+                    row[colSessionChanged] = true;
+                }
+            }
+        }
     }
     public class BaseTranslation(string path, string key, string english, string user) {
         public string Path { get; set; } = path;

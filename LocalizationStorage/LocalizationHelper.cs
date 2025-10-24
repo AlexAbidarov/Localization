@@ -504,4 +504,57 @@ namespace LocalizationStorage {
             return new string(symbol, count);
         }
     }
+    public static class PromptHelper {
+        static readonly HashSet<string> PromptKeys = [
+            "AutoCompleteSystemPrompt",
+            "AutoCompleteDefaultRole",
+            "AbstractiveSummarySystemPrompt",
+            "ChangeToneSystemPrompt",
+            "ExpandSystemPrompt",
+            "ExplainSystemPrompt",
+            "ExtractiveSummarySystemPrompt",
+            "ProofreadSystemPrompt",
+            "ChangeStyleSystemPrompt",
+            "ShortenSystemPrompt",
+            "TranslateSystemPrompt",
+            "LocalizeSystemPrompt",
+            "GenerateDescriptionSystemPrompt",
+            "ExpressionGeneratorRegeneratePrompt",
+            "SmartPasteSystemPrompt",
+            "SmartPasteSchedulerPromptAugmentation",
+            "ContextSystemPrompt",
+            "SmartSearchSystemPrompt",
+            "SmartSearchUserPrompt",
+            "ExplainFormulaPrompt",
+            "CustomNoMarkdownSystemPrompt",
+            "SmartPasteBoolFormattingPrompt",
+            "SmartPasteIntegerFormattingPrompt",
+            "SmartPasteRealFormattingPrompt",
+            "SmartPasteDateTimeFormattingPrompt",
+            "SmartPasteDateOnlyFormattingPrompt",
+            "SmartPasteTimeOnlyFormattingPrompt",
+            "SmartPasteChoiceFormattingPrompt",
+            "SeparatorPromptAugmentationText",
+            "ToolsErrorToolCannotBeCalled",
+            "ToolsErrorTargetNotFound",
+            "ToolsTargetIdentifierParameterName",
+            "ToolsTargetIdentifierParameterDescription",
+            "ToolsGetTargetsToolName",
+            "ToolsGetTargetsToolDescription",
+            "TranslateRichText",
+            "FailedParseTranslateJSON",
+            "FailedDocumentClassificationExtensionRegistration",
+            "UnknownTranslationFailed",
+            "TranslationCanceled",
+            "UnexpextedErrorStatus",
+            "InvalidInputJsonChunkTextToChunkConverter" ];
+
+        internal static bool IsPromptKey(string key) {
+            foreach(var prompt in PromptKeys) {
+                if(key.Contains(prompt))
+                    return true;
+            }
+            return false;
+        }
+    }
 }

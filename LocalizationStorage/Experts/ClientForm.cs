@@ -29,6 +29,7 @@ namespace LocalizationStorage {
             //AddFirstTranslation(); //do it only for the firts version
             AddNotTranslationNeededImport();
             AddProblemResourcesImport();
+            CheckPrompts();
             //AddOperationButtons(); //single operation, code left as an example
             UIHelper.SetColumnAppearance(gridView1.Columns);
             SetRowMenu();
@@ -181,6 +182,21 @@ namespace LocalizationStorage {
                         }
                     });
             button.ImageOptions.ImageUri.Uri = "business_idea;Size16x16;Svg";
+            button.ToolTip = name;
+            gridView1.ShowFindPanel();
+        }
+        void CheckPrompts(string name = "Make prompts resources to untranslatable") {
+            if(!Settings.IsAdmin) return;
+            var button = gridView1.FindPanelItems.AddButton(string.Empty, null,
+                    (s, args) => {
+                        Cursor = Cursors.WaitCursor;
+                        try {
+                            Source.MakePromptsUntranslatable();
+                        } finally {
+                            Cursor = Cursors.Default;
+                        }
+                    });
+            button.ImageOptions.ImageUri.Uri = "actions_forbid;Size16x16;Svg";
             button.ToolTip = name;
             gridView1.ShowFindPanel();
         }
