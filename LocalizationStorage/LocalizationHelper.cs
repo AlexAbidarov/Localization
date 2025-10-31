@@ -546,8 +546,9 @@ namespace LocalizationStorage {
             "FailedDocumentClassificationExtensionRegistration",
             "UnknownTranslationFailed",
             "TranslationCanceled",
-            "UnexpextedErrorStatus",
-            "InvalidInputJsonChunkTextToChunkConverter" ];
+            "AIIntegrationStringId.UnexpectedErrorStatus",
+            "InvalidInputJsonChunkTextToChunkConverter",
+            "AIIntegrationStringId.ProofreadRichText"];
 
         internal static bool IsPromptKey(string key) {
             foreach(var prompt in PromptKeys) {
