@@ -551,7 +551,10 @@ namespace LocalizationStorage {
             "AIIntegrationStringId.ProofreadRichText",
             "AIIntegrationStringId.PromptToExpressionSystemPrompt",
             "AIIntegrationStringId.PromptToExpressionRetryPrompt",
-            "AIIntegrationStringId.PromptToFilterSystemPrompt"];
+            "AIIntegrationStringId.PromptToFilterSystemPrompt",
+            "AIIntegrationStringId.ProofreadDocumentSystemPrompt",
+            "AIIntegrationStringId.TranslateDocumentSystemPrompt",
+            "AIIntegrationStringId.AskAIDocumentRequestPrompt"];
 
         internal static bool IsPromptKey(string key) {
             foreach(var prompt in promptKeys) {
