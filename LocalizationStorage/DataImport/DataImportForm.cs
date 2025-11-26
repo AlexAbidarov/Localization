@@ -11,7 +11,6 @@ namespace LocalizationStorage {
         private DevExpress.XtraLayout.LayoutControl layoutControl1;
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private ButtonEdit beFile;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private SimpleButton sbMerge;
@@ -22,6 +21,15 @@ namespace LocalizationStorage {
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
         private SimpleButton sbRemove;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
+        private SimpleButton sbTry;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
+        private DevExpress.XtraLayout.TabbedControlGroup tabbedControlGroup1;
+        private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
+        private DevExpress.XtraGrid.GridControl gridControl2;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup2;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
 
         public DataImportForm(Form owner) {
@@ -31,6 +39,7 @@ namespace LocalizationStorage {
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataImportForm));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.sbRemove = new DevExpress.XtraEditors.SimpleButton();
             this.cbShowExtraData = new DevExpress.XtraEditors.CheckEdit();
             this.sbMerge = new DevExpress.XtraEditors.SimpleButton();
             this.beFile = new DevExpress.XtraEditors.ButtonEdit();
@@ -38,13 +47,20 @@ namespace LocalizationStorage {
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.splitterItem1 = new DevExpress.XtraLayout.SplitterItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.sbRemove = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.sbTry = new DevExpress.XtraEditors.SimpleButton();
+            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.tabbedControlGroup1 = new DevExpress.XtraLayout.TabbedControlGroup();
+            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
+            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cbShowExtraData.Properties)).BeginInit();
@@ -53,16 +69,25 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tabbedControlGroup1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.gridControl2);
+            this.layoutControl1.Controls.Add(this.sbTry);
             this.layoutControl1.Controls.Add(this.sbRemove);
             this.layoutControl1.Controls.Add(this.cbShowExtraData);
             this.layoutControl1.Controls.Add(this.sbMerge);
@@ -75,6 +100,16 @@ namespace LocalizationStorage {
             this.layoutControl1.Size = new System.Drawing.Size(1433, 468);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // sbRemove
+            // 
+            this.sbRemove.Location = new System.Drawing.Point(12, 408);
+            this.sbRemove.Name = "sbRemove";
+            this.sbRemove.Size = new System.Drawing.Size(387, 22);
+            this.sbRemove.StyleController = this.layoutControl1;
+            this.sbRemove.TabIndex = 8;
+            this.sbRemove.Text = "Remove Extra Data";
+            this.sbRemove.Click += new System.EventHandler(this.sbRemove_Click);
             // 
             // cbShowExtraData
             // 
@@ -112,10 +147,10 @@ namespace LocalizationStorage {
             // 
             // gridControl1
             // 
-            this.gridControl1.Location = new System.Drawing.Point(413, 12);
+            this.gridControl1.Location = new System.Drawing.Point(425, 47);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1008, 444);
+            this.gridControl1.Size = new System.Drawing.Size(984, 397);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -133,12 +168,13 @@ namespace LocalizationStorage {
             this.Root.GroupBordersVisible = false;
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem2,
-            this.layoutControlItem1,
             this.layoutControlItem3,
             this.splitterItem1,
             this.emptySpaceItem1,
             this.layoutControlItem4,
-            this.layoutControlItem5});
+            this.layoutControlItem5,
+            this.layoutControlItem6,
+            this.tabbedControlGroup1});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(1433, 468);
             this.Root.TextVisible = false;
@@ -150,15 +186,7 @@ namespace LocalizationStorage {
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.Size = new System.Drawing.Size(391, 24);
             this.layoutControlItem2.Text = "Data File:";
-            // 
-            // layoutControlItem1
-            // 
-            this.layoutControlItem1.Control = this.gridControl1;
-            this.layoutControlItem1.Location = new System.Drawing.Point(401, 0);
-            this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(1012, 448);
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem1.TextVisible = false;
+            this.layoutControlItem2.TextSize = new System.Drawing.Size(46, 13);
             // 
             // layoutControlItem3
             // 
@@ -166,7 +194,6 @@ namespace LocalizationStorage {
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 422);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(391, 26);
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
             // 
             // splitterItem1
@@ -179,7 +206,7 @@ namespace LocalizationStorage {
             // 
             this.emptySpaceItem1.Location = new System.Drawing.Point(0, 48);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(391, 348);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(391, 322);
             // 
             // layoutControlItem4
             // 
@@ -189,16 +216,6 @@ namespace LocalizationStorage {
             this.layoutControlItem4.Size = new System.Drawing.Size(391, 24);
             this.layoutControlItem4.TextVisible = false;
             // 
-            // sbRemove
-            // 
-            this.sbRemove.Location = new System.Drawing.Point(12, 408);
-            this.sbRemove.Name = "sbRemove";
-            this.sbRemove.Size = new System.Drawing.Size(387, 22);
-            this.sbRemove.StyleController = this.layoutControl1;
-            this.sbRemove.TabIndex = 8;
-            this.sbRemove.Text = "Remove Extra Data";
-            this.sbRemove.Click += new System.EventHandler(this.sbRemove_Click);
-            // 
             // layoutControlItem5
             // 
             this.layoutControlItem5.Control = this.sbRemove;
@@ -206,6 +223,85 @@ namespace LocalizationStorage {
             this.layoutControlItem5.Name = "layoutControlItem5";
             this.layoutControlItem5.Size = new System.Drawing.Size(391, 26);
             this.layoutControlItem5.TextVisible = false;
+            // 
+            // sbTry
+            // 
+            this.sbTry.Location = new System.Drawing.Point(12, 382);
+            this.sbTry.Name = "sbTry";
+            this.sbTry.Size = new System.Drawing.Size(387, 22);
+            this.sbTry.StyleController = this.layoutControl1;
+            this.sbTry.TabIndex = 9;
+            this.sbTry.Text = "Try to update \"English\"";
+            this.sbTry.Click += new System.EventHandler(this.sbTry_Click);
+            // 
+            // layoutControlItem6
+            // 
+            this.layoutControlItem6.Control = this.sbTry;
+            this.layoutControlItem6.Location = new System.Drawing.Point(0, 370);
+            this.layoutControlItem6.Name = "layoutControlItem6";
+            this.layoutControlItem6.Size = new System.Drawing.Size(391, 26);
+            this.layoutControlItem6.TextVisible = false;
+            // 
+            // tabbedControlGroup1
+            // 
+            this.tabbedControlGroup1.Location = new System.Drawing.Point(401, 0);
+            this.tabbedControlGroup1.Name = "tabbedControlGroup1";
+            this.tabbedControlGroup1.SelectedTabPage = this.layoutControlGroup1;
+            this.tabbedControlGroup1.Size = new System.Drawing.Size(1012, 448);
+            this.tabbedControlGroup1.TabPages.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlGroup1,
+            this.layoutControlGroup2});
+            // 
+            // layoutControlGroup1
+            // 
+            this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem1});
+            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlGroup1.Name = "layoutControlGroup1";
+            this.layoutControlGroup1.Size = new System.Drawing.Size(988, 401);
+            this.layoutControlGroup1.Text = "Extra/New Data";
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.Control = this.gridControl1;
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(988, 401);
+            this.layoutControlItem1.TextVisible = false;
+            // 
+            // layoutControlGroup2
+            // 
+            this.layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem7});
+            this.layoutControlGroup2.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlGroup2.Name = "layoutControlGroup2";
+            this.layoutControlGroup2.Size = new System.Drawing.Size(988, 401);
+            this.layoutControlGroup2.Text = "Diff English";
+            // 
+            // gridControl2
+            // 
+            this.gridControl2.Location = new System.Drawing.Point(425, 47);
+            this.gridControl2.MainView = this.gridView2;
+            this.gridControl2.Name = "gridControl2";
+            this.gridControl2.Size = new System.Drawing.Size(984, 397);
+            this.gridControl2.TabIndex = 10;
+            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView2});
+            // 
+            // gridView2
+            // 
+            this.gridView2.GridControl = this.gridControl2;
+            this.gridView2.Name = "gridView2";
+            this.gridView2.OptionsView.ShowFooter = true;
+            this.gridView2.OptionsView.ShowGroupPanel = false;
+            // 
+            // layoutControlItem7
+            // 
+            this.layoutControlItem7.Control = this.gridControl2;
+            this.layoutControlItem7.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem7.Name = "layoutControlItem7";
+            this.layoutControlItem7.Size = new System.Drawing.Size(988, 401);
+            this.layoutControlItem7.TextVisible = false;
             // 
             // DataImportForm
             // 
@@ -225,12 +321,19 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tabbedControlGroup1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -251,14 +354,22 @@ namespace LocalizationStorage {
             Cursor = Cursors.WaitCursor;
             try {
                 bool isTableExist = DataImportHelper.GetDataSet(beFile.Text).Tables.Count > 0;
-                if(isTableExist)
+                if(isTableExist) {
                     gridControl1.DataSource = GetData(cbShowExtraData.Checked);
-                else gridControl1.DataSource = null;
+                    gridControl2.DataSource = DataImportHelper.DataTable.GetDiffData(Settings.MainTable);
+                }
+                else {
+                    gridControl1.DataSource = null;
+                    gridControl2.DataSource = null;
+                }
                 gridView1.PopulateColumns();
+                gridView2.PopulateColumns();
                 UIHelper.SetGridReadOnly(gridView1, false);
+                UIHelper.SetGridReadOnly(gridView2, false);
                 bool isNotNullData = gridControl1.DataSource != null && gridView1.RowCount > 0;
                 sbMerge.Enabled = isNotNullData && !cbShowExtraData.Checked;
                 sbRemove.Enabled = isNotNullData && cbShowExtraData.Checked;
+                sbTry.Enabled = gridView2.RowCount > 0;
             } finally {
                 Cursor = Cursors.Default;
             }
@@ -279,6 +390,7 @@ namespace LocalizationStorage {
         void DisableButtons() {
             sbMerge.Enabled = false;
             sbRemove.Enabled = false;
+            sbTry.Enabled = false;
         }
         void sbMerge_Click(object sender, System.EventArgs e) {
             int rowChangedCount = 0;
@@ -305,6 +417,13 @@ namespace LocalizationStorage {
             RowChanged += rowChangedCount;
             XtraMessageBox.Show($"Removed {rowChangedCount} from {fromData.Count} records.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             DisableButtons();
+        }
+
+        private void sbTry_Click(object sender, EventArgs e) {
+            var data = gridControl2.DataSource as List<DiffTranslation>;
+            var rowChangedCount = Settings.MainTable.SetDiffData(data);
+            RowChanged += rowChangedCount;
+            XtraMessageBox.Show($"Changed {rowChangedCount} records.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

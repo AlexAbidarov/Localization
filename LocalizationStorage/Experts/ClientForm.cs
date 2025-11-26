@@ -68,11 +68,14 @@ namespace LocalizationStorage {
             };
             bbEditNew.ItemClick += (s, e) => {
                 string key = Source.GetEnglishKeyByLink(e.Link, gridView1);
-                using(var form = new EditData(this, key)) {
-                    form.ShowDialog();
-                    bbSave.Enabled = true;
-                }
+                EditByKey(key);
             };
+        }
+        void EditByKey(string key) {
+            using(var form = new EditData(this, key)) {
+                form.ShowDialog();
+                bbSave.Enabled = true;
+            }
         }
         void RemoveNoTranslationNeeded(PopupMenu menu) {
             if(menu != null && !Settings.IsAdmin)
@@ -106,7 +109,10 @@ namespace LocalizationStorage {
                 DXMouseEventArgs args = e as DXMouseEventArgs;
                 var hInfo = gridView1.CalcHitInfo(args.X, args.Y);
                 if(hInfo.InDataRow || hInfo.InGroupRow) {
-                    AddTranslation(hInfo.RowHandle);
+                    if(Settings.IsAdmin)
+                        EditByKey(Source.GetEnglishKey(hInfo.RowHandle, gridView1));
+                    else
+                        AddTranslation(hInfo.RowHandle);
                     args.Handled = true;
                 }
             };

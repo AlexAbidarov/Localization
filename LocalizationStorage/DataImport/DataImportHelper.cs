@@ -1,4 +1,5 @@
 ﻿using LocalizationStorage.DataMerging;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -57,8 +58,34 @@ namespace LocalizationStorage.DataImport {
             }
             return result;
         }
-        string GetKey(object path, object key) {
+        public static string GetKey(object path, object key) {
             return $"~{path}~{key}~";
+        }
+        internal List<DiffTranslation> GetDiffData(ExpertDataTableDe mainTable) {
+            Dictionary<string, string> mainRows = [];
+            foreach(DataRow row in mainTable.Rows)  
+                mainRows[GetKey(row["Path"], row["Key"])] = $"{row["English"]}";
+            var result = new List<DiffTranslation>();
+            foreach(DataRow row in this.Rows) {
+                var key = GetKey(row[colPath], row[colKey]);
+                if(!mainRows.ContainsKey(key)) continue;
+                var mainEnglish = mainRows[key];
+                if(string.IsNullOrEmpty(mainEnglish) || 
+                    IsEqualIgnoringLineEndings(mainEnglish, $"{row[colEnglish]}")) continue;
+                result.Add(new DiffTranslation(
+                    $"{row[colPath]}",
+                    $"{row[colKey]}",
+                    mainEnglish,
+                    $"{row[colEnglish]}"
+                    ));
+            }
+            return result;
+        }
+        internal static bool IsEqualIgnoringLineEndings(string str1, string str2) {
+            static string NormalizeLineEndings(string str) {
+                return str.Replace("\r\n", "\n");
+            }
+            return NormalizeLineEndings(str1) == NormalizeLineEndings(str2);
         }
     }
     public class NewTranslation(
@@ -69,5 +96,12 @@ namespace LocalizationStorage.DataImport {
         string russian) : BaseTranslation(path, key, english, $"New[{Settings.FormattedToday}]") {
         public string German { get; set; } = german;
         public string Russian { get; set; } = russian;
+    }
+    public class DiffTranslation(
+        string path,
+        string key,
+        string english,
+        string englishNew) : BaseTranslation(path, key, english, $"Diff[{Settings.FormattedToday}]") {
+        public string EnglishNew { get; set; } = englishNew;
     }
 }

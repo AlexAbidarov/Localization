@@ -22,10 +22,13 @@ namespace LocalizationStorage {
         private SimpleButton sbAddTranslation;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
+        private SimpleButton sbAccepted;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
 
         public EditData(Form owner, string englishKey) {
             InitializeComponent();
+            sbAccepted.Enabled = false; //TODO: enable/disable based on context
             Location = UIHelper.GetCenterPoint(owner, Size);
             gridControl1.DataSource = Settings.MainTable;
             repositoryItemImageComboBox1.AddEnum(typeof(TranslationStatus), true);
@@ -67,6 +70,7 @@ namespace LocalizationStorage {
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditData));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.sbAddTranslation = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colPath = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -79,9 +83,10 @@ namespace LocalizationStorage {
             this.colUser = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.sbAddTranslation = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.sbAccepted = new DevExpress.XtraEditors.SimpleButton();
+            this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -91,10 +96,12 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.sbAccepted);
             this.layoutControl1.Controls.Add(this.sbAddTranslation);
             this.layoutControl1.Controls.Add(this.gridControl1);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -106,14 +113,24 @@ namespace LocalizationStorage {
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // sbAddTranslation
+            // 
+            this.sbAddTranslation.Location = new System.Drawing.Point(12, 12);
+            this.sbAddTranslation.Name = "sbAddTranslation";
+            this.sbAddTranslation.Size = new System.Drawing.Size(357, 22);
+            this.sbAddTranslation.StyleController = this.layoutControl1;
+            this.sbAddTranslation.TabIndex = 5;
+            this.sbAddTranslation.Text = "Add Translation";
+            this.sbAddTranslation.Click += new System.EventHandler(this.sbAddTranslation_Click);
+            // 
             // gridControl1
             // 
-            this.gridControl1.Location = new System.Drawing.Point(18, 56);
+            this.gridControl1.Location = new System.Drawing.Point(12, 38);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemImageComboBox1});
-            this.gridControl1.Size = new System.Drawing.Size(1277, 551);
+            this.gridControl1.Size = new System.Drawing.Size(1289, 575);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -246,7 +263,8 @@ namespace LocalizationStorage {
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1,
             this.layoutControlItem2,
-            this.emptySpaceItem1});
+            this.emptySpaceItem1,
+            this.layoutControlItem3});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(1313, 625);
             this.Root.TextVisible = false;
@@ -254,34 +272,42 @@ namespace LocalizationStorage {
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.gridControl1;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 38);
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 26);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(1283, 557);
+            this.layoutControlItem1.Size = new System.Drawing.Size(1293, 579);
             this.layoutControlItem1.TextVisible = false;
-            // 
-            // sbAddTranslation
-            // 
-            this.sbAddTranslation.Location = new System.Drawing.Point(18, 18);
-            this.sbAddTranslation.Name = "sbAddTranslation";
-            this.sbAddTranslation.Size = new System.Drawing.Size(352, 32);
-            this.sbAddTranslation.StyleController = this.layoutControl1;
-            this.sbAddTranslation.TabIndex = 5;
-            this.sbAddTranslation.Text = "Add Translation";
-            this.sbAddTranslation.Click += new System.EventHandler(this.sbAddTranslation_Click);
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.sbAddTranslation;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(358, 38);
+            this.layoutControlItem2.Size = new System.Drawing.Size(361, 26);
             this.layoutControlItem2.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
-            this.emptySpaceItem1.Location = new System.Drawing.Point(358, 0);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(708, 0);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(925, 38);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(585, 26);
+            // 
+            // sbAccepted
+            // 
+            this.sbAccepted.Location = new System.Drawing.Point(373, 12);
+            this.sbAccepted.Name = "sbAccepted";
+            this.sbAccepted.Size = new System.Drawing.Size(343, 22);
+            this.sbAccepted.StyleController = this.layoutControl1;
+            this.sbAccepted.TabIndex = 6;
+            this.sbAccepted.Text = "Set Accepted Automatically";
+            this.sbAccepted.Click += new System.EventHandler(this.sbAccepted_Click);
+            // 
+            // layoutControlItem3
+            // 
+            this.layoutControlItem3.Control = this.sbAccepted;
+            this.layoutControlItem3.Location = new System.Drawing.Point(361, 0);
+            this.layoutControlItem3.Name = "layoutControlItem3";
+            this.layoutControlItem3.Size = new System.Drawing.Size(347, 26);
+            this.layoutControlItem3.TextVisible = false;
             // 
             // EditData
             // 
@@ -302,6 +328,7 @@ namespace LocalizationStorage {
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -322,6 +349,15 @@ namespace LocalizationStorage {
                 }
             }
             gridView1.RefreshData();
+        }
+
+        private void sbAccepted_Click(object sender, System.EventArgs e) {
+            if(gridView1.RowCount == 1) {
+                var row = gridView1.GetRow(0) as DataRowView;
+                row["Status"] = 5; //Accepted Automatically
+                row["SessionChanged"] = true;
+                gridView1.RefreshData();
+            }
         }
     }
 }

@@ -481,6 +481,25 @@ namespace LocalizationStorage {
                 }
             }
         }
+
+        internal int SetDiffData(List<DiffTranslation> data) {
+            Dictionary<string, DiffTranslation> mainRows = [];
+            foreach(DiffTranslation row in data)
+                mainRows[DataTableDeImport.GetKey(row.Path, row.Key)] = row;
+            int changed = 0;
+            foreach(DataRow row in Rows) {
+                var key = DataTableDeImport.GetKey(row[colPath], row[colKey]);
+                if(!mainRows.ContainsKey(key)) continue;
+                var mainEnglish = mainRows[key].EnglishNew;
+                if(string.IsNullOrEmpty(mainEnglish) ||
+                    DataTableDeImport.IsEqualIgnoringLineEndings(mainEnglish, $"{row[colEnglish]}")) continue;
+                row[colEnglish] = mainEnglish;
+                row[colInternalInfo] = mainRows[key].User;
+                row[colSessionChanged] = true;
+                changed++;
+            }
+            return changed;
+        }
     }
     public class BaseTranslation(string path, string key, string english, string user) {
         public string Path { get; set; } = path;
